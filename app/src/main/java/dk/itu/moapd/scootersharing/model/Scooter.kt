@@ -1,4 +1,4 @@
-package dk.itu.moapd.scootersharing
+package dk.itu.moapd.scootersharing.model
 
 data class Scooter(
     var name: String,

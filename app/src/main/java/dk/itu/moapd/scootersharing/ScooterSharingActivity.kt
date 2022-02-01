@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.EditText
 import dk.itu.moapd.scootersharing.databinding.ActivityScooterSharingBinding
+import dk.itu.moapd.scootersharing.model.Scooter
+import dk.itu.moapd.scootersharing.model.getInfo
 
 class ScooterSharingActivity : AppCompatActivity() {
 
