@@ -18,6 +18,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".StartRideActivity"
+            android:exported="true" />
+        <activity
+            android:name=".EditRideActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
