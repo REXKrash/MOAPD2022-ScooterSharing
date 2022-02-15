@@ -4,13 +4,14 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 data class Scooter(
+    val id: Int,
     var name: String,
     var where: String,
     var timestamp: Long
 )
 
 fun Scooter.getInfo(): String {
-    return " $name is placed at $where, time: ${getTimestamp()}"
+    return "$name is placed at $where, time: ${getTimestamp()}"
 }
 
 fun Scooter.getTimestamp(): String {

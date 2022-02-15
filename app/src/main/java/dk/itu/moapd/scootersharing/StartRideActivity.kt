@@ -12,13 +12,15 @@ class StartRideActivity : AppCompatActivity() {
     private lateinit var infoText: EditText
     private lateinit var binding: ActivityStartRideBinding
 
-    private val scooter = Scooter("", "", System.currentTimeMillis())
+    private val scooter = Scooter(0, "", "", System.currentTimeMillis())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityStartRideBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        ridesDB = RidesDB.get(this)
 
         infoText = binding.infoText
 
@@ -46,5 +48,9 @@ class StartRideActivity : AppCompatActivity() {
 
     private fun updateUI() {
         infoText.setText(scooter.getInfo())
+    }
+
+    companion object {
+        lateinit var ridesDB: RidesDB
     }
 }
