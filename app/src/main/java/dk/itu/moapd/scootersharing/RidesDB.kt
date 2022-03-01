@@ -4,7 +4,6 @@ import android.content.Context
 import dk.itu.moapd.scootersharing.model.Scooter
 import dk.itu.moapd.scootersharing.model.getInfo
 import java.util.*
-import kotlin.collections.ArrayList
 
 class RidesDB private constructor(context: Context) {
     private val rides = ArrayList<Scooter>()
@@ -34,6 +33,14 @@ class RidesDB private constructor(context: Context) {
 
     fun addScooter(name: String, where: String) {
         rides.add(Scooter(rides.size, name, where, randomDate()))
+    }
+
+    fun deleteScooter(id: Int): Boolean {
+        if (rides.any { scooter -> scooter.id == id }) {
+            rides.removeAll(rides.filter { scooter -> scooter.id == id })
+            return true
+        }
+        return false
     }
 
     fun updateScooter(id: Int, name: String, where: String) {

@@ -1,8 +1,8 @@
 package dk.itu.moapd.scootersharing
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 
 class ArrayViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 

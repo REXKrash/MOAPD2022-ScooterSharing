@@ -1,26 +1,31 @@
 package dk.itu.moapd.scootersharing
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
-import dk.itu.moapd.scootersharing.databinding.ActivityStartRideBinding
+import androidx.fragment.app.Fragment
+import dk.itu.moapd.scootersharing.databinding.FragmentStartRideBinding
 import dk.itu.moapd.scootersharing.model.Scooter
 import dk.itu.moapd.scootersharing.model.getInfo
 
-class StartRideActivity : AppCompatActivity() {
+class StartRideFragment : Fragment() {
 
     private lateinit var infoText: EditText
-    private lateinit var binding: ActivityStartRideBinding
+    private lateinit var binding: FragmentStartRideBinding
 
     private val scooter = Scooter(0, "", "", System.currentTimeMillis())
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityStartRideBinding.inflate(layoutInflater)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentStartRideBinding.inflate(inflater, container, false)
         val view = binding.root
-        setContentView(view)
 
-        ridesDB = RidesDB.get(this)
+        ridesDB = RidesDB.get(requireContext())
 
         infoText = binding.infoText
 
@@ -44,6 +49,8 @@ class StartRideActivity : AppCompatActivity() {
                 updateUI()
             }
         }
+
+        return view
     }
 
     private fun updateUI() {
