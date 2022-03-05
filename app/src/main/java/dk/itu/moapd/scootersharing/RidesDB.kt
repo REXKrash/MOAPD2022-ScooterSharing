@@ -7,19 +7,34 @@ import java.util.*
 
 class RidesDB private constructor(context: Context) {
     private val rides = ArrayList<Scooter>()
-    // private var lastScooter = Scooter("", "", 0)
 
     companion object : RidesDBHolder<RidesDB, Context>(::RidesDB)
 
     init {
         rides.add(
-            Scooter(0, "Chuck Norris", "ITU", randomDate())
+            Scooter(
+                0,
+                "Chuck Norris",
+                "ITU", randomDate(),
+                false
+            )
         )
         rides.add(
-            Scooter(1, "Bruce Lee", "Fields", randomDate())
+            Scooter(
+                1,
+                "Bruce Lee",
+                "Fields", randomDate(),
+                false
+            )
         )
         rides.add(
-            Scooter(2, "Rambo", "Kobenhavns Lufthavn", randomDate())
+            Scooter(
+                2,
+                "Rambo",
+                "Kobenhavns Lufthavn",
+                randomDate(),
+                false
+            )
         )
     }
 

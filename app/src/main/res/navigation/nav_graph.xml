@@ -18,7 +18,11 @@
     <fragment
         android:id="@+id/editRideFragment"
         android:name="dk.itu.moapd.scootersharing.EditRideFragment"
-        android:label="EditRideFragment" />
+        android:label="EditRideFragment" >
+        <argument
+            android:name="scooterId"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/startRideFragment"
         android:name="dk.itu.moapd.scootersharing.StartRideFragment"

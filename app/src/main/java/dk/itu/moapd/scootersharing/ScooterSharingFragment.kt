@@ -28,7 +28,13 @@ class ScooterSharingFragment : Fragment() {
         val startButton = binding.startButton
         val editButton = binding.editButton
         val listButton = binding.listRidesButton
-        val arrayAdapter = ArrayAdapter(ridesDB.getScooters())
+        val arrayAdapter = ArrayAdapter(ridesDB.getScooters()) { scooter ->
+            findNavController().navigate(
+                ScooterSharingFragmentDirections.actionScooterSharingFragmentToEditRideFragment(
+                    scooter.id
+                )
+            )
+        }
 
         startButton.setOnClickListener {
             findNavController().navigate(R.id.action_scooterSharingFragment_to_startRideFragment)

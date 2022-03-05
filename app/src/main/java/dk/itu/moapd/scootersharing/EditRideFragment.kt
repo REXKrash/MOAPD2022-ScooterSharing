@@ -4,18 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import dk.itu.moapd.scootersharing.databinding.FragmentEditRideBinding
-import dk.itu.moapd.scootersharing.model.Scooter
-import dk.itu.moapd.scootersharing.model.getInfo
 
 class EditRideFragment : Fragment() {
 
-    private lateinit var infoText: EditText
     private lateinit var binding: FragmentEditRideBinding
+    private lateinit var viewModel: EditViewModel
 
-    private val scooter = Scooter(0, "", "", System.currentTimeMillis())
+    private val args: EditRideFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,39 +25,41 @@ class EditRideFragment : Fragment() {
         binding = FragmentEditRideBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        ridesDB = RidesDB.get(requireContext())
+        val viewModelFactory = EditViewModelFactory(args.scooterId, RidesDB.get(requireContext()))
+        viewModel = ViewModelProvider(this, viewModelFactory)
+            .get(EditViewModel::class.java)
 
-        infoText = binding.infoText
+        viewModel.infoTextState.observe(viewLifecycleOwner) {
+            binding.infoText.setText(it)
+        }
+        viewModel.nameTextState.observe(viewLifecycleOwner) {
+            binding.nameText.setText(it)
+        }
+        viewModel.whereTextState.observe(viewLifecycleOwner) {
+            binding.whereText.setText(it)
+        }
 
-        val nameText = binding.nameText
-        val whereText = binding.whereText
-        val updateButton = binding.updateButton
-
-        updateButton.setOnClickListener {
-            if (nameText.text.isNotEmpty() &&
-                whereText.text.isNotEmpty()
+        binding.updateButton.setOnClickListener {
+            if (binding.nameText.text.isNotEmpty() &&
+                binding.whereText.text.isNotEmpty()
             ) {
-                val name = nameText.text.toString().trim()
-                val where = whereText.text.toString().trim()
+                val name = binding.nameText.text.toString().trim()
+                val where = binding.whereText.text.toString().trim()
 
-                scooter.name = name
-                scooter.where = where
+                viewModel.updateScooter(name, where)
 
-                nameText.text.clear()
-                whereText.text.clear()
-
-                updateUI()
+            } else {
+                toast("Values cannot be empty!")
             }
         }
 
         return view
     }
 
-    private fun updateUI() {
-        infoText.setText(scooter.getInfo())
-    }
-
-    companion object {
-        lateinit var ridesDB: RidesDB
+    private fun toast(
+        text: CharSequence,
+        duration: Int = Toast.LENGTH_SHORT
+    ) {
+        Toast.makeText(requireContext(), text, duration).show()
     }
 }

@@ -7,7 +7,8 @@ data class Scooter(
     val id: Int,
     var name: String,
     var where: String,
-    var timestamp: Long
+    var timestamp: Long,
+    var active: Boolean = false
 )
 
 fun Scooter.getInfo(): String {
