@@ -18,6 +18,15 @@ class RidesDBTest {
     }
 
     @Test
+    fun addScooter_thenDeleteScooter_correctSize() {
+        Assert.assertEquals(3, ridesDB.getScooters().size)
+        ridesDB.addScooter("SuperScooter 2", "Bus stop")
+        Assert.assertEquals(4, ridesDB.getScooters().size)
+        ridesDB.deleteScooter(3)
+        Assert.assertEquals(3, ridesDB.getScooters().size)
+    }
+
+    @Test
     fun updateScooter_whereCorrectlyChanged() {
         var scooter = ridesDB.getScooter(2)
         Assert.assertEquals("Rambo", scooter.name)
