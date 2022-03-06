@@ -73,10 +73,10 @@
 
         <TextView
             android:id="@+id/active_text"
-            android:layout_marginHorizontal="16dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:text="false"/>
+            android:layout_marginHorizontal="16dp"
+            tools:text="false" />
 
     </LinearLayout>
 
