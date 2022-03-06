@@ -22,10 +22,7 @@ class ScooterSharingFragment : Fragment() {
         binding = FragmentScooterSharingBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        val cont = requireContext()
-        ridesDB = RidesDB.get(cont)
-
-        val arrayAdapter = ArrayAdapter(ridesDB.getScooters()) { scooter ->
+        val arrayAdapter = ArrayAdapter(RidesDB.get(requireContext()).getScooters()) { scooter ->
             findNavController().navigate(
                 ScooterSharingFragmentDirections.actionScooterSharingFragmentToEditRideFragment(
                     scooter.id
@@ -33,7 +30,7 @@ class ScooterSharingFragment : Fragment() {
             )
         }
         binding.scootersRecyclerView.layoutManager =
-            LinearLayoutManager(cont, RecyclerView.VERTICAL, false)
+            LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         binding.scootersRecyclerView.adapter = arrayAdapter
 
         binding.bottomAdd.setOnClickListener {
@@ -43,9 +40,5 @@ class ScooterSharingFragment : Fragment() {
         }
 
         return view
-    }
-
-    companion object {
-        lateinit var ridesDB: RidesDB
     }
 }
