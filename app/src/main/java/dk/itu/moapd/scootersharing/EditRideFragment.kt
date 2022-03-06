@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dk.itu.moapd.scootersharing.databinding.FragmentEditRideBinding
 
@@ -38,6 +39,9 @@ class EditRideFragment : Fragment() {
         viewModel.whereTextState.observe(viewLifecycleOwner) {
             binding.whereText.setText(it)
         }
+        viewModel.activeTextState.observe(viewLifecycleOwner) {
+            binding.activeText.text = it
+        }
 
         binding.updateButton.setOnClickListener {
             if (binding.nameText.text.isNotEmpty() &&
@@ -47,10 +51,16 @@ class EditRideFragment : Fragment() {
                 val where = binding.whereText.text.toString().trim()
 
                 viewModel.updateScooter(name, where)
-
             } else {
                 toast("Values cannot be empty!")
             }
+        }
+        binding.toggleButton.setOnClickListener {
+            viewModel.toggleActive()
+        }
+        binding.deleteButton.setOnClickListener {
+            viewModel.deleteScooter()
+            findNavController().popBackStack()
         }
 
         return view

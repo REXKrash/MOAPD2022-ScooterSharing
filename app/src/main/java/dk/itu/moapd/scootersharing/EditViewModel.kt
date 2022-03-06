@@ -11,6 +11,7 @@ class EditViewModel(private val scooterId: Int, private val ridesDB: RidesDB) : 
     private var infoText = MutableLiveData<String>()
     private var nameText = MutableLiveData<String>()
     private var whereText = MutableLiveData<String>()
+    private var activeText = MutableLiveData<String>()
 
     val infoTextState: LiveData<String>
         get() = infoText
@@ -21,7 +22,19 @@ class EditViewModel(private val scooterId: Int, private val ridesDB: RidesDB) : 
     val whereTextState: LiveData<String>
         get() = whereText
 
+    val activeTextState: LiveData<String>
+        get() = activeText
+
     init {
+        updateText()
+    }
+
+    fun deleteScooter() {
+        ridesDB.deleteScooter(scooterId)
+    }
+
+    fun toggleActive() {
+        ridesDB.toggleActive(scooterId)
         updateText()
     }
 
@@ -36,6 +49,7 @@ class EditViewModel(private val scooterId: Int, private val ridesDB: RidesDB) : 
         infoText.value = scooter.getInfo()
         nameText.value = scooter.name
         whereText.value = scooter.where
+        activeText.value = "${scooter.active}"
     }
 }
 

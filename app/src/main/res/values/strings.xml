@@ -7,4 +7,16 @@
     <string name="start_ride">Start ride</string>
     <string name="edit_ride">Edit ride</string>
     <string name="list_rides">List rides</string>
+    <string name="active">Active:</string>
+    <string name="toggle_active">Toggle active</string>
+
+    <string name="favorite">Favorite</string>
+    <string name="search">Search</string>
+    <string name="more">More</string>
+    <string name="content_description_favorite">Favorite</string>
+    <string name="content_description_search">Search</string>
+    <string name="content_description_more">More</string>
+    <string name="content_description_add">Add</string>
+    <string name="add_ride">Add ride</string>
+    <string name="delete_ride">Delete ride</string>
 </resources>

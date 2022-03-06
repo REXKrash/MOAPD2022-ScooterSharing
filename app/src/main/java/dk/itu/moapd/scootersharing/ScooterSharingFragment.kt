@@ -25,9 +25,6 @@ class ScooterSharingFragment : Fragment() {
         val cont = requireContext()
         ridesDB = RidesDB.get(cont)
 
-        val startButton = binding.startButton
-        val editButton = binding.editButton
-        val listButton = binding.listRidesButton
         val arrayAdapter = ArrayAdapter(ridesDB.getScooters()) { scooter ->
             findNavController().navigate(
                 ScooterSharingFragmentDirections.actionScooterSharingFragmentToEditRideFragment(
@@ -35,17 +32,14 @@ class ScooterSharingFragment : Fragment() {
                 )
             )
         }
+        binding.scootersRecyclerView.layoutManager =
+            LinearLayoutManager(cont, RecyclerView.VERTICAL, false)
+        binding.scootersRecyclerView.adapter = arrayAdapter
 
-        startButton.setOnClickListener {
-            findNavController().navigate(R.id.action_scooterSharingFragment_to_startRideFragment)
-        }
-        editButton.setOnClickListener {
-            findNavController().navigate(R.id.action_scooterSharingFragment_to_editRideFragment)
-        }
-        listButton.setOnClickListener {
-            binding.scootersRecyclerView.layoutManager =
-                LinearLayoutManager(cont, RecyclerView.VERTICAL, false)
-            binding.scootersRecyclerView.adapter = arrayAdapter
+        binding.bottomAdd.setOnClickListener {
+            findNavController().navigate(
+                ScooterSharingFragmentDirections.actionScooterSharingFragmentToAddRideFragment()
+            )
         }
 
         return view

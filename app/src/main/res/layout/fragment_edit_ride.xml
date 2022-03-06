@@ -60,6 +60,26 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/active" />
+
+        <TextView
+            android:id="@+id/active_text"
+            android:layout_marginHorizontal="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:text="false"/>
+
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="20dp" />
@@ -70,5 +90,19 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/update_ride" />
+
+    <Button
+        android:id="@+id/toggle_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/toggle_active" />
+
+    <Button
+        android:id="@+id/delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/delete_ride" />
 
 </LinearLayout>

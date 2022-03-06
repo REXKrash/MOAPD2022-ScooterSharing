@@ -58,6 +58,15 @@ class RidesDB private constructor(context: Context) {
         return false
     }
 
+    fun toggleActive(id: Int) {
+        rides.filter { scooter -> scooter.id == id }
+            .forEach { scooter ->
+                scooter.apply {
+                    this.active = !this.active
+                }
+            }
+    }
+
     fun updateScooter(id: Int, name: String, where: String) {
         rides.filter { scooter -> scooter.id == id }
             .forEach { scooter ->
