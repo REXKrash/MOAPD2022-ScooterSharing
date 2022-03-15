@@ -1,4 +1,4 @@
-package dk.itu.moapd.scootersharing
+package dk.itu.moapd.scootersharing.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dk.itu.moapd.scootersharing.utils.RidesDB
 import dk.itu.moapd.scootersharing.databinding.FragmentEditRideBinding
+import dk.itu.moapd.scootersharing.viewmodels.EditViewModel
+import dk.itu.moapd.scootersharing.viewmodels.EditViewModelFactory
 
 class EditRideFragment : Fragment() {
 

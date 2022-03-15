@@ -1,9 +1,10 @@
-package dk.itu.moapd.scootersharing
+package dk.itu.moapd.scootersharing.utils
 
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import dk.itu.moapd.scootersharing.R
 
 class ArrayViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 

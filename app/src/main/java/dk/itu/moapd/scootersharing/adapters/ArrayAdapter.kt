@@ -1,10 +1,12 @@
-package dk.itu.moapd.scootersharing
+package dk.itu.moapd.scootersharing.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import dk.itu.moapd.scootersharing.model.Scooter
-import dk.itu.moapd.scootersharing.model.getTimestamp
+import dk.itu.moapd.scootersharing.utils.ArrayViewHolder
+import dk.itu.moapd.scootersharing.R
+import dk.itu.moapd.scootersharing.models.Scooter
+import dk.itu.moapd.scootersharing.models.getTimestamp
 
 class ArrayAdapter(var scooters: List<Scooter>, private val onClick: (Scooter) -> Unit) : RecyclerView.Adapter<ArrayViewHolder>() {
 

@@ -1,4 +1,4 @@
-package dk.itu.moapd.scootersharing
+package dk.itu.moapd.scootersharing.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dk.itu.moapd.scootersharing.adapters.ArrayAdapter
+import dk.itu.moapd.scootersharing.utils.RidesDB
 import dk.itu.moapd.scootersharing.databinding.FragmentScooterSharingBinding
 
 class ScooterSharingFragment : Fragment() {

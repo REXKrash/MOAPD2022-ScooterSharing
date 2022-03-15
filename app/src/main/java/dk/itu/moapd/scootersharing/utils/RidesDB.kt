@@ -1,8 +1,8 @@
-package dk.itu.moapd.scootersharing
+package dk.itu.moapd.scootersharing.utils
 
 import android.content.Context
-import dk.itu.moapd.scootersharing.model.Scooter
-import dk.itu.moapd.scootersharing.model.getInfo
+import dk.itu.moapd.scootersharing.models.Scooter
+import dk.itu.moapd.scootersharing.models.getInfo
 import java.util.*
 
 class RidesDB private constructor(context: Context) {

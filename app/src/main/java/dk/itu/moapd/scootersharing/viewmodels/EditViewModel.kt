@@ -1,10 +1,11 @@
-package dk.itu.moapd.scootersharing
+package dk.itu.moapd.scootersharing.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import dk.itu.moapd.scootersharing.model.getInfo
+import dk.itu.moapd.scootersharing.models.getInfo
+import dk.itu.moapd.scootersharing.utils.RidesDB
 
 class EditViewModel(private val scooterId: Int, private val ridesDB: RidesDB) : ViewModel() {
 

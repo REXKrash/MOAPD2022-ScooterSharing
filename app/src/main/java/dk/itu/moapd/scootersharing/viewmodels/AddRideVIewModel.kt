@@ -1,7 +1,8 @@
-package dk.itu.moapd.scootersharing
+package dk.itu.moapd.scootersharing.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import dk.itu.moapd.scootersharing.utils.RidesDB
 
 class AddViewModel(private val ridesDB: RidesDB) : ViewModel() {
 

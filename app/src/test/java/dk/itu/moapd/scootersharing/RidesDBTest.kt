@@ -1,6 +1,7 @@
 package dk.itu.moapd.scootersharing
 
 import android.content.Context
+import dk.itu.moapd.scootersharing.utils.RidesDB
 import org.junit.Assert
 import org.junit.Test
 import org.mockito.Mockito.mock

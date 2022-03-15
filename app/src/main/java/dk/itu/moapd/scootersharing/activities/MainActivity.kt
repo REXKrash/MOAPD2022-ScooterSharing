@@ -1,7 +1,8 @@
-package dk.itu.moapd.scootersharing
+package dk.itu.moapd.scootersharing.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import dk.itu.moapd.scootersharing.R
 
 class MainActivity : AppCompatActivity() {
 
