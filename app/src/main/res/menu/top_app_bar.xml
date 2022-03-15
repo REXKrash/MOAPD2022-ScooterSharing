@@ -17,9 +17,9 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/more"
-        android:contentDescription="@string/content_description_more"
-        android:title="@string/more"
+        android:id="@+id/signout"
+        android:contentDescription="@string/content_description_signout"
+        android:title="@string/signout"
         app:showAsAction="never" />
 
 </menu>

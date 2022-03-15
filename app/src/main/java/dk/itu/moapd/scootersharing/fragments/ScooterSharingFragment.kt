@@ -1,5 +1,6 @@
 package dk.itu.moapd.scootersharing.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,13 +9,17 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import dk.itu.moapd.scootersharing.R
+import dk.itu.moapd.scootersharing.activities.LoginActivity
 import dk.itu.moapd.scootersharing.adapters.ArrayAdapter
-import dk.itu.moapd.scootersharing.utils.RidesDB
 import dk.itu.moapd.scootersharing.databinding.FragmentScooterSharingBinding
+import dk.itu.moapd.scootersharing.utils.RidesDB
 
 class ScooterSharingFragment : Fragment() {
 
     private lateinit var binding: FragmentScooterSharingBinding
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,6 +28,19 @@ class ScooterSharingFragment : Fragment() {
     ): View {
         binding = FragmentScooterSharingBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        auth = FirebaseAuth.getInstance()
+
+        binding.topAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.signout -> {
+                    auth.signOut()
+                    startLoginActivity()
+                    true
+                }
+                else -> false
+            }
+        }
 
         val arrayAdapter = ArrayAdapter(RidesDB.get(requireContext()).getScooters()) { scooter ->
             findNavController().navigate(
@@ -40,7 +58,11 @@ class ScooterSharingFragment : Fragment() {
                 ScooterSharingFragmentDirections.actionScooterSharingFragmentToAddRideFragment()
             )
         }
-
         return view
+    }
+
+    private fun startLoginActivity() {
+        val intent = Intent(requireActivity(), LoginActivity::class.java)
+        startActivity(intent)
     }
 }
