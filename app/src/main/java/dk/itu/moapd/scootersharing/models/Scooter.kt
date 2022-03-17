@@ -1,13 +1,22 @@
 package dk.itu.moapd.scootersharing.models
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.text.SimpleDateFormat
 import java.util.*
 
-data class Scooter(
+@Entity(tableName = "scooter")
+class Scooter(
+    @PrimaryKey(autoGenerate = true)
     val id: Int,
+    @ColumnInfo(name = "name")
     var name: String,
+    @ColumnInfo(name = "where")
     var where: String,
+    @ColumnInfo(name = "timestamp")
     var timestamp: Long,
+    @ColumnInfo(name = "active")
     var active: Boolean = false
 )
 

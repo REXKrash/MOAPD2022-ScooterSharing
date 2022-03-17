@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,12 +14,14 @@ import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.scootersharing.R
 import dk.itu.moapd.scootersharing.activities.LoginActivity
 import dk.itu.moapd.scootersharing.adapters.ArrayAdapter
-import dk.itu.moapd.scootersharing.databinding.FragmentScooterSharingBinding
-import dk.itu.moapd.scootersharing.utils.RidesDB
+import dk.itu.moapd.scootersharing.databinding.FragmentScooterListBinding
+import dk.itu.moapd.scootersharing.viewmodels.ScooterListViewModel
+import dk.itu.moapd.scootersharing.viewmodels.ScooterListViewModelFactory
 
-class ScooterSharingFragment : Fragment() {
+class ScooterListFragment : Fragment() {
 
-    private lateinit var binding: FragmentScooterSharingBinding
+    private lateinit var binding: FragmentScooterListBinding
+    private lateinit var viewModel: ScooterListViewModel
     private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
@@ -26,10 +29,14 @@ class ScooterSharingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentScooterSharingBinding.inflate(inflater, container, false)
+        binding = FragmentScooterListBinding.inflate(inflater, container, false)
         val view = binding.root
 
         auth = FirebaseAuth.getInstance()
+
+        val viewModelFactory = ScooterListViewModelFactory(requireActivity().application)
+        viewModel = ViewModelProvider(this, viewModelFactory)
+            .get(ScooterListViewModel::class.java)
 
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -42,20 +49,23 @@ class ScooterSharingFragment : Fragment() {
             }
         }
 
-        val arrayAdapter = ArrayAdapter(RidesDB.get(requireContext()).getScooters()) { scooter ->
-            findNavController().navigate(
-                ScooterSharingFragmentDirections.actionScooterSharingFragmentToEditRideFragment(
-                    scooter.id
-                )
-            )
-        }
         binding.scootersRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-        binding.scootersRecyclerView.adapter = arrayAdapter
+
+        viewModel.getAll().observe(viewLifecycleOwner) { data ->
+            val arrayAdapter = ArrayAdapter(data.toCollection(ArrayList())) { scooter ->
+                findNavController().navigate(
+                    ScooterListFragmentDirections.actionScooterSharingFragmentToEditRideFragment(
+                        scooter.id
+                    )
+                )
+            }
+            binding.scootersRecyclerView.adapter = arrayAdapter
+        }
 
         binding.bottomAdd.setOnClickListener {
             findNavController().navigate(
-                ScooterSharingFragmentDirections.actionScooterSharingFragmentToAddRideFragment()
+                ScooterListFragmentDirections.actionScooterSharingFragmentToAddRideFragment()
             )
         }
         return view

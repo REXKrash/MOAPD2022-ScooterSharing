@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import dk.itu.moapd.scootersharing.utils.RidesDB
 import dk.itu.moapd.scootersharing.databinding.FragmentEditRideBinding
+import dk.itu.moapd.scootersharing.models.getInfo
 import dk.itu.moapd.scootersharing.viewmodels.EditViewModel
 import dk.itu.moapd.scootersharing.viewmodels.EditViewModelFactory
 
@@ -29,21 +29,17 @@ class EditRideFragment : Fragment() {
         binding = FragmentEditRideBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        val viewModelFactory = EditViewModelFactory(args.scooterId, RidesDB.get(requireContext()))
+        val viewModelFactory = EditViewModelFactory(args.scooterId, requireActivity().application)
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(EditViewModel::class.java)
 
-        viewModel.infoTextState.observe(viewLifecycleOwner) {
-            binding.infoText.setText(it)
-        }
-        viewModel.nameTextState.observe(viewLifecycleOwner) {
-            binding.nameText.setText(it)
-        }
-        viewModel.whereTextState.observe(viewLifecycleOwner) {
-            binding.whereText.setText(it)
-        }
-        viewModel.activeTextState.observe(viewLifecycleOwner) {
-            binding.activeText.text = it
+        viewModel.getScooter().observe(viewLifecycleOwner) { scooter ->
+            scooter?.let {
+                binding.infoText.setText(scooter.getInfo())
+                binding.nameText.setText(scooter.name)
+                binding.whereText.setText(scooter.where)
+                binding.activeText.text = scooter.active.toString()
+            }
         }
 
         binding.updateButton.setOnClickListener {

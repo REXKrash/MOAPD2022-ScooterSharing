@@ -1,65 +1,52 @@
 package dk.itu.moapd.scootersharing.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import dk.itu.moapd.scootersharing.models.getInfo
-import dk.itu.moapd.scootersharing.utils.RidesDB
+import android.app.Application
+import androidx.lifecycle.*
+import dk.itu.moapd.scootersharing.database.ScooterRepository
+import dk.itu.moapd.scootersharing.models.Scooter
+import kotlinx.coroutines.launch
 
-class EditViewModel(private val scooterId: Int, private val ridesDB: RidesDB) : ViewModel() {
+class EditViewModel(private val scooterId: Int, application: Application) : AndroidViewModel(application) {
 
-    private var infoText = MutableLiveData<String>()
-    private var nameText = MutableLiveData<String>()
-    private var whereText = MutableLiveData<String>()
-    private var activeText = MutableLiveData<String>()
+    private val repository = ScooterRepository(application)
+    private var scooter: LiveData<Scooter?> = repository.findById(scooterId)
 
-    val infoTextState: LiveData<String>
-        get() = infoText
-
-    val nameTextState: LiveData<String>
-        get() = nameText
-
-    val whereTextState: LiveData<String>
-        get() = whereText
-
-    val activeTextState: LiveData<String>
-        get() = activeText
-
-    init {
-        updateText()
-    }
+    fun getScooter(): LiveData<Scooter?> = scooter
 
     fun deleteScooter() {
-        ridesDB.deleteScooter(scooterId)
+        viewModelScope.launch {
+            repository.deleteById(scooterId)
+        }
     }
 
     fun toggleActive() {
-        ridesDB.toggleActive(scooterId)
-        updateText()
+        scooter.value?.let {
+            it.active = !it.active
+
+            viewModelScope.launch {
+                repository.update(it)
+            }
+        }
     }
 
     fun updateScooter(name: String, where: String) {
-        ridesDB.updateScooter(scooterId, name, where)
-        updateText()
-    }
+        scooter.value?.let {
+            it.name = name
+            it.where = where
 
-    private fun updateText() {
-        val scooter = ridesDB.getScooter(scooterId)
-
-        infoText.value = scooter.getInfo()
-        nameText.value = scooter.name
-        whereText.value = scooter.where
-        activeText.value = "${scooter.active}"
+            viewModelScope.launch {
+                repository.update(it)
+            }
+        }
     }
 }
 
-class EditViewModelFactory(private val scooterId: Int, private val ridesDB: RidesDB) :
+class EditViewModelFactory(private val scooterId: Int, private val application: Application) :
     ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(EditViewModel::class.java)) {
-            return EditViewModel(scooterId, ridesDB) as T
+            return EditViewModel(scooterId, application) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

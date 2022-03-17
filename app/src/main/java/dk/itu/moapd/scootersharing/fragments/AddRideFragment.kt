@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import dk.itu.moapd.scootersharing.databinding.FragmentAddRideBinding
-import dk.itu.moapd.scootersharing.utils.RidesDB
 import dk.itu.moapd.scootersharing.viewmodels.AddViewModel
 import dk.itu.moapd.scootersharing.viewmodels.AddViewModelFactory
 
@@ -26,7 +25,7 @@ class AddRideFragment : Fragment() {
         binding = FragmentAddRideBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        val viewModelFactory = AddViewModelFactory(RidesDB.get(requireContext()))
+        val viewModelFactory = AddViewModelFactory(requireActivity().application)
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(AddViewModel::class.java)
 
