@@ -3,8 +3,12 @@ package dk.itu.moapd.scootersharing.activities
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.scootersharing.R
+import dk.itu.moapd.scootersharing.database.UserRepository
+import dk.itu.moapd.scootersharing.models.User
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +26,23 @@ class MainActivity : AppCompatActivity() {
 
         if (auth.currentUser == null) {
             startLoginActivity()
+        } else {
+            auth.currentUser?.uid?.let { uid ->
+
+                val userRepository = UserRepository(application)
+                val user = userRepository.findByUid(uid)
+                if (user.value == null) {
+
+                    lifecycleScope.launch {
+                        userRepository.insert(
+                            User(uid,
+                                auth.currentUser?.displayName ?: "",
+                                auth.currentUser?.email ?: ""
+                            )
+                        )
+                    }
+                }
+            }
         }
     }
 
