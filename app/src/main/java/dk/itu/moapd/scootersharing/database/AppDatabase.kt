@@ -5,9 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import dk.itu.moapd.scootersharing.models.Ride
 import dk.itu.moapd.scootersharing.models.Scooter
+import dk.itu.moapd.scootersharing.models.User
 
-@Database(entities = [Scooter::class], version = 1, exportSchema = false)
+@Database(entities = [Scooter::class, User::class, Ride::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 

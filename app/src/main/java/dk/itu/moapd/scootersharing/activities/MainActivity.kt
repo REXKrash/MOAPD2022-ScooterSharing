@@ -2,6 +2,7 @@ package dk.itu.moapd.scootersharing.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
@@ -35,11 +36,13 @@ class MainActivity : AppCompatActivity() {
 
                     lifecycleScope.launch {
                         userRepository.insert(
-                            User(uid,
+                            User(
+                                uid,
                                 auth.currentUser?.displayName ?: "",
                                 auth.currentUser?.email ?: ""
                             )
                         )
+                        Log.e("Debug", "Saved user with uid: $uid")
                     }
                 }
             }
