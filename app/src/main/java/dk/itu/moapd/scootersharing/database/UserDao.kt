@@ -19,12 +19,12 @@ interface UserDao {
     @Query("SELECT * FROM user")
     fun getAll(): LiveData<List<User>>
 
-    @Query("SELECT * FROM user WHERE name LIKE :name")
-    fun findByName(name: String): LiveData<User?>
-
-    @Query("SELECT * FROM user WHERE uid = :uid")
+    @Query("SELECT * FROM user WHERE uid LIKE :uid")
     fun findByUid(uid: String): LiveData<User?>
 
-    @Query("DELETE FROM user WHERE uid = :uid")
-    fun deleteByUid(uid: String)
+    @Query("SELECT * FROM user WHERE id = :id")
+    fun findById(id: Int): LiveData<User?>
+
+    @Query("DELETE FROM user WHERE id = :id")
+    fun deleteById(id: Int)
 }

@@ -29,9 +29,9 @@ class UserRepository(application: Application) {
 
     fun getAll() = data
 
-    fun findByName(name: String) = dao.findByName(name)
-
     fun findByUid(uid: String) = dao.findByUid(uid)
 
-    fun deleteByUid(uid: String) = dao.deleteByUid(uid)
+    fun findById(id: Int) = dao.findById(id)
+
+    fun deleteById(id: Int) = dao.deleteById(id)
 }

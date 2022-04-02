@@ -32,17 +32,20 @@ class MainActivity : AppCompatActivity() {
 
                 val userRepository = UserRepository(application)
                 val user = userRepository.findByUid(uid)
-                if (user.value == null) {
 
-                    lifecycleScope.launch {
-                        userRepository.insert(
-                            User(
-                                uid,
-                                auth.currentUser?.displayName ?: "",
-                                auth.currentUser?.email ?: ""
+                user.observe(this) {
+                    if (it == null) {
+                        lifecycleScope.launch {
+                            userRepository.insert(
+                                User(
+                                    0,
+                                    uid,
+                                    auth.currentUser?.displayName ?: "",
+                                    auth.currentUser?.email ?: ""
+                                )
                             )
-                        )
-                        Log.e("Debug", "Saved user with uid: $uid")
+                            Log.e("Debug", "Saved user with uid: $uid")
+                        }
                     }
                 }
             }
