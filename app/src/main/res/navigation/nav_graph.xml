@@ -18,7 +18,7 @@
     <fragment
         android:id="@+id/editRideFragment"
         android:name="dk.itu.moapd.scootersharing.fragments.EditRideFragment"
-        android:label="EditRideFragment" >
+        android:label="EditRideFragment">
         <argument
             android:name="scooterId"
             app:argType="integer" />
@@ -27,4 +27,12 @@
         android:id="@+id/addRideFragment"
         android:name="dk.itu.moapd.scootersharing.fragments.AddRideFragment"
         android:label="AddRideFragment" />
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="dk.itu.moapd.scootersharing.fragments.MapsFragment"
+        android:label="MapsFragment" />
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="dk.itu.moapd.scootersharing.fragments.MenuFragment"
+        android:label="MenuFragment" />
 </navigation>

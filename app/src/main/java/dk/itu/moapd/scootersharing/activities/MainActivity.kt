@@ -5,21 +5,38 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.scootersharing.R
 import dk.itu.moapd.scootersharing.database.UserRepository
+import dk.itu.moapd.scootersharing.databinding.ActivityMainBinding
 import dk.itu.moapd.scootersharing.models.User
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = FirebaseAuth.getInstance()
 
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.bottomAppBar.menu.add(1, R.id.scooterListFragment, 1, "List")
+        binding.bottomAppBar.menu.add(1, R.id.mapsFragment, 2, "Maps")
+        binding.bottomAppBar.menu.add(1, R.id.menuFragment, 3, "Menu")
+
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
+
+        NavigationUI.setupWithNavController(
+            binding.bottomAppBar,
+            navHostFragment!!.navController
+        )
     }
 
     override fun onStart() {
