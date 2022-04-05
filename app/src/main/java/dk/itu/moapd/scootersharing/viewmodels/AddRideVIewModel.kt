@@ -15,7 +15,7 @@ class AddViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = ScooterRepository(application)
 
     fun addScooter(name: String, where: String) {
-        val scooter = Scooter(0, name, where, randomDate(), false)
+        val scooter = Scooter(0, name, where, randomDate(), false, 0.0, 0.0)
 
         viewModelScope.launch {
             repository.insert(scooter)

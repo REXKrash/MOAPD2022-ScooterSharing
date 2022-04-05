@@ -17,7 +17,11 @@ class Scooter(
     @ColumnInfo(name = "timestamp")
     var timestamp: Long,
     @ColumnInfo(name = "active")
-    var active: Boolean = false
+    var active: Boolean = false,
+    @ColumnInfo(name = "latitude")
+    var latitude: Double,
+    @ColumnInfo(name = "longitude")
+    var longitude: Double
 )
 
 fun Scooter.getInfo(): String {

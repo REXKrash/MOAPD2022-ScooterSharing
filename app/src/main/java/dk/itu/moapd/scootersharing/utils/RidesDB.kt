@@ -16,7 +16,9 @@ class RidesDB private constructor(context: Context) {
                 0,
                 "Chuck Norris",
                 "ITU", randomDate(),
-                false
+                false,
+                0.0,
+                0.0
             )
         )
         rides.add(
@@ -24,7 +26,9 @@ class RidesDB private constructor(context: Context) {
                 1,
                 "Bruce Lee",
                 "Fields", randomDate(),
-                false
+                false,
+                0.0,
+                0.0
             )
         )
         rides.add(
@@ -33,7 +37,9 @@ class RidesDB private constructor(context: Context) {
                 "Rambo",
                 "Kobenhavns Lufthavn",
                 randomDate(),
-                false
+                false,
+                0.0,
+                0.0
             )
         )
     }
@@ -47,7 +53,7 @@ class RidesDB private constructor(context: Context) {
     }
 
     fun addScooter(name: String, where: String) {
-        rides.add(Scooter(rides.size, name, where, randomDate()))
+        rides.add(Scooter(rides.size, name, where, randomDate(), false, 0.0, 0.0))
     }
 
     fun deleteScooter(id: Int): Boolean {

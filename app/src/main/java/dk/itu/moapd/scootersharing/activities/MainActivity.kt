@@ -9,10 +9,13 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.scootersharing.R
+import dk.itu.moapd.scootersharing.database.ScooterRepository
 import dk.itu.moapd.scootersharing.database.UserRepository
 import dk.itu.moapd.scootersharing.databinding.ActivityMainBinding
+import dk.itu.moapd.scootersharing.models.Scooter
 import dk.itu.moapd.scootersharing.models.User
 import kotlinx.coroutines.launch
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,6 +40,60 @@ class MainActivity : AppCompatActivity() {
             binding.bottomAppBar,
             navHostFragment!!.navController
         )
+        seedDefaultBikes()
+    }
+
+    private fun seedDefaultBikes() {
+        val scooterRepository = ScooterRepository(application)
+        val scooters = scooterRepository.getAll()
+
+        scooters.observe(this) {
+            if (it.isEmpty()) {
+                lifecycleScope.launch {
+
+                    scooterRepository.insert(
+                        Scooter(
+                            0,
+                            "Scooter 0",
+                            "ITU",
+                            randomDate(),
+                            false,
+                            55.6576,
+                            12.5900
+                        )
+                    )
+                    scooterRepository.insert(
+                        Scooter(
+                            1,
+                            "Super Scooter 1",
+                            "Fields",
+                            randomDate(),
+                            false,
+                            55.6596,
+                            12.5930
+                        )
+                    )
+                    scooterRepository.insert(
+                        Scooter(
+                            2,
+                            "Rambo 2",
+                            "Kobenhavns Lufthavn",
+                            randomDate(),
+                            false,
+                            55.6586,
+                            12.5920
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private fun randomDate(): Long {
+        val random = Random()
+        val now = System.currentTimeMillis()
+        val year = random.nextDouble() * 1000 * 60 * 60 * 24 * 365
+        return (now - year).toLong()
     }
 
     override fun onStart() {
