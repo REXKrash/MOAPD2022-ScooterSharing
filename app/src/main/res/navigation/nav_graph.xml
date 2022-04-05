@@ -30,7 +30,11 @@
     <fragment
         android:id="@+id/mapsFragment"
         android:name="dk.itu.moapd.scootersharing.fragments.MapsFragment"
-        android:label="MapsFragment" />
+        android:label="MapsFragment" >
+        <action
+            android:id="@+id/action_mapsFragment_to_editRideFragment"
+            app:destination="@id/editRideFragment" />
+    </fragment>
     <fragment
         android:id="@+id/menuFragment"
         android:name="dk.itu.moapd.scootersharing.fragments.MenuFragment"

@@ -53,8 +53,8 @@ class MainActivity : AppCompatActivity() {
 
                     scooterRepository.insert(
                         Scooter(
-                            0,
-                            "Scooter 0",
+                            1,
+                            "Scooter 1",
                             "ITU",
                             randomDate(),
                             false,
@@ -64,8 +64,8 @@ class MainActivity : AppCompatActivity() {
                     )
                     scooterRepository.insert(
                         Scooter(
-                            1,
-                            "Super Scooter 1",
+                            2,
+                            "Super Scooter 2",
                             "Fields",
                             randomDate(),
                             false,
@@ -75,8 +75,8 @@ class MainActivity : AppCompatActivity() {
                     )
                     scooterRepository.insert(
                         Scooter(
-                            2,
-                            "Rambo 2",
+                            3,
+                            "Rambo 3",
                             "Kobenhavns Lufthavn",
                             randomDate(),
                             false,
