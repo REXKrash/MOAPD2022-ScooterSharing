@@ -8,6 +8,8 @@ import androidx.room.PrimaryKey
 class Ride(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
+    @ColumnInfo(name = "scooterId")
+    var scooterId: Int,
     @ColumnInfo(name = "status")
     var status: RideStatus,
     @ColumnInfo(name = "rentalTime")

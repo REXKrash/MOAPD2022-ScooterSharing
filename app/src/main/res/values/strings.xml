@@ -3,6 +3,7 @@
     <string name="info">Info:</string>
     <string name="name">Name:</string>
     <string name="where">Where:</string>
+    <string name="location">Location:</string>
     <string name="update_ride">Update ride</string>
     <string name="start_ride">Start ride</string>
     <string name="edit_ride">Edit ride</string>
@@ -19,4 +20,6 @@
     <string name="content_description_add">Add</string>
     <string name="add_ride">Add ride</string>
     <string name="delete_ride">Delete ride</string>
+    <string name="end_ride">End ride</string>
+    <string name="view_previous_rides">View previous rides</string>
 </resources>

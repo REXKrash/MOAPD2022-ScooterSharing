@@ -65,10 +65,10 @@ class MapsFragment : Fragment(), OnMapsSdkInitializedCallback {
             googleMap.uiSettings.isMyLocationButtonEnabled = true
         }
         googleMap.setOnMarkerClickListener(
-            MapsClickListener { id ->
+            MapsClickListener { scooterId ->
                 viewModel.setCameraPosition(googleMap.cameraPosition)
                 findNavController().navigate(
-                    MapsFragmentDirections.actionMapsFragmentToEditRideFragment(id)
+                    MapsFragmentDirections.actionMapsFragmentToScooterDetailsFragment(scooterId)
                 )
             }
         )

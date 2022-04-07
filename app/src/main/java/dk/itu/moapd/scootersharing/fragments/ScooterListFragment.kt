@@ -55,7 +55,7 @@ class ScooterListFragment : Fragment() {
         viewModel.getAll().observe(viewLifecycleOwner) { data ->
             val arrayAdapter = ArrayAdapter(data.toCollection(ArrayList())) { scooter ->
                 findNavController().navigate(
-                    ScooterListFragmentDirections.actionScooterSharingFragmentToEditRideFragment(
+                    ScooterListFragmentDirections.actionScooterListFragmentToScooterDetailsFragment(
                         scooter.id
                     )
                 )
