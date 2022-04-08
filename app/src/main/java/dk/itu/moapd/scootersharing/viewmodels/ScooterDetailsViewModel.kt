@@ -41,7 +41,6 @@ class ScooterDetailsViewModel(private val scooterId: Int, application: Applicati
                     scooterRepository.update(scooter)
                 }
             }
-
         } ?: run {
             val auth = FirebaseAuth.getInstance()
 

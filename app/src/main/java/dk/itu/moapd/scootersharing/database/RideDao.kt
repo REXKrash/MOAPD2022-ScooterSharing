@@ -24,4 +24,7 @@ interface RideDao {
 
     @Query("DELETE FROM ride WHERE id = :id")
     fun deleteById(id: Int)
+
+    @Query("SELECT * FROM ride WHERE userUid = :userUid")
+    fun getAllByUserUid(userUid: String): LiveData<List<Ride>>
 }

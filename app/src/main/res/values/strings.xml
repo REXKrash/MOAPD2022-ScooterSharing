@@ -22,4 +22,7 @@
     <string name="delete_ride">Delete ride</string>
     <string name="end_ride">End ride</string>
     <string name="view_previous_rides">View previous rides</string>
+    <string name="save_profile">Save profile</string>
+    <string name="email">Email:</string>
+    <string name="edit_profile">Edit profile</string>
 </resources>

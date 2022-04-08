@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import dk.itu.moapd.scootersharing.databinding.FragmentMenuBinding
 import dk.itu.moapd.scootersharing.viewmodels.MenuViewModel
 import dk.itu.moapd.scootersharing.viewmodels.MenuViewModelFactory
@@ -27,6 +28,16 @@ class MenuFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(MenuViewModel::class.java)
 
+        binding.editProfileButton.setOnClickListener {
+            findNavController().navigate(
+                MenuFragmentDirections.actionMenuFragmentToEditProfileFragment()
+            )
+        }
+        binding.viewRidesButton.setOnClickListener {
+            findNavController().navigate(
+                MenuFragmentDirections.actionMenuFragmentToRideListFragment()
+            )
+        }
         return view
     }
 }

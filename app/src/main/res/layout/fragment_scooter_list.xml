@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginVertical="58dp"
-        tools:listitem="@layout/list_rides">
+        tools:listitem="@layout/list_scooters">
 
     </androidx.recyclerview.widget.RecyclerView>
 

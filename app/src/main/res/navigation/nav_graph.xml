@@ -44,7 +44,14 @@
     <fragment
         android:id="@+id/menuFragment"
         android:name="dk.itu.moapd.scootersharing.fragments.MenuFragment"
-        android:label="MenuFragment" />
+        android:label="MenuFragment" >
+        <action
+            android:id="@+id/action_menuFragment_to_rideListFragment"
+            app:destination="@id/rideListFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/scooterDetailsFragment"
         android:name="dk.itu.moapd.scootersharing.fragments.ScooterDetailsFragment"
@@ -56,4 +63,12 @@
             android:id="@+id/action_scooterDetailsFragment_to_editRideFragment"
             app:destination="@id/editRideFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="dk.itu.moapd.scootersharing.fragments.EditProfileFragment"
+        android:label="EditProfileFragment" />
+    <fragment
+        android:id="@+id/rideListFragment"
+        android:name="dk.itu.moapd.scootersharing.fragments.RideListFragment"
+        android:label="RideListFragment" />
 </navigation>

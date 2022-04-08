@@ -6,7 +6,19 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/view_rides"
+        android:id="@+id/edit_profile_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="16dp"
+        android:paddingVertical="16dp"
+        android:text="@string/edit_profile"
+        android:textSize="20sp"
+        tools:text="Edit profile" />
+
+    <Button
+        android:id="@+id/view_rides_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -16,27 +28,5 @@
         android:text="@string/view_previous_rides"
         android:textSize="20sp"
         tools:text="View previous rides" />
-
-    <Button
-        android:id="@+id/some_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="16dp"
-        android:paddingVertical="16dp"
-        android:textSize="20sp"
-        tools:text="Some menu button" />
-
-    <Button
-        android:id="@+id/some_button2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="16dp"
-        android:paddingVertical="16dp"
-        android:textSize="20sp"
-        tools:text="Some menu button 2" />
 
 </LinearLayout>
