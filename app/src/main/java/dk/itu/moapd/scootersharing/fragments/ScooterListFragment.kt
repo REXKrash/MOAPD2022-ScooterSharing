@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.scootersharing.R
 import dk.itu.moapd.scootersharing.activities.LoginActivity
-import dk.itu.moapd.scootersharing.adapters.ArrayAdapter
+import dk.itu.moapd.scootersharing.adapters.ScooterArrayAdapter
 import dk.itu.moapd.scootersharing.databinding.FragmentScooterListBinding
 import dk.itu.moapd.scootersharing.viewmodels.ScooterListViewModel
 import dk.itu.moapd.scootersharing.viewmodels.ScooterListViewModelFactory
@@ -53,7 +53,7 @@ class ScooterListFragment : Fragment() {
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
         viewModel.getAll().observe(viewLifecycleOwner) { data ->
-            val arrayAdapter = ArrayAdapter(data.toCollection(ArrayList())) { scooter ->
+            val arrayAdapter = ScooterArrayAdapter(data.toCollection(ArrayList())) { scooter ->
                 findNavController().navigate(
                     ScooterListFragmentDirections.actionScooterListFragmentToScooterDetailsFragment(
                         scooter.id

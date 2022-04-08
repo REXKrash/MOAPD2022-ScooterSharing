@@ -2,35 +2,113 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:layout_marginHorizontal="8dp">
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="8dp"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/ride_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/name_text"
+            android:layout_width="128dp"
+            android:layout_height="wrap_content"
+            android:text="Ride:"
+            android:textSize="16sp"
+            tools:text="Ride:" />
+
+        <TextView
+            android:id="@+id/ride_text"
             android:layout_width="128dp"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            tools:text="Chuck Norris" />
+            tools:text="Scooter 1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/where_text"
+            android:layout_width="128dp"
+            android:layout_height="wrap_content"
+            android:text="From:"
+            android:textSize="16sp"
+            tools:text="From:" />
+
+        <TextView
+            android:id="@+id/from_text"
             android:layout_width="128dp"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             tools:text="ITU" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
         <TextView
-            android:id="@+id/timestamp_text"
-            android:layout_width="wrap_content"
+            android:layout_width="128dp"
+            android:layout_height="wrap_content"
+            android:text="To:"
+            android:textSize="16sp"
+            tools:text="To:" />
+
+        <TextView
+            android:id="@+id/to_text"
+            android:layout_width="128dp"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            tools:text="21/05/2021 10:04" />
+            tools:text="ITU" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="128dp"
+            android:layout_height="wrap_content"
+            android:text="Price:"
+            android:textSize="16sp"
+            tools:text="Price:" />
+
+        <TextView
+            android:id="@+id/price_text"
+            android:layout_width="128dp"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            tools:text="20 DKK" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="128dp"
+            android:layout_height="wrap_content"
+            android:text="Duration:"
+            android:textSize="16sp"
+            tools:text="Duration:" />
+
+        <TextView
+            android:id="@+id/duration_text"
+            android:layout_width="128dp"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            tools:text="10 minutes" />
 
     </LinearLayout>
 </LinearLayout>

@@ -6,19 +6,19 @@ import androidx.recyclerview.widget.RecyclerView
 import dk.itu.moapd.scootersharing.R
 import dk.itu.moapd.scootersharing.models.Scooter
 import dk.itu.moapd.scootersharing.models.getTimestamp
-import dk.itu.moapd.scootersharing.utils.ArrayViewHolder
+import dk.itu.moapd.scootersharing.utils.ScooterArrayViewHolder
 
-class ArrayAdapter(var scooters: List<Scooter>, private val onClick: (Scooter) -> Unit) :
-    RecyclerView.Adapter<ArrayViewHolder>() {
+class ScooterArrayAdapter(var scooters: List<Scooter>, private val onClick: (Scooter) -> Unit) :
+    RecyclerView.Adapter<ScooterArrayViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArrayViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScooterArrayViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.list_scooters, parent, false)
-        return ArrayViewHolder(view)
+        return ScooterArrayViewHolder(view)
     }
 
     override fun getItemCount() = scooters.size
 
-    override fun onBindViewHolder(holder: ArrayViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ScooterArrayViewHolder, position: Int) {
         val scooter = scooters[position]
         holder.apply {
             nameTextView.text = scooter.name
