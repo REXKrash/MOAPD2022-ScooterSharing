@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import dk.itu.moapd.scootersharing.databinding.FragmentEditProfileBinding
 import dk.itu.moapd.scootersharing.viewmodels.EditProfileViewModel
 import dk.itu.moapd.scootersharing.viewmodels.EditProfileViewModelFactory
@@ -50,6 +51,9 @@ class EditProfileFragment : Fragment() {
             } else {
                 toast("Name cannot be empty!")
             }
+        }
+        binding.topAppBar.setNavigationOnClickListener {
+            findNavController().popBackStack()
         }
 
         return view

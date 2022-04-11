@@ -1,6 +1,5 @@
 package dk.itu.moapd.scootersharing.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +10,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import dk.itu.moapd.scootersharing.R
-import dk.itu.moapd.scootersharing.activities.LoginActivity
 import dk.itu.moapd.scootersharing.adapters.ScooterArrayAdapter
 import dk.itu.moapd.scootersharing.databinding.FragmentScooterListBinding
 import dk.itu.moapd.scootersharing.viewmodels.ScooterListViewModel
@@ -27,7 +24,7 @@ class ScooterListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentScooterListBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -37,17 +34,6 @@ class ScooterListFragment : Fragment() {
         val viewModelFactory = ScooterListViewModelFactory(requireActivity().application)
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(ScooterListViewModel::class.java)
-
-        binding.topAppBar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.signout -> {
-                    auth.signOut()
-                    startLoginActivity()
-                    true
-                }
-                else -> false
-            }
-        }
 
         binding.scootersRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
@@ -69,10 +55,5 @@ class ScooterListFragment : Fragment() {
             )
         }
         return view
-    }
-
-    private fun startLoginActivity() {
-        val intent = Intent(requireActivity(), LoginActivity::class.java)
-        startActivity(intent)
     }
 }

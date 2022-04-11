@@ -25,4 +25,9 @@
     <string name="save_profile">Save profile</string>
     <string name="email">Email:</string>
     <string name="edit_profile">Edit profile</string>
+    <string name="logout">Logout</string>
+
+    <string name="logout_dialog">Do you want to logout?</string>
+    <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
 </resources>

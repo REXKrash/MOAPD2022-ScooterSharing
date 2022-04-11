@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dk.itu.moapd.scootersharing.adapters.RideArrayAdapter
@@ -36,6 +37,9 @@ class RideListFragment : Fragment() {
         viewModel.getRides().observe(viewLifecycleOwner) { data ->
             val arrayAdapter = RideArrayAdapter(data.toCollection(ArrayList()))
             binding.ridesRecyclerView.adapter = arrayAdapter
+        }
+        binding.topAppBar.setNavigationOnClickListener {
+            findNavController().popBackStack()
         }
 
         return view

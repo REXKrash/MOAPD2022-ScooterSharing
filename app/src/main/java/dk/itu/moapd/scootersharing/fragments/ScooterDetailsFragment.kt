@@ -25,7 +25,7 @@ class ScooterDetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentScooterDetailsBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -60,6 +60,9 @@ class ScooterDetailsFragment : Fragment() {
             findNavController().navigate(
                 ScooterDetailsFragmentDirections.actionScooterDetailsFragmentToEditRideFragment(args.scooterId)
             )
+        }
+        binding.topAppBar.setNavigationOnClickListener {
+            findNavController().popBackStack()
         }
         return view
     }
