@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dk.itu.moapd.scootersharing.databinding.FragmentEditRideBinding
-import dk.itu.moapd.scootersharing.models.getInfo
 import dk.itu.moapd.scootersharing.viewmodels.EditViewModel
 import dk.itu.moapd.scootersharing.viewmodels.EditViewModelFactory
 
@@ -24,7 +23,7 @@ class EditRideFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentEditRideBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -35,39 +34,29 @@ class EditRideFragment : Fragment() {
 
         viewModel.getScooter().observe(viewLifecycleOwner) { scooter ->
             scooter?.let {
-                binding.infoText.setText(scooter.getInfo())
                 binding.nameText.setText(scooter.name)
-                binding.whereText.setText(scooter.where)
-                binding.activeText.text = scooter.active.toString()
             }
         }
 
         binding.updateButton.setOnClickListener {
-            if (binding.nameText.text.isNotEmpty() &&
-                binding.whereText.text.isNotEmpty()
-            ) {
+            if (binding.nameText.text.isNotEmpty()) {
                 val name = binding.nameText.text.toString().trim()
-                val where = binding.whereText.text.toString().trim()
 
-                viewModel.updateScooter(name, where)
+                viewModel.updateScooter(name)
+                toast("Ride successfully updated!")
             } else {
                 toast("Values cannot be empty!")
             }
         }
-        binding.toggleButton.setOnClickListener {
-            viewModel.toggleActive()
-        }
-        binding.deleteButton.setOnClickListener {
-            viewModel.deleteScooter()
+        binding.topAppBar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
-
         return view
     }
 
     private fun toast(
         text: CharSequence,
-        duration: Int = Toast.LENGTH_SHORT
+        duration: Int = Toast.LENGTH_SHORT,
     ) {
         Toast.makeText(requireContext(), text, duration).show()
     }

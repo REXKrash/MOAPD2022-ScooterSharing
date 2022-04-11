@@ -6,7 +6,8 @@ import dk.itu.moapd.scootersharing.database.ScooterRepository
 import dk.itu.moapd.scootersharing.models.Scooter
 import kotlinx.coroutines.launch
 
-class EditViewModel(private val scooterId: Int, application: Application) : AndroidViewModel(application) {
+class EditViewModel(private val scooterId: Int, application: Application) :
+    AndroidViewModel(application) {
 
     private val repository = ScooterRepository(application)
     private var scooter: LiveData<Scooter?> = repository.findById(scooterId)
@@ -29,10 +30,9 @@ class EditViewModel(private val scooterId: Int, application: Application) : Andr
         }
     }
 
-    fun updateScooter(name: String, where: String) {
+    fun updateScooter(name: String) {
         scooter.value?.let {
             it.name = name
-            it.where = where
 
             viewModelScope.launch {
                 repository.update(it)

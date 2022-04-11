@@ -23,6 +23,13 @@ class ScooterDetailsViewModel(private val scooterId: Int, application: Applicati
 
     fun getCurrentRide(): LiveData<Ride?> = currentRide
 
+    fun isRideActive(): Boolean {
+        currentRide.value?.let {
+            return true
+        }
+        return false
+    }
+
     fun toggleActiveRide() {
         currentRide.value?.let { it ->
             val then = it.rentalTime

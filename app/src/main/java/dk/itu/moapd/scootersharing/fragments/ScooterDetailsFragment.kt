@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -54,7 +55,15 @@ class ScooterDetailsFragment : Fragment() {
         }
 
         binding.toggleActiveRideButton.setOnClickListener {
-            viewModel.toggleActiveRide()
+            if (viewModel.isRideActive()) {
+                dialog(R.string.end_ride_dialog, R.string.yes, R.string.cancel) {
+                    viewModel.toggleActiveRide()
+                }
+            } else {
+                dialog(R.string.start_ride_dialog, R.string.yes, R.string.cancel) {
+                    viewModel.toggleActiveRide()
+                }
+            }
         }
         binding.editButton.setOnClickListener {
             findNavController().navigate(
@@ -65,5 +74,23 @@ class ScooterDetailsFragment : Fragment() {
             findNavController().popBackStack()
         }
         return view
+    }
+
+    fun dialog(message: Int, positiveButton: Int, negativeButton: Int, positiveMethod: () -> Unit) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setMessage(message)
+            .setPositiveButton(
+                positiveButton
+            ) { dialog, _ ->
+                dialog.dismiss()
+                positiveMethod()
+            }
+            .setNegativeButton(
+                negativeButton
+            ) { dialog, _ ->
+                dialog.dismiss()
+            }
+        builder.create()
+        builder.show()
     }
 }
