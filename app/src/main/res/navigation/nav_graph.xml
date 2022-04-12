@@ -12,9 +12,6 @@
             android:id="@+id/action_scooterSharingFragment_to_editRideFragment"
             app:destination="@id/editRideFragment" />
         <action
-            android:id="@+id/action_scooterSharingFragment_to_addRideFragment"
-            app:destination="@id/addRideFragment" />
-        <action
             android:id="@+id/action_scooterListFragment_to_scooterDetailsFragment"
             app:destination="@id/scooterDetailsFragment" />
     </fragment>
@@ -26,10 +23,6 @@
             android:name="scooterId"
             app:argType="integer" />
     </fragment>
-    <fragment
-        android:id="@+id/addRideFragment"
-        android:name="dk.itu.moapd.scootersharing.fragments.AddRideFragment"
-        android:label="AddRideFragment" />
     <fragment
         android:id="@+id/mapsFragment"
         android:name="dk.itu.moapd.scootersharing.fragments.MapsFragment"

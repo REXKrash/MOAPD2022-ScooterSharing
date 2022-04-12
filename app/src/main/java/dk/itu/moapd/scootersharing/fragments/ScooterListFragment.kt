@@ -48,12 +48,6 @@ class ScooterListFragment : Fragment() {
             }
             binding.scootersRecyclerView.adapter = arrayAdapter
         }
-
-        binding.bottomAdd.setOnClickListener {
-            findNavController().navigate(
-                ScooterListFragmentDirections.actionScooterSharingFragmentToAddRideFragment()
-            )
-        }
         return view
     }
 }
