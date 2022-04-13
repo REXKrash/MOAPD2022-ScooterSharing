@@ -25,7 +25,7 @@
         android:id="@+id/rides_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="58dp"
         tools:listitem="@layout/list_scooters">
 
     </androidx.recyclerview.widget.RecyclerView>
