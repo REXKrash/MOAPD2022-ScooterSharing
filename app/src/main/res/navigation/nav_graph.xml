@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_menuFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_scannerFragment"
+            app:destination="@id/scannerFragment" />
     </fragment>
     <fragment
         android:id="@+id/scooterDetailsFragment"
@@ -64,4 +67,8 @@
         android:id="@+id/rideListFragment"
         android:name="dk.itu.moapd.scootersharing.fragments.RideListFragment"
         android:label="RideListFragment" />
+    <fragment
+        android:id="@+id/scannerFragment"
+        android:name="dk.itu.moapd.scootersharing.fragments.ScannerFragment"
+        android:label="ScannerFragment" />
 </navigation>

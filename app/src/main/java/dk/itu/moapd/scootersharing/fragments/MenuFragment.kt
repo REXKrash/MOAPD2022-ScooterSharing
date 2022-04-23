@@ -43,6 +43,11 @@ class MenuFragment : Fragment() {
                 MenuFragmentDirections.actionMenuFragmentToRideListFragment()
             )
         }
+        binding.openScannerButton.setOnClickListener {
+            findNavController().navigate(
+                MenuFragmentDirections.actionMenuFragmentToScannerFragment()
+            )
+        }
         binding.logoutButton.setOnClickListener {
 
             val builder = AlertDialog.Builder(requireContext())
