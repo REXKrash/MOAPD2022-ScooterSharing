@@ -27,4 +27,7 @@ interface ScooterDao {
 
     @Query("DELETE FROM scooter WHERE id = :id")
     fun deleteById(id: Int)
+
+    @Query("SELECT * FROM scooter WHERE longitude = :longitude AND latitude = :latitude")
+    fun findByLongLat(longitude: Double, latitude: Double): LiveData<Scooter?>
 }

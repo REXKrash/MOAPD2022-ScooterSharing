@@ -58,8 +58,8 @@ class MainActivity : AppCompatActivity() {
                             "ITU",
                             randomDate(),
                             false,
-                            55.6576,
-                            12.5900
+                            55.629526888870515,
+                            12.579146202544704
                         )
                     )
                     scooterRepository.insert(

@@ -70,5 +70,9 @@
     <fragment
         android:id="@+id/scannerFragment"
         android:name="dk.itu.moapd.scootersharing.fragments.ScannerFragment"
-        android:label="ScannerFragment" />
+        android:label="ScannerFragment" >
+        <action
+            android:id="@+id/action_scannerFragment_to_scooterDetailsFragment"
+            app:destination="@id/scooterDetailsFragment" />
+    </fragment>
 </navigation>

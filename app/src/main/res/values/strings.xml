@@ -35,6 +35,8 @@
     <string name="end_ride_dialog">Do you want to end the ride?</string>
     <string name="open_scanner">Open scanner</string>
 
+    <string name="open_scooter_details_dialog">Open scooter details?</string>
+
     <string name="code_scanner">Code Scanner</string>
     <string name="scan_result">Scan result</string>
     <string name="scanner_error">Scanner error: %s</string>

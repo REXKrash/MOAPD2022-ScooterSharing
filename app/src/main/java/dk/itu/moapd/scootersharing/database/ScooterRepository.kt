@@ -34,4 +34,6 @@ class ScooterRepository(application: Application) {
     fun findById(id: Int) = dao.findById(id)
 
     fun deleteById(id: Int) = dao.deleteById(id)
+
+    fun findByLongLat(longitude: Double, latitude: Double) = dao.findByLongLat(longitude, latitude)
 }

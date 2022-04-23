@@ -76,7 +76,7 @@ class ScooterDetailsFragment : Fragment() {
         return view
     }
 
-    fun dialog(message: Int, positiveButton: Int, negativeButton: Int, positiveMethod: () -> Unit) {
+    private fun dialog(message: Int, positiveButton: Int, negativeButton: Int, positiveMethod: () -> Unit) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setMessage(message)
             .setPositiveButton(

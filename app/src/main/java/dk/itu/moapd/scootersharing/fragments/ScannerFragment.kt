@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.budiyev.android.codescanner.*
 import dk.itu.moapd.scootersharing.databinding.FragmentScannerBinding
 import dk.itu.moapd.scootersharing.viewmodels.ScannerViewModel
@@ -43,23 +44,28 @@ class ScannerFragment : Fragment() {
 
         codeScanner = CodeScanner(requireContext(), scannerView)
 
-        // Parameters (default values)
-        codeScanner.camera = CodeScanner.CAMERA_BACK // or CAMERA_FRONT or specific camera id
-        codeScanner.formats = CodeScanner.ALL_FORMATS // list of type BarcodeFormat,
-        // ex. listOf(BarcodeFormat.QR_CODE)
-        codeScanner.autoFocusMode = AutoFocusMode.SAFE // or CONTINUOUS
-        codeScanner.scanMode = ScanMode.SINGLE // or CONTINUOUS or PREVIEW
-        codeScanner.isAutoFocusEnabled = true // Whether to enable auto focus or not
-        codeScanner.isFlashEnabled = false // Whether to enable flash or not
+        codeScanner.camera = CodeScanner.CAMERA_FRONT
+        codeScanner.formats = CodeScanner.ALL_FORMATS
+        codeScanner.autoFocusMode = AutoFocusMode.SAFE
+        codeScanner.scanMode = ScanMode.SINGLE
+        codeScanner.isAutoFocusEnabled = true
+        codeScanner.isFlashEnabled = false
 
-        // Callbacks
         codeScanner.decodeCallback = DecodeCallback {
             lifecycleScope.launch {
-                Toast.makeText(requireContext(), "Scan result: ${it.text}", Toast.LENGTH_LONG)
-                    .show()
+                viewModel.parseScooter(it.text)
+                viewModel.getScooter().observe(viewLifecycleOwner) { scooter ->
+                    scooter?.let {
+                        findNavController().navigate(
+                            ScannerFragmentDirections.actionScannerFragmentToScooterDetailsFragment(
+                                scooter.id
+                            )
+                        )
+                    }
+                }
             }
         }
-        codeScanner.errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
+        codeScanner.errorCallback = ErrorCallback {
             lifecycleScope.launch {
                 Toast.makeText(
                     requireContext(), "Camera initialization error: ${it.message}",
