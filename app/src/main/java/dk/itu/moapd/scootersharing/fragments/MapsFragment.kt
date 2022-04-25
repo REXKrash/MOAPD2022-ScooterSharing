@@ -17,6 +17,7 @@ import com.google.android.gms.maps.MapsInitializer.Renderer
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import dk.itu.moapd.scootersharing.R
+import dk.itu.moapd.scootersharing.database.ScooterRepository
 import dk.itu.moapd.scootersharing.viewmodels.MapsViewModel
 import dk.itu.moapd.scootersharing.viewmodels.MapsViewModelFactory
 
@@ -82,10 +83,11 @@ class MapsFragment : Fragment(), OnMapsSdkInitializedCallback {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
 
-        val viewModelFactory = MapsViewModelFactory(requireActivity().application)
+        val viewModelFactory =
+            MapsViewModelFactory(ScooterRepository(requireActivity().application))
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(MapsViewModel::class.java)
 

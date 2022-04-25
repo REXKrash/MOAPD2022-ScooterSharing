@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.budiyev.android.codescanner.*
+import dk.itu.moapd.scootersharing.database.ScooterRepository
 import dk.itu.moapd.scootersharing.databinding.FragmentScannerBinding
 import dk.itu.moapd.scootersharing.viewmodels.ScannerViewModel
 import dk.itu.moapd.scootersharing.viewmodels.ScannerViewModelFactory
@@ -36,7 +37,8 @@ class ScannerFragment : Fragment() {
         binding = FragmentScannerBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        val viewModelFactory = ScannerViewModelFactory(requireActivity().application)
+        val viewModelFactory =
+            ScannerViewModelFactory(ScooterRepository(requireActivity().application))
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(ScannerViewModel::class.java)
 

@@ -1,7 +1,5 @@
 package dk.itu.moapd.scootersharing.viewmodels
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -9,9 +7,8 @@ import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.scootersharing.database.RideRepository
 import dk.itu.moapd.scootersharing.models.Ride
 
-class RideListViewModel(application: Application) : AndroidViewModel(application) {
+class RideListViewModel(rideRepository: RideRepository) : ViewModel() {
 
-    private val rideRepository = RideRepository(application)
     private lateinit var rides: LiveData<List<Ride>>
 
     fun getRides(): LiveData<List<Ride>> = rides
@@ -25,12 +22,12 @@ class RideListViewModel(application: Application) : AndroidViewModel(application
     }
 }
 
-class RideListViewModelFactory(private val application: Application) :
+class RideListViewModelFactory(private val rideRepository: RideRepository) :
     ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(RideListViewModel::class.java)) {
-            return RideListViewModel(application) as T
+            return RideListViewModel(rideRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

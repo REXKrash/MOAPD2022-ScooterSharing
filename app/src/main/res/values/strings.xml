@@ -43,4 +43,6 @@
     <string name="close">Close</string>
     <string name="copy">Copy</string>
     <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="update_picture">Update picture</string>
+    <string name="edit_scooter_name">Edit scooter name</string>
 </resources>

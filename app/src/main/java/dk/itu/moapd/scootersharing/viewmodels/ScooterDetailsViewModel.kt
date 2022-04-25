@@ -1,6 +1,5 @@
 package dk.itu.moapd.scootersharing.viewmodels
 
-import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseAuth
@@ -11,11 +10,12 @@ import dk.itu.moapd.scootersharing.models.RideStatus
 import dk.itu.moapd.scootersharing.models.Scooter
 import kotlinx.coroutines.launch
 
-class ScooterDetailsViewModel(private val scooterId: Int, application: Application) :
-    AndroidViewModel(application) {
+class ScooterDetailsViewModel(
+    private val scooterId: Int,
+    private val scooterRepository: ScooterRepository,
+    private val rideRepository: RideRepository,
+) : ViewModel() {
 
-    private val scooterRepository = ScooterRepository(application)
-    private val rideRepository = RideRepository(application)
     private var scooter = scooterRepository.findById(scooterId)
     private var currentRide = MutableLiveData<Ride?>(null)
 
@@ -81,13 +81,14 @@ class ScooterDetailsViewModel(private val scooterId: Int, application: Applicati
 
 class ScooterDetailsViewModelFactory(
     private val scooterId: Int,
-    private val application: Application
+    private val scooterRepository: ScooterRepository,
+    private val rideRepository: RideRepository,
 ) :
     ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ScooterDetailsViewModel::class.java)) {
-            return ScooterDetailsViewModel(scooterId, application) as T
+            return ScooterDetailsViewModel(scooterId, scooterRepository, rideRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

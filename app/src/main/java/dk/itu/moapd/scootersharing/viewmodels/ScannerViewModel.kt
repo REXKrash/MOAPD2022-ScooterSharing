@@ -1,16 +1,13 @@
 package dk.itu.moapd.scootersharing.viewmodels
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import dk.itu.moapd.scootersharing.database.ScooterRepository
 import dk.itu.moapd.scootersharing.models.Scooter
 
-class ScannerViewModel(application: Application) : AndroidViewModel(application) {
+class ScannerViewModel(private val scooterRepository: ScooterRepository) : ViewModel() {
 
-    private val scooterRepository = ScooterRepository(application)
     private lateinit var scooter: LiveData<Scooter?>
 
     fun getScooter() = scooter
@@ -26,12 +23,12 @@ class ScannerViewModel(application: Application) : AndroidViewModel(application)
     }
 }
 
-class ScannerViewModelFactory(private val application: Application) :
+class ScannerViewModelFactory(private val scooterRepository: ScooterRepository) :
     ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ScannerViewModel::class.java)) {
-            return ScannerViewModel(application) as T
+            return ScannerViewModel(scooterRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

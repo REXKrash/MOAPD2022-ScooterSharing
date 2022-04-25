@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dk.itu.moapd.scootersharing.R
+import dk.itu.moapd.scootersharing.database.RideRepository
+import dk.itu.moapd.scootersharing.database.ScooterRepository
 import dk.itu.moapd.scootersharing.databinding.FragmentScooterDetailsBinding
 import dk.itu.moapd.scootersharing.viewmodels.ScooterDetailsViewModel
 import dk.itu.moapd.scootersharing.viewmodels.ScooterDetailsViewModelFactory
@@ -31,8 +33,13 @@ class ScooterDetailsFragment : Fragment() {
         binding = FragmentScooterDetailsBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        val application = requireActivity().application
         val viewModelFactory =
-            ScooterDetailsViewModelFactory(args.scooterId, requireActivity().application)
+            ScooterDetailsViewModelFactory(
+                args.scooterId,
+                ScooterRepository(application),
+                RideRepository(application)
+            )
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(ScooterDetailsViewModel::class.java)
 
@@ -76,7 +83,12 @@ class ScooterDetailsFragment : Fragment() {
         return view
     }
 
-    private fun dialog(message: Int, positiveButton: Int, negativeButton: Int, positiveMethod: () -> Unit) {
+    private fun dialog(
+        message: Int,
+        positiveButton: Int,
+        negativeButton: Int,
+        positiveMethod: () -> Unit,
+    ) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setMessage(message)
             .setPositiveButton(

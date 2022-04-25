@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import dk.itu.moapd.scootersharing.database.UserRepository
 import dk.itu.moapd.scootersharing.databinding.FragmentEditProfileBinding
 import dk.itu.moapd.scootersharing.viewmodels.EditProfileViewModel
 import dk.itu.moapd.scootersharing.viewmodels.EditProfileViewModelFactory
@@ -20,12 +21,13 @@ class EditProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentEditProfileBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        val viewModelFactory = EditProfileViewModelFactory(requireActivity().application)
+        val viewModelFactory =
+            EditProfileViewModelFactory(UserRepository(requireActivity().application))
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(EditProfileViewModel::class.java)
 
@@ -61,7 +63,7 @@ class EditProfileFragment : Fragment() {
 
     private fun toast(
         text: CharSequence,
-        duration: Int = Toast.LENGTH_SHORT
+        duration: Int = Toast.LENGTH_SHORT,
     ) {
         Toast.makeText(requireContext(), text, duration).show()
     }

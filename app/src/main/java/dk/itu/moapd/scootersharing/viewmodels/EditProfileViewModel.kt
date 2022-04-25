@@ -1,15 +1,16 @@
 package dk.itu.moapd.scootersharing.viewmodels
 
-import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.scootersharing.database.UserRepository
 import dk.itu.moapd.scootersharing.models.User
 import kotlinx.coroutines.launch
 
-class EditProfileViewModel(application: Application) : AndroidViewModel(application) {
+class EditProfileViewModel(private val userRepository: UserRepository) : ViewModel() {
 
-    private val userRepository = UserRepository(application)
     private val auth = FirebaseAuth.getInstance()
     private lateinit var user: LiveData<User?>
 
@@ -33,12 +34,12 @@ class EditProfileViewModel(application: Application) : AndroidViewModel(applicat
     }
 }
 
-class EditProfileViewModelFactory(private val application: Application) :
+class EditProfileViewModelFactory(private val userRepository: UserRepository) :
     ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(EditProfileViewModel::class.java)) {
-            return EditProfileViewModel(application) as T
+            return EditProfileViewModel(userRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

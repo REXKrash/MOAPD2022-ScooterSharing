@@ -1,22 +1,26 @@
 package dk.itu.moapd.scootersharing.viewmodels
 
-import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import dk.itu.moapd.scootersharing.database.ScooterRepository
 import dk.itu.moapd.scootersharing.models.Scooter
 import kotlinx.coroutines.launch
 
-class EditViewModel(private val scooterId: Int, application: Application) :
-    AndroidViewModel(application) {
+class EditViewModel(
+    private val scooterId: Int,
+    private val scooterRepository: ScooterRepository,
+) :
+    ViewModel() {
 
-    private val repository = ScooterRepository(application)
-    private var scooter: LiveData<Scooter?> = repository.findById(scooterId)
+    private var scooter: LiveData<Scooter?> = scooterRepository.findById(scooterId)
 
     fun getScooter(): LiveData<Scooter?> = scooter
 
     fun deleteScooter() {
         viewModelScope.launch {
-            repository.deleteById(scooterId)
+            scooterRepository.deleteById(scooterId)
         }
     }
 
@@ -25,7 +29,7 @@ class EditViewModel(private val scooterId: Int, application: Application) :
             it.active = !it.active
 
             viewModelScope.launch {
-                repository.update(it)
+                scooterRepository.update(it)
             }
         }
     }
@@ -35,18 +39,21 @@ class EditViewModel(private val scooterId: Int, application: Application) :
             it.name = name
 
             viewModelScope.launch {
-                repository.update(it)
+                scooterRepository.update(it)
             }
         }
     }
 }
 
-class EditViewModelFactory(private val scooterId: Int, private val application: Application) :
+class EditViewModelFactory(
+    private val scooterId: Int,
+    private val scooterRepository: ScooterRepository,
+) :
     ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(EditViewModel::class.java)) {
-            return EditViewModel(scooterId, application) as T
+            return EditViewModel(scooterId, scooterRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

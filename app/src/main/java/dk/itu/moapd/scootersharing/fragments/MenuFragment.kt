@@ -29,7 +29,7 @@ class MenuFragment : Fragment() {
         binding = FragmentMenuBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        val viewModelFactory = MenuViewModelFactory(requireActivity().application)
+        val viewModelFactory = MenuViewModelFactory()
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(MenuViewModel::class.java)
 

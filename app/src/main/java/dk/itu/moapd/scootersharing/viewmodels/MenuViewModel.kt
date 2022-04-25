@@ -1,18 +1,16 @@
 package dk.itu.moapd.scootersharing.viewmodels
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-class MenuViewModel(application: Application) : AndroidViewModel(application)
+class MenuViewModel : ViewModel()
 
-class MenuViewModelFactory(private val application: Application) :
+class MenuViewModelFactory :
     ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MenuViewModel::class.java)) {
-            return MenuViewModel(application) as T
+            return MenuViewModel() as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

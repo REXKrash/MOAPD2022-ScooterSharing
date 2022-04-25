@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.scootersharing.adapters.ScooterArrayAdapter
+import dk.itu.moapd.scootersharing.database.ScooterRepository
 import dk.itu.moapd.scootersharing.databinding.FragmentScooterListBinding
 import dk.itu.moapd.scootersharing.viewmodels.ScooterListViewModel
 import dk.itu.moapd.scootersharing.viewmodels.ScooterListViewModelFactory
@@ -31,7 +32,8 @@ class ScooterListFragment : Fragment() {
 
         auth = FirebaseAuth.getInstance()
 
-        val viewModelFactory = ScooterListViewModelFactory(requireActivity().application)
+        val viewModelFactory =
+            ScooterListViewModelFactory(ScooterRepository(requireActivity().application))
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(ScooterListViewModel::class.java)
 
