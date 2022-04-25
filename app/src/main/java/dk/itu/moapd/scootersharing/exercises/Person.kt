@@ -3,7 +3,7 @@ package dk.itu.moapd.scootersharing.exercises
 data class Person(
     val name: String,
     val age: Int,
-    val mother: Person?
+    val mother: Person?,
 )
 
 fun Person.isChildOf(parent: Person): Boolean {

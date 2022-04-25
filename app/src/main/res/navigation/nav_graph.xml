@@ -37,7 +37,7 @@
     <fragment
         android:id="@+id/menuFragment"
         android:name="dk.itu.moapd.scootersharing.fragments.MenuFragment"
-        android:label="MenuFragment" >
+        android:label="MenuFragment">
         <action
             android:id="@+id/action_menuFragment_to_rideListFragment"
             app:destination="@id/rideListFragment" />
@@ -70,7 +70,7 @@
     <fragment
         android:id="@+id/scannerFragment"
         android:name="dk.itu.moapd.scootersharing.fragments.ScannerFragment"
-        android:label="ScannerFragment" >
+        android:label="ScannerFragment">
         <action
             android:id="@+id/action_scannerFragment_to_scooterDetailsFragment"
             app:destination="@id/scooterDetailsFragment" />

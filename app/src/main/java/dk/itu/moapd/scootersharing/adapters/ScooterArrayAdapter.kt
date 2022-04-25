@@ -12,7 +12,8 @@ class ScooterArrayAdapter(var scooters: List<Scooter>, private val onClick: (Sco
     RecyclerView.Adapter<ScooterArrayViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScooterArrayViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_scooters, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.list_scooters, parent, false)
         return ScooterArrayViewHolder(view)
     }
 

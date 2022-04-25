@@ -21,7 +21,7 @@ class Scooter(
     @ColumnInfo(name = "latitude")
     var latitude: Double,
     @ColumnInfo(name = "longitude")
-    var longitude: Double
+    var longitude: Double,
 )
 
 fun Scooter.getInfo(): String {

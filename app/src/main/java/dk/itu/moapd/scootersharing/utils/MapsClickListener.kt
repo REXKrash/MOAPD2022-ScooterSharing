@@ -1,4 +1,4 @@
-package dk.itu.moapd.scootersharing.fragments
+package dk.itu.moapd.scootersharing.utils
 
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker

@@ -15,7 +15,10 @@ class RidesDBTest {
         Assert.assertEquals(3, ridesDB.getScooters().size)
         ridesDB.addScooter("SuperScooter", "Airport")
         Assert.assertEquals(4, ridesDB.getScooters().size)
-        Assert.assertTrue(ridesDB.getLastScooterInfo().contains("SuperScooter is placed at Airport, time"))
+        Assert.assertTrue(
+            ridesDB.getLastScooterInfo()
+                .contains("SuperScooter is placed at Airport, time")
+        )
     }
 
     @Test

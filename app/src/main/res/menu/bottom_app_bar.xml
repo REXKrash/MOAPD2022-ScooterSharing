@@ -3,15 +3,15 @@
         android:id="@+id/page_1"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_favorite_24"
-        android:title="List"/>
+        android:title="List" />
     <item
         android:id="@+id/page_2"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_favorite_24"
-        android:title="Map"/>
+        android:title="Map" />
     <item
         android:id="@+id/page_3"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_favorite_24"
-        android:title="Menu"/>
+        android:title="Menu" />
 </menu>

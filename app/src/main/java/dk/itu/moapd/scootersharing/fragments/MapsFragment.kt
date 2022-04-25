@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import dk.itu.moapd.scootersharing.R
 import dk.itu.moapd.scootersharing.database.ScooterRepository
+import dk.itu.moapd.scootersharing.utils.MapsClickListener
 import dk.itu.moapd.scootersharing.viewmodels.MapsViewModel
 import dk.itu.moapd.scootersharing.viewmodels.MapsViewModelFactory
 

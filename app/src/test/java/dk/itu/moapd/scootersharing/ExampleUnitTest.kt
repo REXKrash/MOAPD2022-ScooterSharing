@@ -1,6 +1,6 @@
 package dk.itu.moapd.scootersharing
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 /**

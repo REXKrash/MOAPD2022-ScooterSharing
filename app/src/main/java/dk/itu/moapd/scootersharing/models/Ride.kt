@@ -21,5 +21,5 @@ class Ride(
     @ColumnInfo(name = "price")
     var price: Double,
     @ColumnInfo(name = "userUid")
-    var userUid: String
+    var userUid: String,
 )
