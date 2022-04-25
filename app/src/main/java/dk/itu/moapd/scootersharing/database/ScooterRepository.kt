@@ -27,6 +27,8 @@ class ScooterRepository(application: Application) {
         dao.delete(scooter)
     }
 
+    suspend fun getById(id: Int) = dao.getById(id)
+
     fun getAll() = data
 
     fun findByName(name: String) = dao.findByName(name)

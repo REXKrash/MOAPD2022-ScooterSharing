@@ -16,6 +16,9 @@ interface ScooterDao {
     @Delete
     suspend fun delete(scooter: Scooter)
 
+    @Query("SELECT * FROM scooter WHERE id = :id")
+    suspend fun getById(id: Int): Scooter?
+
     @Query("SELECT * FROM scooter")
     fun getAll(): LiveData<List<Scooter>>
 

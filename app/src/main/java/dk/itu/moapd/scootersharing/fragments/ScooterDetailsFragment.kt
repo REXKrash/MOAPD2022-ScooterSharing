@@ -1,7 +1,9 @@
 package dk.itu.moapd.scootersharing.fragments
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,6 +53,13 @@ class ScooterDetailsFragment : Fragment() {
                     resources.getString(R.string.location) + " " + it.where
                 binding.scooterActiveText.text =
                     resources.getString(R.string.active) + " " + it.active
+
+                Log.e("AAAA", "Image URI: " + it.imageUri)
+
+                if (it.imageUri.isNotEmpty()) {
+                    val imageUri = Uri.parse(it.imageUri)
+                    binding.scooterImage.setImageURI(imageUri)
+                }
             }
         }
         viewModel.getCurrentRide().observe(viewLifecycleOwner) { ride ->
@@ -75,6 +84,11 @@ class ScooterDetailsFragment : Fragment() {
         binding.editButton.setOnClickListener {
             findNavController().navigate(
                 ScooterDetailsFragmentDirections.actionScooterDetailsFragmentToEditRideFragment(args.scooterId)
+            )
+        }
+        binding.updatePictureButton.setOnClickListener {
+            findNavController().navigate(
+                ScooterDetailsFragmentDirections.actionScooterDetailsFragmentToCameraFragment(args.scooterId)
             )
         }
         binding.topAppBar.setNavigationOnClickListener {

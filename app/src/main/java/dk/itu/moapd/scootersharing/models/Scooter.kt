@@ -22,6 +22,8 @@ class Scooter(
     var latitude: Double,
     @ColumnInfo(name = "longitude")
     var longitude: Double,
+    @ColumnInfo(name = "imageUri")
+    var imageUri: String = "",
 )
 
 fun Scooter.getInfo(): String {

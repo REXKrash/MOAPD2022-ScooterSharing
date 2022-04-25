@@ -26,8 +26,11 @@ class ScannerFragment : Fragment() {
     private lateinit var viewModel: ScannerViewModel
     private lateinit var codeScanner: CodeScanner
 
-    private val RC_PERMISSION = 10
     private var mPermissionGranted = false
+
+    companion object {
+        private const val REQUEST_CODE_PERMISSIONS = 10
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -87,7 +90,7 @@ class ScannerFragment : Fragment() {
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
                 mPermissionGranted = false
-                requestPermissions(arrayOf(Manifest.permission.CAMERA), RC_PERMISSION)
+                requestPermissions(arrayOf(Manifest.permission.CAMERA), REQUEST_CODE_PERMISSIONS)
             } else {
                 mPermissionGranted = true
             }
@@ -104,7 +107,7 @@ class ScannerFragment : Fragment() {
         grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == RC_PERMISSION) {
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 mPermissionGranted = true
                 codeScanner.startPreview()
