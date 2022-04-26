@@ -43,13 +43,91 @@ class UserDaoTest {
     }
 
     @Test
-    fun insertUserAndFind() {
+    fun insertUserAndFindById() {
         val user = User(1, "uid", "george", "george@gmail.com")
 
         runBlocking {
             userDao.insert(user)
             userDao.findById(1).getOrAwaitValue()?.let {
                 assertThat(it.name, equalTo(user.name))
+                assertThat(it.uid, equalTo(user.uid))
+                assertThat(it.email, equalTo(user.email))
+            }
+        }
+    }
+
+    @Test
+    fun insertUserAndFindByUid() {
+        val user = User(1, "uid", "george", "george@gmail.com")
+
+        runBlocking {
+            userDao.insert(user)
+            userDao.findByUid("uid").getOrAwaitValue()?.let {
+                assertThat(it.name, equalTo(user.name))
+                assertThat(it.uid, equalTo(user.uid))
+                assertThat(it.email, equalTo(user.email))
+            }
+        }
+    }
+
+    @Test
+    fun insertUserAndGetAll() {
+        val user = User(1, "uid", "george", "george@gmail.com")
+
+        runBlocking {
+            userDao.insert(user)
+            userDao.getAll().getOrAwaitValue().let {
+                val first = it.first()
+                assertThat(first.name, equalTo(user.name))
+                assertThat(first.uid, equalTo(user.uid))
+                assertThat(first.email, equalTo(user.email))
+            }
+        }
+    }
+
+    @Test
+    fun insertUserThenDelete() {
+        val user = User(1, "uid", "george", "george@gmail.com")
+
+        runBlocking {
+            assertThat(userDao.getAll().getOrAwaitValue().size, equalTo(0))
+            userDao.insert(user)
+            assertThat(userDao.getAll().getOrAwaitValue().size, equalTo(1))
+            userDao.delete(user)
+            assertThat(userDao.getAll().getOrAwaitValue().size, equalTo(0))
+        }
+    }
+
+    @Test
+    fun insertUserThenDeleteById() {
+        val user = User(1, "uid", "george", "george@gmail.com")
+
+        runBlocking {
+            assertThat(userDao.getAll().getOrAwaitValue().size, equalTo(0))
+            userDao.insert(user)
+            assertThat(userDao.getAll().getOrAwaitValue().size, equalTo(1))
+            userDao.deleteById(1)
+            assertThat(userDao.getAll().getOrAwaitValue().size, equalTo(0))
+        }
+    }
+
+    @Test
+    fun insertUserAndUpdate() {
+        val user = User(1, "uid", "george", "george@gmail.com")
+
+        runBlocking {
+            userDao.insert(user)
+            userDao.findById(1).getOrAwaitValue()?.let {
+                assertThat(it.name, equalTo(user.name))
+                assertThat(it.uid, equalTo(user.uid))
+                assertThat(it.email, equalTo(user.email))
+            }
+            user.name = "jack"
+            userDao.update(user)
+            userDao.findById(1).getOrAwaitValue()?.let {
+                assertThat(it.name, equalTo(user.name))
+                assertThat(it.uid, equalTo(user.uid))
+                assertThat(it.email, equalTo(user.email))
             }
         }
     }
