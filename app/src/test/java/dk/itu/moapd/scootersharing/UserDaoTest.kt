@@ -7,7 +7,6 @@ import androidx.test.core.app.ApplicationProvider
 import dk.itu.moapd.scootersharing.database.AppDatabase
 import dk.itu.moapd.scootersharing.database.UserDao
 import dk.itu.moapd.scootersharing.models.User
-import junit.framework.TestCase
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
@@ -18,11 +17,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import java.io.IOException
 
 @Config(manifest = "src/main/AndroidManifest.xml")
 @RunWith(RobolectricTestRunner::class)
-class UserDaoTest : TestCase() {
+class UserDaoTest {
 
     private lateinit var userDao: UserDao
     private lateinit var db: AppDatabase
@@ -40,21 +38,19 @@ class UserDaoTest : TestCase() {
     }
 
     @After
-    @Throws(IOException::class)
     fun closeDb() {
         db.close()
     }
 
     @Test
-    @Throws(Exception::class)
-    fun writeUserAndReadInList() {
+    fun insertUserAndFind() {
         val user = User(1, "uid", "george", "george@gmail.com")
 
         runBlocking {
             userDao.insert(user)
-            val byName = userDao.findById(1)
-            assertNotNull(byName.value)
-            assertThat(byName.value, equalTo(user))
+            userDao.findById(1).getOrAwaitValue()?.let {
+                assertThat(it.name, equalTo(user.name))
+            }
         }
     }
 }
