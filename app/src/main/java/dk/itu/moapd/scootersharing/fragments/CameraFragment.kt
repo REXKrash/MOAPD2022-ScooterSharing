@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dk.itu.moapd.scootersharing.R
+import dk.itu.moapd.scootersharing.database.AppDatabase
 import dk.itu.moapd.scootersharing.database.ScooterRepository
 import dk.itu.moapd.scootersharing.databinding.FragmentCameraBinding
 import dk.itu.moapd.scootersharing.viewmodels.CameraViewModel
@@ -53,8 +54,9 @@ class CameraFragment : Fragment() {
         binding = FragmentCameraBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        val scooterDao = AppDatabase.getDatabase(requireActivity().application).scooterDao()
         val viewModelFactory =
-            CameraViewModelFactory(args.scooterId, ScooterRepository(requireActivity().application))
+            CameraViewModelFactory(args.scooterId, ScooterRepository(scooterDao))
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(CameraViewModel::class.java)
 

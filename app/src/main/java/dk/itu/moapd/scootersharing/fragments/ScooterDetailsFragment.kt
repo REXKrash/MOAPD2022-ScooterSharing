@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dk.itu.moapd.scootersharing.R
+import dk.itu.moapd.scootersharing.database.AppDatabase
 import dk.itu.moapd.scootersharing.database.RideRepository
 import dk.itu.moapd.scootersharing.database.ScooterRepository
 import dk.itu.moapd.scootersharing.databinding.FragmentScooterDetailsBinding
@@ -35,11 +36,13 @@ class ScooterDetailsFragment : Fragment() {
         val view = binding.root
 
         val application = requireActivity().application
+        val scooterDao = AppDatabase.getDatabase(application).scooterDao()
+        val rideDao = AppDatabase.getDatabase(application).rideDao()
         val viewModelFactory =
             ScooterDetailsViewModelFactory(
                 args.scooterId,
-                ScooterRepository(application),
-                RideRepository(application)
+                ScooterRepository(scooterDao),
+                RideRepository(rideDao)
             )
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(ScooterDetailsViewModel::class.java)

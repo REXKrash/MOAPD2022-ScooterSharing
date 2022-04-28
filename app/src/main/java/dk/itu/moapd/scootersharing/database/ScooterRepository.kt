@@ -1,19 +1,11 @@
 package dk.itu.moapd.scootersharing.database
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import dk.itu.moapd.scootersharing.models.Scooter
 
-class ScooterRepository(application: Application) {
+class ScooterRepository(private val dao: ScooterDao) {
 
-    private val dao: ScooterDao
-    private val data: LiveData<List<Scooter>>
-
-    init {
-        val db = AppDatabase.getDatabase(application)
-        dao = db.scooterDao()
-        data = dao.getAll()
-    }
+    private val data: LiveData<List<Scooter>> = dao.getAll()
 
     suspend fun insert(scooter: Scooter) {
         dao.insert(scooter)

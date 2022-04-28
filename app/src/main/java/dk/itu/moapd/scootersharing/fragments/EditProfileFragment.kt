@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import dk.itu.moapd.scootersharing.database.AppDatabase
 import dk.itu.moapd.scootersharing.database.UserRepository
 import dk.itu.moapd.scootersharing.databinding.FragmentEditProfileBinding
 import dk.itu.moapd.scootersharing.viewmodels.EditProfileViewModel
@@ -26,8 +27,9 @@ class EditProfileFragment : Fragment() {
         binding = FragmentEditProfileBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        val userDao = AppDatabase.getDatabase(requireActivity().application).userDao()
         val viewModelFactory =
-            EditProfileViewModelFactory(UserRepository(requireActivity().application))
+            EditProfileViewModelFactory(UserRepository(userDao))
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(EditProfileViewModel::class.java)
 

@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.scootersharing.R
 import dk.itu.moapd.scootersharing.activities.LoginActivity
+import dk.itu.moapd.scootersharing.database.AppDatabase
 import dk.itu.moapd.scootersharing.databinding.FragmentMenuBinding
 import dk.itu.moapd.scootersharing.viewmodels.MenuViewModel
 import dk.itu.moapd.scootersharing.viewmodels.MenuViewModelFactory

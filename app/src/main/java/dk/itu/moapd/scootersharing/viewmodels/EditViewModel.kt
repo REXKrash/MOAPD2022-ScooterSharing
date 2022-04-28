@@ -9,7 +9,7 @@ import dk.itu.moapd.scootersharing.models.Scooter
 import kotlinx.coroutines.launch
 
 class EditViewModel(
-    private val scooterId: Int,
+    scooterId: Int,
     private val scooterRepository: ScooterRepository,
 ) :
     ViewModel() {
@@ -17,22 +17,6 @@ class EditViewModel(
     private var scooter: LiveData<Scooter?> = scooterRepository.findById(scooterId)
 
     fun getScooter(): LiveData<Scooter?> = scooter
-
-    fun deleteScooter() {
-        viewModelScope.launch {
-            scooterRepository.deleteById(scooterId)
-        }
-    }
-
-    fun toggleActive() {
-        scooter.value?.let {
-            it.active = !it.active
-
-            viewModelScope.launch {
-                scooterRepository.update(it)
-            }
-        }
-    }
 
     fun updateScooter(name: String) {
         scooter.value?.let {

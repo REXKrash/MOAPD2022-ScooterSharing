@@ -46,19 +46,21 @@ class RideDaoTest {
     @Test
     fun insertRideAndFindById() {
         val ride = Ride(
-            1,
-            1,
-            RideStatus.FINISHED,
-            0,
-            "initial",
-            "current",
-            1.0,
-            "userUid"
+            id = 1,
+            rideUid = "rideUid",
+            scooterId = 1,
+            status = RideStatus.FINISHED,
+            rentalTime = 0,
+            initialLocation = "initialLocation",
+            currentLocation = "currentLocation",
+            price = 1.0,
+            userUid = "userUid"
         )
 
         runBlocking {
             rideDao.insert(ride)
             rideDao.findById(1).getOrAwaitValue()?.let {
+                assertThat(it.rideUid, equalTo(ride.rideUid))
                 assertThat(it.scooterId, equalTo(ride.scooterId))
                 assertThat(it.status, equalTo(ride.status))
                 assertThat(it.rentalTime, equalTo(ride.rentalTime))
@@ -73,20 +75,22 @@ class RideDaoTest {
     @Test
     fun insertRideAndGetAll() {
         val ride = Ride(
-            1,
-            1,
-            RideStatus.FINISHED,
-            0,
-            "initial",
-            "current",
-            1.0,
-            "userUid"
+            id = 1,
+            rideUid = "rideUid",
+            scooterId = 1,
+            status = RideStatus.FINISHED,
+            rentalTime = 0,
+            initialLocation = "initialLocation",
+            currentLocation = "currentLocation",
+            price = 1.0,
+            userUid = "userUid"
         )
 
         runBlocking {
             rideDao.insert(ride)
             rideDao.getAll().getOrAwaitValue().let {
                 val first = it.first()
+                assertThat(first.rideUid, equalTo(ride.rideUid))
                 assertThat(first.scooterId, equalTo(ride.scooterId))
                 assertThat(first.status, equalTo(ride.status))
                 assertThat(first.rentalTime, equalTo(ride.rentalTime))
@@ -101,14 +105,15 @@ class RideDaoTest {
     @Test
     fun insertRideThenDelete() {
         val ride = Ride(
-            1,
-            1,
-            RideStatus.FINISHED,
-            0,
-            "initial",
-            "current",
-            1.0,
-            "userUid"
+            id = 1,
+            rideUid = "rideUid",
+            scooterId = 1,
+            status = RideStatus.FINISHED,
+            rentalTime = 0,
+            initialLocation = "initialLocation",
+            currentLocation = "currentLocation",
+            price = 1.0,
+            userUid = "userUid"
         )
 
         runBlocking {
@@ -123,14 +128,15 @@ class RideDaoTest {
     @Test
     fun insertRideThenDeleteById() {
         val ride = Ride(
-            1,
-            1,
-            RideStatus.FINISHED,
-            0,
-            "initial",
-            "current",
-            1.0,
-            "userUid"
+            id = 1,
+            rideUid = "rideUid",
+            scooterId = 1,
+            status = RideStatus.FINISHED,
+            rentalTime = 0,
+            initialLocation = "initialLocation",
+            currentLocation = "currentLocation",
+            price = 1.0,
+            userUid = "userUid"
         )
 
         runBlocking {
@@ -145,19 +151,21 @@ class RideDaoTest {
     @Test
     fun insertRideAndUpdate() {
         val ride = Ride(
-            1,
-            1,
-            RideStatus.FINISHED,
-            0,
-            "initial",
-            "current",
-            1.0,
-            "userUid"
+            id = 1,
+            rideUid = "rideUid",
+            scooterId = 1,
+            status = RideStatus.FINISHED,
+            rentalTime = 0,
+            initialLocation = "initialLocation",
+            currentLocation = "currentLocation",
+            price = 1.0,
+            userUid = "userUid"
         )
 
         runBlocking {
             rideDao.insert(ride)
             rideDao.findById(1).getOrAwaitValue()?.let {
+                assertThat(it.rideUid, equalTo(ride.rideUid))
                 assertThat(it.scooterId, equalTo(ride.scooterId))
                 assertThat(it.status, equalTo(ride.status))
                 assertThat(it.rentalTime, equalTo(ride.rentalTime))
@@ -172,6 +180,7 @@ class RideDaoTest {
 
             rideDao.update(ride)
             rideDao.findById(1).getOrAwaitValue()?.let {
+                assertThat(it.rideUid, equalTo(ride.rideUid))
                 assertThat(it.scooterId, equalTo(ride.scooterId))
                 assertThat(it.status, equalTo(ride.status))
                 assertThat(it.rentalTime, equalTo(ride.rentalTime))

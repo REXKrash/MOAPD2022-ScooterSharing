@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dk.itu.moapd.scootersharing.database.AppDatabase
 import dk.itu.moapd.scootersharing.database.ScooterRepository
 import dk.itu.moapd.scootersharing.databinding.FragmentEditRideBinding
 import dk.itu.moapd.scootersharing.viewmodels.EditViewModel
@@ -29,8 +30,9 @@ class EditRideFragment : Fragment() {
         binding = FragmentEditRideBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        val scooterDao = AppDatabase.getDatabase(requireActivity().application).scooterDao()
         val viewModelFactory =
-            EditViewModelFactory(args.scooterId, ScooterRepository(requireActivity().application))
+            EditViewModelFactory(args.scooterId, ScooterRepository(scooterDao))
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(EditViewModel::class.java)
 

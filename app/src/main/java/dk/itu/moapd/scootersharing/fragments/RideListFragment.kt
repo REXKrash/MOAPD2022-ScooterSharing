@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dk.itu.moapd.scootersharing.adapters.RideArrayAdapter
+import dk.itu.moapd.scootersharing.database.AppDatabase
 import dk.itu.moapd.scootersharing.database.RideRepository
 import dk.itu.moapd.scootersharing.databinding.FragmentRideListBinding
 import dk.itu.moapd.scootersharing.viewmodels.RideListViewModel
@@ -28,8 +29,9 @@ class RideListFragment : Fragment() {
         binding = FragmentRideListBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        val rideDao = AppDatabase.getDatabase(requireActivity().application).rideDao()
         val viewModelFactory =
-            RideListViewModelFactory(RideRepository(requireActivity().application))
+            RideListViewModelFactory(RideRepository(rideDao))
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(RideListViewModel::class.java)
 

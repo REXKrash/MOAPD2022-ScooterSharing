@@ -10,6 +10,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.scootersharing.R
+import dk.itu.moapd.scootersharing.database.AppDatabase
 import dk.itu.moapd.scootersharing.database.ScooterRepository
 import dk.itu.moapd.scootersharing.database.UserRepository
 import dk.itu.moapd.scootersharing.databinding.ActivityMainBinding
@@ -46,13 +47,15 @@ class MainActivity : AppCompatActivity() {
             binding.bottomAppBar,
             navHostFragment!!.navController
         )
-        scooterRepository = ScooterRepository(application)
+        val scooterDao = AppDatabase.getDatabase(application).scooterDao()
+        scooterRepository = ScooterRepository(scooterDao)
         scooters = scooterRepository.getAll()
         seedDefaultBikes()
     }
 
     private fun seedDefaultBikes() {
-        val scooterRepository = ScooterRepository(application)
+        val scooterDao = AppDatabase.getDatabase(application).scooterDao()
+        val scooterRepository = ScooterRepository(scooterDao)
         val scooters = scooterRepository.getAll()
 
         scooters.observe(this) {
@@ -160,7 +163,8 @@ class MainActivity : AppCompatActivity() {
         } else {
             auth.currentUser?.uid?.let { uid ->
 
-                val userRepository = UserRepository(application)
+                val userDao = AppDatabase.getDatabase(application).userDao()
+                val userRepository = UserRepository(userDao)
                 val user = userRepository.findByUid(uid)
 
                 user.observe(this) {
