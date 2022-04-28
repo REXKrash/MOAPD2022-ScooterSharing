@@ -33,8 +33,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.bottomAppBar.menu.add(1, R.id.scooterListFragment, 1, "List")
+            .setIcon(R.drawable.ic_baseline_list_alt_24)
         binding.bottomAppBar.menu.add(1, R.id.mapsFragment, 2, "Maps")
+            .setIcon(R.drawable.ic_baseline_map_24)
         binding.bottomAppBar.menu.add(1, R.id.menuFragment, 3, "Menu")
+            .setIcon(R.drawable.ic_baseline_menu_open_24)
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
