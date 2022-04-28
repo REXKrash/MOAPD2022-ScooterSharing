@@ -128,13 +128,15 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             scooterRepository.insert(
                 Scooter(
-                    id,
-                    "Scooter $id",
-                    location,
-                    randomDate(),
-                    false,
-                    latitude,
-                    longitude
+                    id = id,
+                    name = "Scooter $id",
+                    location = location,
+                    timestamp = randomDate(),
+                    active = false,
+                    locked = true,
+                    latitude = latitude,
+                    longitude = longitude,
+                    batteryLevel = 20.0
                 )
             )
         }

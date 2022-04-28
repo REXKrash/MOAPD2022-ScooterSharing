@@ -44,6 +44,7 @@ class ScooterDetailsViewModel(
 
             scooter.value?.let { scooter ->
                 scooter.active = false
+                scooter.locked = true
                 viewModelScope.launch {
                     scooterRepository.update(scooter)
                 }
@@ -68,6 +69,7 @@ class ScooterDetailsViewModel(
 
                 scooter.value?.let { scooter ->
                     scooter.active = true
+                    scooter.locked = false
                     viewModelScope.launch {
                         scooterRepository.update(scooter)
                     }

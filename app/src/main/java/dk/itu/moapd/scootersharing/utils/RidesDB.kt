@@ -13,33 +13,38 @@ class RidesDB private constructor(context: Context) {
     init {
         rides.add(
             Scooter(
-                0,
-                "Chuck Norris",
-                "ITU", randomDate(),
-                false,
-                0.0,
-                0.0
+                id = 0,
+                name = "Chuck Norris",
+                location = "ITU",
+                timestamp = randomDate(),
+                active = false,
+                locked = true,
+                latitude = 0.0,
+                longitude = 0.0
             )
         )
         rides.add(
             Scooter(
-                1,
-                "Bruce Lee",
-                "Fields", randomDate(),
-                false,
-                0.0,
-                0.0
+                id = 1,
+                name = "Bruce Lee",
+                location = "Fields",
+                timestamp = randomDate(),
+                active = false,
+                locked = true,
+                latitude = 0.0,
+                longitude = 0.0
             )
         )
         rides.add(
             Scooter(
-                2,
-                "Rambo",
-                "Kobenhavns Lufthavn",
-                randomDate(),
-                false,
-                0.0,
-                0.0
+                id = 2,
+                name = "Rambo",
+                location = "Kobenhavns Lufthavn",
+                timestamp = randomDate(),
+                active = false,
+                locked = true,
+                latitude = 0.0,
+                longitude = 0.0
             )
         )
     }
@@ -52,8 +57,19 @@ class RidesDB private constructor(context: Context) {
         return rides.filter { scooter -> scooter.id == id }[0]
     }
 
-    fun addScooter(name: String, where: String) {
-        rides.add(Scooter(rides.size, name, where, randomDate(), false, 0.0, 0.0))
+    fun addScooter(name: String, location: String) {
+        rides.add(
+            Scooter(
+                id = rides.size,
+                name = name,
+                location = location,
+                timestamp = randomDate(),
+                active = false,
+                locked = true,
+                latitude = 0.0,
+                longitude = 0.0
+            )
+        )
     }
 
     fun deleteScooter(id: Int): Boolean {
@@ -73,12 +89,12 @@ class RidesDB private constructor(context: Context) {
             }
     }
 
-    fun updateScooter(id: Int, name: String, where: String) {
+    fun updateScooter(id: Int, name: String, location: String) {
         rides.filter { scooter -> scooter.id == id }
             .forEach { scooter ->
                 scooter.apply {
                     this.name = name
-                    this.where = where
+                    this.location = location
                 }
             }
     }

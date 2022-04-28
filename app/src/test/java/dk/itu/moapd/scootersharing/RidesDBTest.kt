@@ -34,12 +34,12 @@ class RidesDBTest {
     fun updateScooter_whereCorrectlyChanged() {
         var scooter = ridesDB.getScooter(2)
         Assert.assertEquals("Rambo", scooter.name)
-        Assert.assertEquals("Kobenhavns Lufthavn", scooter.where)
+        Assert.assertEquals("Kobenhavns Lufthavn", scooter.location)
 
         ridesDB.updateScooter(2, "Rambobo", "ITU")
         scooter = ridesDB.getScooter(2)
 
         Assert.assertEquals("Rambobo", scooter.name)
-        Assert.assertEquals("ITU", scooter.where)
+        Assert.assertEquals("ITU", scooter.location)
     }
 }

@@ -45,25 +45,29 @@ class ScooterDaoTest {
     @Test
     fun insertScooterAndFindById() {
         val scooter = Scooter(
-            1,
-            "name",
-            "where",
-            0L,
-            false,
-            55.0,
-            12.0,
-            ""
+            id = 1,
+            name = "name",
+            location = "location",
+            timestamp = 0L,
+            active = false,
+            locked = true,
+            latitude = 55.0,
+            longitude = 12.0,
+            imageUri = "",
+            batteryLevel = 20.0
         )
         runBlocking {
             scooterDao.insert(scooter)
             scooterDao.findById(1).getOrAwaitValue()?.let {
                 assertThat(it.name, equalTo(scooter.name))
-                assertThat(it.where, equalTo(scooter.where))
+                assertThat(it.location, equalTo(scooter.location))
                 assertThat(it.timestamp, equalTo(scooter.timestamp))
                 assertThat(it.active, equalTo(scooter.active))
+                assertThat(it.locked, equalTo(scooter.locked))
                 assertThat(it.latitude, equalTo(scooter.latitude))
                 assertThat(it.longitude, equalTo(scooter.longitude))
                 assertThat(it.imageUri, equalTo(scooter.imageUri))
+                assertThat(it.batteryLevel, equalTo(scooter.batteryLevel))
             }
         }
     }
@@ -71,27 +75,30 @@ class ScooterDaoTest {
     @Test
     fun insertScooterAndGetAll() {
         val scooter = Scooter(
-            1,
-            "name",
-            "where",
-            0L,
-            false,
-            55.0,
-            12.0,
-            ""
+            id = 1,
+            name = "name",
+            location = "location",
+            timestamp = 0L,
+            active = false,
+            locked = true,
+            latitude = 55.0,
+            longitude = 12.0,
+            imageUri = "",
+            batteryLevel = 20.0
         )
-
         runBlocking {
             scooterDao.insert(scooter)
             scooterDao.getAll().getOrAwaitValue().let {
                 val first = it.first()
                 assertThat(first.name, equalTo(scooter.name))
-                assertThat(first.where, equalTo(scooter.where))
+                assertThat(first.location, equalTo(scooter.location))
                 assertThat(first.timestamp, equalTo(scooter.timestamp))
                 assertThat(first.active, equalTo(scooter.active))
+                assertThat(first.locked, equalTo(scooter.locked))
                 assertThat(first.latitude, equalTo(scooter.latitude))
                 assertThat(first.longitude, equalTo(scooter.longitude))
                 assertThat(first.imageUri, equalTo(scooter.imageUri))
+                assertThat(first.batteryLevel, equalTo(scooter.batteryLevel))
             }
         }
     }
@@ -99,16 +106,17 @@ class ScooterDaoTest {
     @Test
     fun insertScooterThenDelete() {
         val scooter = Scooter(
-            1,
-            "name",
-            "where",
-            0L,
-            false,
-            55.0,
-            12.0,
-            ""
+            id = 1,
+            name = "name",
+            location = "location",
+            timestamp = 0L,
+            active = false,
+            locked = true,
+            latitude = 55.0,
+            longitude = 12.0,
+            imageUri = "",
+            batteryLevel = 20.0
         )
-
         runBlocking {
             assertThat(scooterDao.getAll().getOrAwaitValue().size, equalTo(0))
             scooterDao.insert(scooter)
@@ -121,16 +129,17 @@ class ScooterDaoTest {
     @Test
     fun insertScooterThenDeleteById() {
         val scooter = Scooter(
-            1,
-            "name",
-            "where",
-            0L,
-            false,
-            55.0,
-            12.0,
-            ""
+            id = 1,
+            name = "name",
+            location = "location",
+            timestamp = 0L,
+            active = false,
+            locked = true,
+            latitude = 55.0,
+            longitude = 12.0,
+            imageUri = "",
+            batteryLevel = 20.0
         )
-
         runBlocking {
             assertThat(scooterDao.getAll().getOrAwaitValue().size, equalTo(0))
             scooterDao.insert(scooter)
@@ -143,37 +152,42 @@ class ScooterDaoTest {
     @Test
     fun insertScooterAndUpdate() {
         val scooter = Scooter(
-            1,
-            "name",
-            "where",
-            0L,
-            false,
-            55.0,
-            12.0,
-            ""
+            id = 1,
+            name = "name",
+            location = "location",
+            timestamp = 0L,
+            active = false,
+            locked = true,
+            latitude = 55.0,
+            longitude = 12.0,
+            imageUri = "",
+            batteryLevel = 20.0
         )
-
         runBlocking {
             scooterDao.insert(scooter)
             scooterDao.findById(1).getOrAwaitValue()?.let {
                 assertThat(it.name, equalTo(scooter.name))
-                assertThat(it.where, equalTo(scooter.where))
+                assertThat(it.location, equalTo(scooter.location))
                 assertThat(it.timestamp, equalTo(scooter.timestamp))
                 assertThat(it.active, equalTo(scooter.active))
+                assertThat(it.locked, equalTo(scooter.locked))
                 assertThat(it.latitude, equalTo(scooter.latitude))
                 assertThat(it.longitude, equalTo(scooter.longitude))
                 assertThat(it.imageUri, equalTo(scooter.imageUri))
+                assertThat(it.batteryLevel, equalTo(scooter.batteryLevel))
             }
             scooter.name = "super scooter"
             scooterDao.update(scooter)
             scooterDao.findById(1).getOrAwaitValue()?.let {
                 assertThat(it.name, equalTo(scooter.name))
-                assertThat(it.where, equalTo(scooter.where))
+                assertThat(it.location, equalTo(scooter.location))
                 assertThat(it.timestamp, equalTo(scooter.timestamp))
                 assertThat(it.active, equalTo(scooter.active))
+                assertThat(it.locked, equalTo(scooter.locked))
                 assertThat(it.latitude, equalTo(scooter.latitude))
                 assertThat(it.longitude, equalTo(scooter.longitude))
                 assertThat(it.imageUri, equalTo(scooter.imageUri))
+                assertThat(it.batteryLevel, equalTo(scooter.batteryLevel))
             }
         }
     }

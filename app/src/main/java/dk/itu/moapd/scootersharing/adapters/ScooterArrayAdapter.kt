@@ -23,7 +23,7 @@ class ScooterArrayAdapter(var scooters: List<Scooter>, private val onClick: (Sco
         val scooter = scooters[position]
         holder.apply {
             nameTextView.text = scooter.name
-            whereTextView.text = scooter.where
+            locationTextView.text = scooter.location
             timeTextView.text = scooter.getTimestamp()
             rideLayout.setOnClickListener { onClick(scooter) }
         }

@@ -30,7 +30,7 @@
                 tools:text="Chuck Norris" />
 
             <TextView
-                android:id="@+id/where_text"
+                android:id="@+id/location_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"

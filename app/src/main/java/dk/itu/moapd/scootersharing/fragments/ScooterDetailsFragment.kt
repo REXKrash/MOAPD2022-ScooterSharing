@@ -3,7 +3,6 @@ package dk.itu.moapd.scootersharing.fragments
 import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,11 +49,9 @@ class ScooterDetailsFragment : Fragment() {
                 binding.scooterNameText.text =
                     resources.getString(R.string.name) + " " + it.name
                 binding.scooterLocationText.text =
-                    resources.getString(R.string.location) + " " + it.where
+                    resources.getString(R.string.location) + " " + it.location
                 binding.scooterActiveText.text =
                     resources.getString(R.string.active) + " " + it.active
-
-                Log.e("AAAA", "Image URI: " + it.imageUri)
 
                 if (it.imageUri.isNotEmpty()) {
                     val imageUri = Uri.parse(it.imageUri)

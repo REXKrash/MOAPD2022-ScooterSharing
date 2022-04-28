@@ -12,22 +12,26 @@ class Scooter(
     val id: Int,
     @ColumnInfo(name = "name")
     var name: String,
-    @ColumnInfo(name = "where")
-    var where: String,
+    @ColumnInfo(name = "location")
+    var location: String,
     @ColumnInfo(name = "timestamp")
     var timestamp: Long,
     @ColumnInfo(name = "active")
     var active: Boolean = false,
+    @ColumnInfo(name = "locked")
+    var locked: Boolean = true,
     @ColumnInfo(name = "latitude")
     var latitude: Double,
     @ColumnInfo(name = "longitude")
     var longitude: Double,
     @ColumnInfo(name = "imageUri")
     var imageUri: String = "",
+    @ColumnInfo(name = "batteryLevel")
+    var batteryLevel: Double = 20.0
 )
 
 fun Scooter.getInfo(): String {
-    return "$name is placed at $where, time: ${getTimestamp()}"
+    return "$name is placed at $location, time: ${getTimestamp()}"
 }
 
 fun Scooter.getTimestamp(): String {
