@@ -167,6 +167,9 @@ class RideDaoTest {
                 assertThat(it.userUid, equalTo(ride.userUid))
             }
             ride.initialLocation = "new initial location"
+            ride.price = 25.0
+            ride.rentalTime = 1000L
+
             rideDao.update(ride)
             rideDao.findById(1).getOrAwaitValue()?.let {
                 assertThat(it.scooterId, equalTo(ride.scooterId))

@@ -27,6 +27,8 @@ class RideRepository(application: Application) {
         dao.delete(ride)
     }
 
+    suspend fun getByRideUid(rideUid: String) = dao.getByRideUid(rideUid)
+
     fun getAll() = data
 
     fun findById(id: Int) = dao.findById(id)

@@ -33,31 +33,47 @@ class ScooterDetailsViewModel(
     fun toggleActiveRide() {
         currentRide.value?.let { it ->
             val then = it.rentalTime
-            it.rentalTime = System.currentTimeMillis() - then
-            it.price = it.rentalTime.toDouble() / 60_000.0
-            it.status = RideStatus.FINISHED
+            val rideUid = it.userUid + "_" + scooterId + "_" + then
 
             viewModelScope.launch {
-                rideRepository.update(it)
-            }
-            currentRide.value = null
+                val ride = rideRepository.getByRideUid(rideUid)
 
-            scooter.value?.let { scooter ->
-                scooter.active = false
-                scooter.locked = true
-                viewModelScope.launch {
-                    scooterRepository.update(scooter)
+                ride?.let { ride2 ->
+
+                    ride2.rentalTime = System.currentTimeMillis() - then
+
+                    var price = ride2.rentalTime.toDouble() / 6_000.0
+                    if (price <= 10.0) {
+                        price = 10.0
+                    }
+
+                    ride2.price = price
+                    ride2.status = RideStatus.FINISHED
+
+                    rideRepository.update(ride2)
+                    currentRide.value = null
+
+                    scooter.value?.let { scooter ->
+                        scooter.active = false
+                        scooter.locked = true
+                        viewModelScope.launch {
+                            scooterRepository.update(scooter)
+                        }
+                    }
                 }
             }
         } ?: run {
             val auth = FirebaseAuth.getInstance()
 
             auth.currentUser?.uid?.let { uid ->
+
+                val now = System.currentTimeMillis()
                 currentRide.value = Ride(
                     id = 0,
+                    rideUid = uid + "_" + scooterId + "_" + now,
                     scooterId = scooterId,
                     status = RideStatus.RUNNING,
-                    rentalTime = System.currentTimeMillis(),
+                    rentalTime = now,
                     initialLocation = "initialLocation",
                     currentLocation = "currentLocation",
                     price = 0.0,

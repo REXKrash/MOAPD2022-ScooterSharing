@@ -16,6 +16,9 @@ interface RideDao {
     @Delete
     suspend fun delete(ride: Ride)
 
+    @Query("SELECT * FROM ride WHERE rideUid = :rideUid")
+    suspend fun getByRideUid(rideUid: String): Ride?
+
     @Query("SELECT * FROM ride")
     fun getAll(): LiveData<List<Ride>>
 

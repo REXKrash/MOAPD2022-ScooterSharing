@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import dk.itu.moapd.scootersharing.R
 import dk.itu.moapd.scootersharing.models.Ride
+import dk.itu.moapd.scootersharing.models.getRentalTime
 import dk.itu.moapd.scootersharing.utils.RideArrayViewHolder
 
 class RideArrayAdapter(var rides: List<Ride>) :
@@ -24,7 +25,7 @@ class RideArrayAdapter(var rides: List<Ride>) :
             fromTextView.text = ride.initialLocation
             toTextView.text = ride.currentLocation
             priceTextView.text = "${ride.price} DKK"
-            durationTextView.text = "${ride.rentalTime} ms"
+            durationTextView.text = ride.getRentalTime()
         }
     }
 }
