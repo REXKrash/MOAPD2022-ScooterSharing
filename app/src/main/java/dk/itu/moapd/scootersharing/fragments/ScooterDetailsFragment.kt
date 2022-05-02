@@ -59,9 +59,8 @@ class ScooterDetailsFragment : Fragment() {
                 if (it.imageUri.isNotEmpty()) {
                     val imageUri = Uri.parse(it.imageUri)
                     binding.scooterImage.setImageURI(imageUri)
-                    binding.scooterImage.visibility = View.VISIBLE
                 } else {
-                    binding.scooterImage.visibility = View.GONE
+                    binding.scooterImage.setImageResource(R.drawable.ic_baseline_image_24)
                 }
             }
         }
