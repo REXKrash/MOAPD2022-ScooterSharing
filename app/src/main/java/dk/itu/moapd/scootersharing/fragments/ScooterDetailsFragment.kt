@@ -77,6 +77,15 @@ class ScooterDetailsFragment : Fragment() {
             if (viewModel.isRideActive()) {
                 dialog(R.string.end_ride_dialog, R.string.yes, R.string.cancel) {
                     viewModel.toggleActiveRide()
+                    val builder = AlertDialog.Builder(requireContext())
+                    builder.setMessage(R.string.ride_ended_details)
+                        .setNeutralButton(
+                            R.string.close
+                        ) { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                    builder.create()
+                    builder.show()
                 }
             } else {
                 dialog(R.string.start_ride_dialog, R.string.yes, R.string.cancel) {
