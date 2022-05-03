@@ -51,7 +51,7 @@ class ScannerFragment : Fragment() {
 
         codeScanner = CodeScanner(requireContext(), scannerView)
 
-        codeScanner.camera = CodeScanner.CAMERA_FRONT
+        codeScanner.camera = CodeScanner.CAMERA_BACK
         codeScanner.formats = CodeScanner.ALL_FORMATS
         codeScanner.autoFocusMode = AutoFocusMode.SAFE
         codeScanner.scanMode = ScanMode.SINGLE
