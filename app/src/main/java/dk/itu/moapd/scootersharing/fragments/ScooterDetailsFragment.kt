@@ -15,6 +15,7 @@ import dk.itu.moapd.scootersharing.R
 import dk.itu.moapd.scootersharing.database.AppDatabase
 import dk.itu.moapd.scootersharing.database.RideRepository
 import dk.itu.moapd.scootersharing.database.ScooterRepository
+import dk.itu.moapd.scootersharing.database.UserRepository
 import dk.itu.moapd.scootersharing.databinding.FragmentScooterDetailsBinding
 import dk.itu.moapd.scootersharing.viewmodels.ScooterDetailsViewModel
 import dk.itu.moapd.scootersharing.viewmodels.ScooterDetailsViewModelFactory
@@ -35,18 +36,28 @@ class ScooterDetailsFragment : Fragment() {
         binding = FragmentScooterDetailsBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        val application = requireActivity().application
-        val scooterDao = AppDatabase.getDatabase(application).scooterDao()
-        val rideDao = AppDatabase.getDatabase(application).rideDao()
+        val database = AppDatabase.getDatabase(requireActivity().application)
+        val scooterDao = database.scooterDao()
+        val rideDao = database.rideDao()
+        val userDao = database.userDao()
+
         val viewModelFactory =
             ScooterDetailsViewModelFactory(
                 args.scooterId,
                 ScooterRepository(scooterDao),
-                RideRepository(rideDao)
+                RideRepository(rideDao),
+                UserRepository(userDao)
             )
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(ScooterDetailsViewModel::class.java)
 
+        setupObservers()
+        setupListeners()
+
+        return view
+    }
+
+    private fun setupObservers() {
         viewModel.getScooter().observe(viewLifecycleOwner) { scooter ->
             scooter?.let {
                 binding.scooterNameText.text =
@@ -71,20 +82,36 @@ class ScooterDetailsFragment : Fragment() {
                 binding.toggleActiveRideButton.text = resources.getString(R.string.start_ride)
             }
         }
+        viewModel.getLastRideValues().observe(viewLifecycleOwner) {
+            it?.let { valuePair ->
 
+                val price = valuePair.first
+                val duration = valuePair.second
+
+                val builder = AlertDialog.Builder(requireContext())
+                val msg = String.format(
+                    getString(R.string.ride_ended_details),
+                    price.toInt(),
+                    duration
+                )
+                builder.setMessage(msg)
+                    .setNeutralButton(
+                        R.string.close
+                    ) { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                builder.create()
+                builder.show()
+                viewModel.resetLastRideValues()
+            }
+        }
+    }
+
+    private fun setupListeners() {
         binding.toggleActiveRideButton.setOnClickListener {
             if (viewModel.isRideActive()) {
                 dialog(R.string.end_ride_dialog, R.string.yes, R.string.cancel) {
                     viewModel.toggleActiveRide()
-                    val builder = AlertDialog.Builder(requireContext())
-                    builder.setMessage(R.string.ride_ended_details)
-                        .setNeutralButton(
-                            R.string.close
-                        ) { dialog, _ ->
-                            dialog.dismiss()
-                        }
-                    builder.create()
-                    builder.show()
                 }
             } else {
                 dialog(R.string.start_ride_dialog, R.string.yes, R.string.cancel) {
@@ -105,7 +132,6 @@ class ScooterDetailsFragment : Fragment() {
         binding.topAppBar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
-        return view
     }
 
     private fun dialog(

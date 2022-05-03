@@ -10,7 +10,6 @@ import dk.itu.moapd.scootersharing.models.Scooter
 class MapsViewModel(scooterRepository: ScooterRepository) : ViewModel() {
 
     private val scooters = scooterRepository.getAll()
-
     private var cameraPosition: CameraPosition? = null
 
     fun getScooters(): LiveData<List<Scooter>> = scooters

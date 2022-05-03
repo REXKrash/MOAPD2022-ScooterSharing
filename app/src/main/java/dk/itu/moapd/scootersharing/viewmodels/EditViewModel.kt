@@ -1,9 +1,6 @@
 package dk.itu.moapd.scootersharing.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import dk.itu.moapd.scootersharing.database.ScooterRepository
 import dk.itu.moapd.scootersharing.models.Scooter
 import kotlinx.coroutines.launch
@@ -14,7 +11,7 @@ class EditViewModel(
 ) :
     ViewModel() {
 
-    private var scooter: LiveData<Scooter?> = scooterRepository.findById(scooterId)
+    private val scooter: LiveData<Scooter?> = scooterRepository.findById(scooterId)
 
     fun getScooter(): LiveData<Scooter?> = scooter
 

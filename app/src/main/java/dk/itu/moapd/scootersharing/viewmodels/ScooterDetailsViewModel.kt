@@ -5,23 +5,33 @@ import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.scootersharing.database.RideRepository
 import dk.itu.moapd.scootersharing.database.ScooterRepository
-import dk.itu.moapd.scootersharing.models.Ride
-import dk.itu.moapd.scootersharing.models.RideStatus
-import dk.itu.moapd.scootersharing.models.Scooter
+import dk.itu.moapd.scootersharing.database.UserRepository
+import dk.itu.moapd.scootersharing.models.*
 import kotlinx.coroutines.launch
 
 class ScooterDetailsViewModel(
     private val scooterId: Int,
     private val scooterRepository: ScooterRepository,
     private val rideRepository: RideRepository,
+    private val userRepository: UserRepository,
 ) : ViewModel() {
 
-    private var scooter = scooterRepository.findById(scooterId)
+    private val auth = FirebaseAuth.getInstance()
+    private lateinit var user: LiveData<User?>
+
+    private val scooter = scooterRepository.findById(scooterId)
     private var currentRide = MutableLiveData<Ride?>(null)
+    private var lastRideValues = MutableLiveData<Pair<Double, String>?>(null)
 
     fun getScooter(): LiveData<Scooter?> = scooter
-
     fun getCurrentRide(): LiveData<Ride?> = currentRide
+    fun getLastRideValues(): LiveData<Pair<Double, String>?> = lastRideValues
+
+    init {
+        auth.currentUser?.uid?.let { uid ->
+            user = userRepository.findByUid(uid)
+        }
+    }
 
     fun isRideActive(): Boolean {
         currentRide.value?.let {
@@ -30,33 +40,43 @@ class ScooterDetailsViewModel(
         return false
     }
 
+    fun resetLastRideValues() {
+        lastRideValues.value = null
+    }
+
     fun toggleActiveRide() {
         currentRide.value?.let { it ->
             val then = it.rentalTime
             val rideUid = it.userUid + "_" + scooterId + "_" + then
 
-            viewModelScope.launch {
-                val ride = rideRepository.getByRideUid(rideUid)
+            val auth = FirebaseAuth.getInstance()
 
-                ride?.let { ride2 ->
+            auth.currentUser?.uid?.let { uid ->
+                viewModelScope.launch {
+                    val ride = rideRepository.getByRideUid(rideUid)
 
-                    ride2.rentalTime = System.currentTimeMillis() - then
+                    ride?.let { ride2 ->
 
-                    var price = ride2.rentalTime.toDouble() / 6_000.0
-                    if (price <= 10.0) {
-                        price = 10.0
-                    }
+                        val duration = System.currentTimeMillis() - then
+                        ride2.rentalTime = duration
 
-                    ride2.price = price
-                    ride2.status = RideStatus.FINISHED
+                        var price = ride2.rentalTime.toDouble() / 60_000.0
+                        if (price <= 10.0) {
+                            price = 10.0
+                        }
 
-                    rideRepository.update(ride2)
-                    currentRide.value = null
+                        lastRideValues.value = Pair(price, ride2.getRentalTime(duration))
+                        userRepository.decreaseBalance(uid, price)
 
-                    scooter.value?.let { scooter ->
-                        scooter.active = false
-                        scooter.locked = true
-                        viewModelScope.launch {
+                        ride2.price = price
+                        ride2.status = RideStatus.FINISHED
+
+                        rideRepository.update(ride2)
+                        currentRide.value = null
+
+                        scooter.value?.let { scooter ->
+                            scooter.active = false
+                            scooter.locked = true
                             scooterRepository.update(scooter)
                         }
                     }
@@ -68,6 +88,7 @@ class ScooterDetailsViewModel(
             auth.currentUser?.uid?.let { uid ->
 
                 val now = System.currentTimeMillis()
+
                 currentRide.value = Ride(
                     id = 0,
                     rideUid = uid + "_" + scooterId + "_" + now,
@@ -81,12 +102,10 @@ class ScooterDetailsViewModel(
                 )
                 viewModelScope.launch {
                     rideRepository.insert(currentRide.value!!)
-                }
 
-                scooter.value?.let { scooter ->
-                    scooter.active = true
-                    scooter.locked = false
-                    viewModelScope.launch {
+                    scooter.value?.let { scooter ->
+                        scooter.active = true
+                        scooter.locked = false
                         scooterRepository.update(scooter)
                     }
                 }
@@ -101,12 +120,18 @@ class ScooterDetailsViewModelFactory(
     private val scooterId: Int,
     private val scooterRepository: ScooterRepository,
     private val rideRepository: RideRepository,
+    private val userRepository: UserRepository,
 ) :
     ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ScooterDetailsViewModel::class.java)) {
-            return ScooterDetailsViewModel(scooterId, scooterRepository, rideRepository) as T
+            return ScooterDetailsViewModel(
+                scooterId,
+                scooterRepository,
+                rideRepository,
+                userRepository
+            ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

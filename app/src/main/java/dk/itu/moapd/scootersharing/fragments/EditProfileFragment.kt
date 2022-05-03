@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import dk.itu.moapd.scootersharing.R
 import dk.itu.moapd.scootersharing.database.AppDatabase
 import dk.itu.moapd.scootersharing.database.UserRepository
 import dk.itu.moapd.scootersharing.databinding.FragmentEditProfileBinding
@@ -33,34 +34,43 @@ class EditProfileFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(EditProfileViewModel::class.java)
 
+        setupObservers()
+        setupListeners()
+
+        return view
+    }
+
+    private fun setupObservers() {
         viewModel.getUser().observe(viewLifecycleOwner) { user ->
             user?.let {
                 binding.nameText.setText(user.name)
                 binding.emailText.setText(user.email)
+                binding.balanceText.setText(user.balance.toString())
             }
         }
+    }
 
+    private fun setupListeners() {
         binding.saveButton.setOnClickListener {
 
             val name = binding.nameText.text.toString()
             val email = binding.emailText.text.toString()
+            val balance = binding.balanceText.text.toString().toDoubleOrNull()
 
-            if (name.isNotEmpty()) {
-                if (email.isNotEmpty()) {
-                    viewModel.updateUser(name, email)
-                    toast("User profile successfully saved!")
+            if (balance != null) {
+                if (name.isNotEmpty() || email.isNotEmpty()) {
+                    viewModel.updateUser(name, email, balance)
+                    toast(getString(R.string.user_updated))
                 } else {
-                    toast("Email cannot be empty!")
+                    toast(getString(R.string.no_empty_values))
                 }
             } else {
-                toast("Name cannot be empty!")
+                toast(getString(R.string.invalid_balance))
             }
         }
         binding.topAppBar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
-
-        return view
     }
 
     private fun toast(

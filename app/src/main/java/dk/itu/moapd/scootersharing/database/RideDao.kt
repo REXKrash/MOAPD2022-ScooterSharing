@@ -16,6 +16,9 @@ interface RideDao {
     @Delete
     suspend fun delete(ride: Ride)
 
+    @Query("DELETE FROM ride WHERE id = :id")
+    suspend fun deleteById(id: Int)
+
     @Query("SELECT * FROM ride WHERE rideUid = :rideUid")
     suspend fun getByRideUid(rideUid: String): Ride?
 
@@ -24,9 +27,6 @@ interface RideDao {
 
     @Query("SELECT * FROM ride WHERE id = :id")
     fun findById(id: Int): LiveData<Ride?>
-
-    @Query("DELETE FROM ride WHERE id = :id")
-    fun deleteById(id: Int)
 
     @Query("SELECT * FROM ride WHERE userUid = :userUid")
     fun getAllByUserUid(userUid: String): LiveData<List<Ride>>

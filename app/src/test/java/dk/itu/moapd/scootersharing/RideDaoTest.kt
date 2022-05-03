@@ -8,6 +8,7 @@ import dk.itu.moapd.scootersharing.database.AppDatabase
 import dk.itu.moapd.scootersharing.database.RideDao
 import dk.itu.moapd.scootersharing.models.Ride
 import dk.itu.moapd.scootersharing.models.RideStatus
+import dk.itu.moapd.scootersharing.utils.getOrAwaitValue
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat

@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.scootersharing.R
 import dk.itu.moapd.scootersharing.activities.LoginActivity
 import dk.itu.moapd.scootersharing.database.AppDatabase
+import dk.itu.moapd.scootersharing.database.UserRepository
 import dk.itu.moapd.scootersharing.databinding.FragmentMenuBinding
 import dk.itu.moapd.scootersharing.viewmodels.MenuViewModel
 import dk.itu.moapd.scootersharing.viewmodels.MenuViewModelFactory
@@ -30,10 +31,33 @@ class MenuFragment : Fragment() {
         binding = FragmentMenuBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        val viewModelFactory = MenuViewModelFactory()
+        val userDao = AppDatabase.getDatabase(requireActivity().application).userDao()
+        val viewModelFactory = MenuViewModelFactory(UserRepository(userDao))
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(MenuViewModel::class.java)
 
+        setupObservers()
+        setupListeners()
+
+        return view
+    }
+
+    private fun setupObservers() {
+        viewModel.getUser().observe(viewLifecycleOwner) {
+            it?.let { user ->
+                if (user.name.isNotEmpty()) {
+                    binding.usernameText.text = user.name
+                }
+                if (user.email.isNotEmpty()) {
+                    binding.emailText.text = user.email
+                }
+                binding.balanceText.text =
+                    String.format(getString(R.string.balanceWithCurrency), user.balance.toInt())
+            }
+        }
+    }
+
+    private fun setupListeners() {
         binding.editProfileButton.setOnClickListener {
             findNavController().navigate(
                 MenuFragmentDirections.actionMenuFragmentToEditProfileFragment()
@@ -69,7 +93,6 @@ class MenuFragment : Fragment() {
             builder.create()
             builder.show()
         }
-        return view
     }
 
     private fun startLoginActivity() {

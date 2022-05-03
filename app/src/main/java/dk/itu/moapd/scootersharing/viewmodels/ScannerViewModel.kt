@@ -9,7 +9,6 @@ import dk.itu.moapd.scootersharing.models.Scooter
 class ScannerViewModel(private val scooterRepository: ScooterRepository) : ViewModel() {
 
     private lateinit var scooter: LiveData<Scooter?>
-
     fun getScooter() = scooter
 
     fun parseScooter(text: String) {

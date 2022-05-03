@@ -60,19 +60,14 @@ class CameraFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(CameraViewModel::class.java)
 
+        setupListeners()
+
         if (allPermissionsGranted())
             startCamera()
         else
             ActivityCompat.requestPermissions(
                 requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
             )
-
-        binding.cameraCaptureButton.setOnClickListener {
-            takePhoto()
-        }
-        binding.backButton.setOnClickListener {
-            findNavController().popBackStack()
-        }
 
         binding.cameraSwitchButton.let {
             it.isEnabled = false
@@ -91,6 +86,15 @@ class CameraFragment : Fragment() {
         return view
     }
 
+    private fun setupListeners() {
+        binding.cameraCaptureButton.setOnClickListener {
+            takePhoto()
+        }
+        binding.backButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         cameraExecutor.shutdown()
@@ -107,7 +111,7 @@ class CameraFragment : Fragment() {
             if (allPermissionsGranted())
                 startCamera()
             else {
-                toast("Permissions not granted by the user.")
+                toast(getString(R.string.permission_not_granted))
             }
     }
 
@@ -158,7 +162,7 @@ class CameraFragment : Fragment() {
                     imageUri = Uri.fromFile(photoFile)
                     imageUri?.let { imageUri ->
                         viewModel.updateScooterImage(imageUri)
-                        val msg = "Photo capture succeeded: $imageUri"
+                        val msg = "${getString(R.string.photo_capture_success)}: $imageUri"
                         toast(msg)
                         Log.d(TAG, msg)
                     }

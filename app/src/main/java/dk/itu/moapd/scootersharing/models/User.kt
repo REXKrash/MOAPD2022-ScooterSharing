@@ -14,4 +14,6 @@ class User(
     var name: String,
     @ColumnInfo(name = "email")
     var email: String,
+    @ColumnInfo(name = "balance")
+    var balance: Double = 200.0,
 )

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dk.itu.moapd.scootersharing.R
 import dk.itu.moapd.scootersharing.database.AppDatabase
 import dk.itu.moapd.scootersharing.database.ScooterRepository
 import dk.itu.moapd.scootersharing.databinding.FragmentEditRideBinding
@@ -36,26 +37,34 @@ class EditRideFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(EditViewModel::class.java)
 
+        setupObservers()
+        setupListeners()
+
+        return view
+    }
+
+    private fun setupObservers() {
         viewModel.getScooter().observe(viewLifecycleOwner) { scooter ->
             scooter?.let {
                 binding.nameText.setText(scooter.name)
             }
         }
+    }
 
+    private fun setupListeners() {
         binding.updateButton.setOnClickListener {
             if (binding.nameText.text.isNotEmpty()) {
                 val name = binding.nameText.text.toString().trim()
 
                 viewModel.updateScooter(name)
-                toast("Ride successfully updated!")
+                toast(getString(R.string.ride_updated))
             } else {
-                toast("Values cannot be empty!")
+                toast(getString(R.string.no_empty_values))
             }
         }
         binding.topAppBar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
-        return view
     }
 
     private fun toast(

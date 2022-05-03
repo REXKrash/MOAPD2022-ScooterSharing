@@ -16,15 +16,18 @@ interface UserDao {
     @Delete
     suspend fun delete(user: User)
 
-    @Query("SELECT * FROM user")
-    fun getAll(): LiveData<List<User>>
+    @Query("DELETE FROM user WHERE id = :id")
+    suspend fun deleteById(id: Int)
+
+    @Query("UPDATE user SET balance = balance - :amount WHERE uid LIKE :uid")
+    suspend fun decreaseBalance(uid: String, amount: Double)
 
     @Query("SELECT * FROM user WHERE uid LIKE :uid")
     fun findByUid(uid: String): LiveData<User?>
 
+    @Query("SELECT * FROM user")
+    fun getAll(): LiveData<List<User>>
+
     @Query("SELECT * FROM user WHERE id = :id")
     fun findById(id: Int): LiveData<User?>
-
-    @Query("DELETE FROM user WHERE id = :id")
-    fun deleteById(id: Int)
 }

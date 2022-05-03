@@ -16,6 +16,9 @@ interface ScooterDao {
     @Delete
     suspend fun delete(scooter: Scooter)
 
+    @Query("DELETE FROM scooter WHERE id = :id")
+    suspend fun deleteById(id: Int)
+
     @Query("SELECT * FROM scooter WHERE id = :id")
     suspend fun getById(id: Int): Scooter?
 
@@ -27,9 +30,6 @@ interface ScooterDao {
 
     @Query("SELECT * FROM scooter WHERE id = :id")
     fun findById(id: Int): LiveData<Scooter?>
-
-    @Query("DELETE FROM scooter WHERE id = :id")
-    fun deleteById(id: Int)
 
     @Query("SELECT * FROM scooter WHERE longitude = :longitude AND latitude = :latitude")
     fun findByLongLat(longitude: Double, latitude: Double): LiveData<Scooter?>

@@ -7,23 +7,19 @@ class UserRepository(private val dao: UserDao) {
 
     private val data: LiveData<List<User>> = dao.getAll()
 
-    suspend fun insert(user: User) {
-        dao.insert(user)
-    }
+    suspend fun insert(user: User) = dao.insert(user)
 
-    suspend fun update(user: User) {
-        dao.update(user)
-    }
+    suspend fun update(user: User) = dao.update(user)
 
-    suspend fun delete(user: User) {
-        dao.delete(user)
-    }
+    suspend fun delete(user: User) = dao.delete(user)
 
-    fun getAll() = data
+    suspend fun deleteById(id: Int) = dao.deleteById(id)
+
+    suspend fun decreaseBalance(uid: String, amount: Double) = dao.decreaseBalance(uid, amount)
 
     fun findByUid(uid: String) = dao.findByUid(uid)
 
-    fun findById(id: Int) = dao.findById(id)
+    fun getAll() = data
 
-    fun deleteById(id: Int) = dao.deleteById(id)
+    fun findById(id: Int) = dao.findById(id)
 }

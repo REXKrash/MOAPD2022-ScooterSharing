@@ -38,14 +38,24 @@ class RideListFragment : Fragment() {
         binding.ridesRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
-        viewModel.getRides().observe(viewLifecycleOwner) { data ->
-            val arrayAdapter = RideArrayAdapter(data.toCollection(ArrayList()))
-            binding.ridesRecyclerView.adapter = arrayAdapter
+        setupObservers()
+        setupListeners()
+
+        return view
+    }
+
+    private fun setupObservers() {
+        viewModel.getRides().observe(viewLifecycleOwner) {
+            it?.let { rides ->
+                val arrayAdapter = RideArrayAdapter(rides.toCollection(ArrayList()))
+                binding.ridesRecyclerView.adapter = arrayAdapter
+            }
         }
+    }
+
+    private fun setupListeners() {
         binding.topAppBar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
-
-        return view
     }
 }

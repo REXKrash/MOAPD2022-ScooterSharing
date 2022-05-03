@@ -1,9 +1,6 @@
 package dk.itu.moapd.scootersharing.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.scootersharing.database.UserRepository
 import dk.itu.moapd.scootersharing.models.User
@@ -20,12 +17,13 @@ class EditProfileViewModel(private val userRepository: UserRepository) : ViewMod
         }
     }
 
-    fun getUser() = user
+    fun getUser(): LiveData<User?> = user
 
-    fun updateUser(name: String, email: String) {
+    fun updateUser(name: String, email: String, balance: Double) {
         user.value?.let {
             it.name = name
             it.email = email
+            it.balance = balance
 
             viewModelScope.launch {
                 userRepository.update(it)

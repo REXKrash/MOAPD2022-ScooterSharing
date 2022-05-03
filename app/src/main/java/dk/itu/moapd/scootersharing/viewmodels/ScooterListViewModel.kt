@@ -8,8 +8,8 @@ import dk.itu.moapd.scootersharing.models.Scooter
 
 class ScooterListViewModel(scooterRepository: ScooterRepository) : ViewModel() {
 
-    private val data: LiveData<List<Scooter>> = scooterRepository.getAll()
-    fun getAll(): LiveData<List<Scooter>> = data
+    private val scooters = scooterRepository.getAll()
+    fun getAll(): LiveData<List<Scooter>> = scooters
 }
 
 class ScooterListViewModelFactory(private val scooterRepository: ScooterRepository) :

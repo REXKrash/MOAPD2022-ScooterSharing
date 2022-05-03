@@ -42,6 +42,12 @@ class ScooterListFragment : Fragment() {
         binding.scootersRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
+        setupObservers()
+
+        return view
+    }
+
+    private fun setupObservers() {
         viewModel.getAll().observe(viewLifecycleOwner) { data ->
             val arrayAdapter = ScooterArrayAdapter(data.toCollection(ArrayList())) { scooter ->
                 findNavController().navigate(
@@ -52,6 +58,5 @@ class ScooterListFragment : Fragment() {
             }
             binding.scootersRecyclerView.adapter = arrayAdapter
         }
-        return view
     }
 }

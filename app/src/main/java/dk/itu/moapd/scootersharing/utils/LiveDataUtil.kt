@@ -1,4 +1,4 @@
-package dk.itu.moapd.scootersharing
+package dk.itu.moapd.scootersharing.utils
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer

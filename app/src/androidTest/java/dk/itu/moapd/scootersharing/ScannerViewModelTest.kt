@@ -9,6 +9,7 @@ import dk.itu.moapd.scootersharing.database.AppDatabase
 import dk.itu.moapd.scootersharing.database.ScooterDao
 import dk.itu.moapd.scootersharing.database.ScooterRepository
 import dk.itu.moapd.scootersharing.models.Scooter
+import dk.itu.moapd.scootersharing.utils.getOrAwaitValue
 import dk.itu.moapd.scootersharing.viewmodels.ScannerViewModel
 import junit.framework.TestCase
 import kotlinx.coroutines.runBlocking

@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -24,7 +23,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: ActivityMainBinding
     private lateinit var scooterRepository: ScooterRepository
-    private lateinit var scooters: LiveData<List<Scooter>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +47,6 @@ class MainActivity : AppCompatActivity() {
         )
         val scooterDao = AppDatabase.getDatabase(application).scooterDao()
         scooterRepository = ScooterRepository(scooterDao)
-        scooters = scooterRepository.getAll()
         seedDefaultBikes()
     }
 
@@ -174,8 +171,8 @@ class MainActivity : AppCompatActivity() {
                                 User(
                                     0,
                                     uid,
-                                    auth.currentUser?.displayName ?: "",
-                                    auth.currentUser?.email ?: ""
+                                    auth.currentUser?.displayName ?: "Chuck",
+                                    auth.currentUser?.email ?: "chuck@gmail.com"
                                 )
                             )
                             Log.e("Debug", "Saved user with uid: $uid")

@@ -57,7 +57,7 @@ class MapsFragment : Fragment(), OnMapsSdkInitializedCallback {
                     googleMap.addMarker(
                         MarkerOptions()
                             .position(LatLng(scooter.latitude, scooter.longitude))
-                            .title("Scooter " + scooter.id)
+                            .title(getString(R.string.scooter) + " " + scooter.id)
                     )
                 }
             }

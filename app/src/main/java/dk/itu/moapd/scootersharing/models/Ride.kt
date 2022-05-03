@@ -27,7 +27,7 @@ class Ride(
     var userUid: String,
 )
 
-fun Ride.getRentalTime(): String {
+fun Ride.getRentalTime(rentalTime: Long = this.rentalTime): String {
     return String.format(
         "%d min, %d sec",
         TimeUnit.MILLISECONDS.toMinutes(rentalTime),

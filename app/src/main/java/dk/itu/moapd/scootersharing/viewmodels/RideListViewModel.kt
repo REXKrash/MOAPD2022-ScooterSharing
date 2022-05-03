@@ -1,23 +1,23 @@
 package dk.itu.moapd.scootersharing.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.scootersharing.database.RideRepository
 import dk.itu.moapd.scootersharing.models.Ride
+import kotlinx.coroutines.launch
 
 class RideListViewModel(rideRepository: RideRepository) : ViewModel() {
 
     private lateinit var rides: LiveData<List<Ride>>
-
     fun getRides(): LiveData<List<Ride>> = rides
 
     init {
         val auth = FirebaseAuth.getInstance()
 
         auth.currentUser?.uid?.let { uid ->
-            rides = rideRepository.getAllByUserUid(uid)
+            viewModelScope.launch {
+                rides = rideRepository.getAllByUserUid(uid)
+            }
         }
     }
 }

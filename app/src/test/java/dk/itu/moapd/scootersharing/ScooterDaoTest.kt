@@ -7,6 +7,7 @@ import androidx.test.core.app.ApplicationProvider
 import dk.itu.moapd.scootersharing.database.AppDatabase
 import dk.itu.moapd.scootersharing.database.ScooterDao
 import dk.itu.moapd.scootersharing.models.Scooter
+import dk.itu.moapd.scootersharing.utils.getOrAwaitValue
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
