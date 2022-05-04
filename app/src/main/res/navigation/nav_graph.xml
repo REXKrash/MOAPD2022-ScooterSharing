@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/scooterListFragment">
 
     <fragment
         android:id="@+id/scooterListFragment"
         android:name="dk.itu.moapd.scootersharing.fragments.ScooterListFragment"
-        android:label="ScooterSharingFragment">
-        <action
-            android:id="@+id/action_scooterSharingFragment_to_editRideFragment"
-            app:destination="@id/editRideFragment" />
+        android:label="ScooterSharingFragment"
+        tools:layout="@layout/fragment_scooter_list">
         <action
             android:id="@+id/action_scooterListFragment_to_scooterDetailsFragment"
             app:destination="@id/scooterDetailsFragment" />
@@ -18,7 +17,8 @@
     <fragment
         android:id="@+id/editRideFragment"
         android:name="dk.itu.moapd.scootersharing.fragments.EditRideFragment"
-        android:label="EditRideFragment">
+        android:label="EditRideFragment"
+        tools:layout="@layout/fragment_edit_ride">
         <argument
             android:name="scooterId"
             app:argType="integer" />
@@ -26,10 +26,8 @@
     <fragment
         android:id="@+id/mapsFragment"
         android:name="dk.itu.moapd.scootersharing.fragments.MapsFragment"
-        android:label="MapsFragment">
-        <action
-            android:id="@+id/action_mapsFragment_to_editRideFragment"
-            app:destination="@id/editRideFragment" />
+        android:label="MapsFragment"
+        tools:layout="@layout/fragment_maps">
         <action
             android:id="@+id/action_mapsFragment_to_scooterDetailsFragment"
             app:destination="@id/scooterDetailsFragment" />
@@ -37,7 +35,8 @@
     <fragment
         android:id="@+id/menuFragment"
         android:name="dk.itu.moapd.scootersharing.fragments.MenuFragment"
-        android:label="MenuFragment">
+        android:label="MenuFragment"
+        tools:layout="@layout/fragment_menu">
         <action
             android:id="@+id/action_menuFragment_to_rideListFragment"
             app:destination="@id/rideListFragment" />
@@ -51,29 +50,33 @@
     <fragment
         android:id="@+id/scooterDetailsFragment"
         android:name="dk.itu.moapd.scootersharing.fragments.ScooterDetailsFragment"
-        android:label="ScooterDetailsFragment">
+        android:label="ScooterDetailsFragment"
+        tools:layout="@layout/fragment_scooter_details">
         <argument
             android:name="scooterId"
             app:argType="integer" />
         <action
-            android:id="@+id/action_scooterDetailsFragment_to_editRideFragment"
-            app:destination="@id/editRideFragment" />
-        <action
             android:id="@+id/action_scooterDetailsFragment_to_cameraFragment"
             app:destination="@id/cameraFragment" />
+        <action
+            android:id="@+id/action_scooterDetailsFragment_to_editRideFragment"
+            app:destination="@id/editRideFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="dk.itu.moapd.scootersharing.fragments.EditProfileFragment"
-        android:label="EditProfileFragment" />
+        android:label="EditProfileFragment"
+        tools:layout="@layout/fragment_edit_profile" />
     <fragment
         android:id="@+id/rideListFragment"
         android:name="dk.itu.moapd.scootersharing.fragments.RideListFragment"
-        android:label="RideListFragment" />
+        android:label="RideListFragment"
+        tools:layout="@layout/fragment_ride_list" />
     <fragment
         android:id="@+id/scannerFragment"
         android:name="dk.itu.moapd.scootersharing.fragments.ScannerFragment"
-        android:label="ScannerFragment">
+        android:label="ScannerFragment"
+        tools:layout="@layout/fragment_scanner">
         <action
             android:id="@+id/action_scannerFragment_to_scooterDetailsFragment"
             app:destination="@id/scooterDetailsFragment" />
@@ -81,7 +84,8 @@
     <fragment
         android:id="@+id/cameraFragment"
         android:name="dk.itu.moapd.scootersharing.fragments.CameraFragment"
-        android:label="CameraFragment" >
+        android:label="CameraFragment"
+        tools:layout="@layout/fragment_camera">
         <argument
             android:name="scooterId"
             app:argType="integer" />
