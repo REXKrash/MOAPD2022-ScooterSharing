@@ -27,7 +27,7 @@ class Scooter(
     @ColumnInfo(name = "imageUri")
     var imageUri: String = "",
     @ColumnInfo(name = "batteryLevel")
-    var batteryLevel: Double = 20.0
+    var batteryLevel: Double = 800.0
 )
 
 fun Scooter.getInfo(): String {

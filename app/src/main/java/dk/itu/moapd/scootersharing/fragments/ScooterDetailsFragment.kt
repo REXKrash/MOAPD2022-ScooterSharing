@@ -19,6 +19,7 @@ import dk.itu.moapd.scootersharing.database.UserRepository
 import dk.itu.moapd.scootersharing.databinding.FragmentScooterDetailsBinding
 import dk.itu.moapd.scootersharing.viewmodels.ScooterDetailsViewModel
 import dk.itu.moapd.scootersharing.viewmodels.ScooterDetailsViewModelFactory
+import java.text.DecimalFormat
 
 class ScooterDetailsFragment : Fragment() {
 
@@ -61,11 +62,13 @@ class ScooterDetailsFragment : Fragment() {
         viewModel.getScooter().observe(viewLifecycleOwner) { scooter ->
             scooter?.let {
                 binding.scooterNameText.text =
-                    resources.getString(R.string.name) + " " + it.name
+                    getString(R.string.name) + " " + it.name
                 binding.scooterLocationText.text =
-                    resources.getString(R.string.location) + " " + it.location
+                    getString(R.string.location) + " " + it.location
                 binding.scooterActiveText.text =
-                    resources.getString(R.string.active) + " " + it.active
+                    getString(R.string.active) + " " + it.active
+                binding.batteryText.text =
+                    getString(R.string.battery) + " " + DecimalFormat("#.##").format(it.batteryLevel)
 
                 if (it.imageUri.isNotEmpty()) {
                     val imageUri = Uri.parse(it.imageUri)

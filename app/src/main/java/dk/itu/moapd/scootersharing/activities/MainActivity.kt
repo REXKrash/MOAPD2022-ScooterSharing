@@ -139,7 +139,7 @@ class MainActivity : AppCompatActivity() {
                     locked = true,
                     latitude = latitude,
                     longitude = longitude,
-                    batteryLevel = 20.0
+                    batteryLevel = 800.0
                 )
             )
         }

@@ -7,6 +7,7 @@ import dk.itu.moapd.scootersharing.R
 import dk.itu.moapd.scootersharing.models.Ride
 import dk.itu.moapd.scootersharing.models.getRentalTime
 import dk.itu.moapd.scootersharing.utils.RideArrayViewHolder
+import java.text.DecimalFormat
 
 class RideArrayAdapter(var rides: List<Ride>) :
     RecyclerView.Adapter<RideArrayViewHolder>() {
@@ -26,6 +27,7 @@ class RideArrayAdapter(var rides: List<Ride>) :
             toTextView.text = ride.currentLocation
             priceTextView.text = "${ride.price} DKK"
             durationTextView.text = ride.getRentalTime()
+            batteryUsedTextView.text = DecimalFormat("#.##").format(ride.batteryUsed)
         }
     }
 }

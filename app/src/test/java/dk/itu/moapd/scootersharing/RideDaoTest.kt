@@ -55,7 +55,8 @@ class RideDaoTest {
             initialLocation = "initialLocation",
             currentLocation = "currentLocation",
             price = 1.0,
-            userUid = "userUid"
+            userUid = "userUid",
+            batteryUsed = 0.0
         )
 
         runBlocking {
@@ -69,6 +70,7 @@ class RideDaoTest {
                 assertThat(it.currentLocation, equalTo(ride.currentLocation))
                 assertThat(it.price, equalTo(ride.price))
                 assertThat(it.userUid, equalTo(ride.userUid))
+                assertThat(it.batteryUsed, equalTo(ride.batteryUsed))
             }
         }
     }
@@ -84,7 +86,8 @@ class RideDaoTest {
             initialLocation = "initialLocation",
             currentLocation = "currentLocation",
             price = 1.0,
-            userUid = "userUid"
+            userUid = "userUid",
+            batteryUsed = 0.0
         )
 
         runBlocking {
@@ -99,6 +102,7 @@ class RideDaoTest {
                 assertThat(first.currentLocation, equalTo(ride.currentLocation))
                 assertThat(first.price, equalTo(ride.price))
                 assertThat(first.userUid, equalTo(ride.userUid))
+                assertThat(first.batteryUsed, equalTo(ride.batteryUsed))
             }
         }
     }
@@ -114,7 +118,8 @@ class RideDaoTest {
             initialLocation = "initialLocation",
             currentLocation = "currentLocation",
             price = 1.0,
-            userUid = "userUid"
+            userUid = "userUid",
+            batteryUsed = 0.0
         )
 
         runBlocking {
@@ -137,7 +142,8 @@ class RideDaoTest {
             initialLocation = "initialLocation",
             currentLocation = "currentLocation",
             price = 1.0,
-            userUid = "userUid"
+            userUid = "userUid",
+            batteryUsed = 0.0
         )
 
         runBlocking {
@@ -160,7 +166,8 @@ class RideDaoTest {
             initialLocation = "initialLocation",
             currentLocation = "currentLocation",
             price = 1.0,
-            userUid = "userUid"
+            userUid = "userUid",
+            batteryUsed = 0.0
         )
 
         runBlocking {
@@ -174,6 +181,7 @@ class RideDaoTest {
                 assertThat(it.currentLocation, equalTo(ride.currentLocation))
                 assertThat(it.price, equalTo(ride.price))
                 assertThat(it.userUid, equalTo(ride.userUid))
+                assertThat(it.batteryUsed, equalTo(ride.batteryUsed))
             }
             ride.initialLocation = "new initial location"
             ride.price = 25.0
@@ -189,6 +197,7 @@ class RideDaoTest {
                 assertThat(it.currentLocation, equalTo(ride.currentLocation))
                 assertThat(it.price, equalTo(ride.price))
                 assertThat(it.userUid, equalTo(ride.userUid))
+                assertThat(it.batteryUsed, equalTo(ride.batteryUsed))
             }
         }
     }

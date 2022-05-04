@@ -53,30 +53,32 @@ class ScooterDetailsViewModel(
 
             auth.currentUser?.uid?.let { uid ->
                 viewModelScope.launch {
-                    val ride = rideRepository.getByRideUid(rideUid)
-
-                    ride?.let { ride2 ->
+                    rideRepository.getByRideUid(rideUid)?.let { ride ->
 
                         val duration = System.currentTimeMillis() - then
-                        ride2.rentalTime = duration
+                        ride.rentalTime = duration
 
-                        var price = ride2.rentalTime.toDouble() / 60_000.0
+                        var price = ride.rentalTime.toDouble() / 60_000.0
                         if (price <= 10.0) {
                             price = 10.0
                         }
+                        val batteryUsed = ride.rentalTime.toDouble() / 60_000.0
 
-                        lastRideValues.value = Pair(price, ride2.getRentalTime(duration))
+                        lastRideValues.value = Pair(price, ride.getRentalTime(duration))
                         userRepository.decreaseBalance(uid, price)
 
-                        ride2.price = price
-                        ride2.status = RideStatus.FINISHED
+                        ride.price = price
+                        ride.status = RideStatus.FINISHED
+                        ride.batteryUsed = batteryUsed
 
-                        rideRepository.update(ride2)
+                        rideRepository.update(ride)
                         currentRide.value = null
 
                         scooter.value?.let { scooter ->
                             scooter.active = false
                             scooter.locked = true
+                            scooter.batteryLevel = scooter.batteryLevel - batteryUsed
+
                             scooterRepository.update(scooter)
                         }
                     }
@@ -98,7 +100,8 @@ class ScooterDetailsViewModel(
                     initialLocation = "initialLocation",
                     currentLocation = "currentLocation",
                     price = 0.0,
-                    userUid = uid
+                    userUid = uid,
+                    batteryUsed = 0.0
                 )
                 viewModelScope.launch {
                     rideRepository.insert(currentRide.value!!)

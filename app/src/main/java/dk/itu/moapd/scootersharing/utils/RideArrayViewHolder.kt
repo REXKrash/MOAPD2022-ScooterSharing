@@ -12,4 +12,5 @@ class RideArrayViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val toTextView: TextView = itemView.findViewById(R.id.to_text)
     val priceTextView: TextView = itemView.findViewById(R.id.price_text)
     val durationTextView: TextView = itemView.findViewById(R.id.duration_text)
+    val batteryUsedTextView: TextView = itemView.findViewById(R.id.battery_used_text)
 }

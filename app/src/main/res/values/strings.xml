@@ -51,4 +51,11 @@
     <string name="permission_not_granted">Permissions not granted by the user</string>
     <string name="photo_capture_success">Photo capture succeeded</string>
     <string name="rental_list_empty">Rental history is empty!</string>
+    <string name="battery">Battery:</string>
+    <string name="battery_used">Battery used:</string>
+    <string name="duration">Duration:</string>
+    <string name="price">Price:</string>
+    <string name="to">To:</string>
+    <string name="from">From:</string>
+    <string name="ride">Ride:</string>
 </resources>

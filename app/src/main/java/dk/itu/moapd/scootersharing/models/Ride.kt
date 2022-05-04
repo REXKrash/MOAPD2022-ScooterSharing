@@ -25,6 +25,8 @@ class Ride(
     var price: Double,
     @ColumnInfo(name = "userUid")
     var userUid: String,
+    @ColumnInfo(name = "batteryUsed")
+    var batteryUsed: Double
 )
 
 fun Ride.getRentalTime(rentalTime: Long = this.rentalTime): String {

@@ -72,6 +72,15 @@
                 android:textSize="24sp"
                 tools:text="Active: false" />
 
+            <TextView
+                android:id="@+id/battery_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:gravity="center"
+                android:textSize="24sp"
+                tools:text="Battery: 20000" />
+
             <Button
                 android:id="@+id/toggle_active_ride_button"
                 android:layout_width="match_parent"
