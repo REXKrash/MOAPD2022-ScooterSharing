@@ -21,6 +21,16 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <TextView
+        android:id="@+id/empty_list_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="100dp"
+        android:gravity="center"
+        android:text="@string/rental_list_empty"
+        android:textSize="24sp"
+        tools:text="Rental history is empty!" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rides_recycler_view"
         android:layout_width="match_parent"

@@ -50,4 +50,5 @@
     <string name="ride_ended_details">Ride ended with price %d DKK and duration %s. View details in rental history</string>
     <string name="permission_not_granted">Permissions not granted by the user</string>
     <string name="photo_capture_success">Photo capture succeeded</string>
+    <string name="rental_list_empty">Rental history is empty!</string>
 </resources>

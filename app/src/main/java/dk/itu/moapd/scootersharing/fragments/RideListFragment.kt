@@ -45,10 +45,19 @@ class RideListFragment : Fragment() {
     }
 
     private fun setupObservers() {
+
         viewModel.getRides().observe(viewLifecycleOwner) {
             it?.let { rides ->
                 val arrayAdapter = RideArrayAdapter(rides.toCollection(ArrayList()))
                 binding.ridesRecyclerView.adapter = arrayAdapter
+
+                if (rides.isNotEmpty()) {
+                    binding.emptyListText.visibility = View.GONE
+                    binding.ridesRecyclerView.visibility = View.VISIBLE
+                } else {
+                    binding.emptyListText.visibility = View.VISIBLE
+                    binding.ridesRecyclerView.visibility = View.GONE
+                }
             }
         }
     }
