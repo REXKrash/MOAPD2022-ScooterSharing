@@ -8,6 +8,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import dk.itu.moapd.scootersharing.R
 import dk.itu.moapd.scootersharing.database.AppDatabase
 import dk.itu.moapd.scootersharing.database.ScooterRepository
@@ -167,14 +169,24 @@ class MainActivity : AppCompatActivity() {
                 user.observe(this) {
                     if (it == null) {
                         lifecycleScope.launch {
-                            userRepository.insert(
-                                User(
-                                    0,
-                                    uid,
-                                    auth.currentUser?.displayName ?: "Chuck",
-                                    auth.currentUser?.email ?: "chuck@gmail.com"
-                                )
+                            val newUser = User(
+                                0,
+                                uid,
+                                auth.currentUser?.displayName ?: "Chuck",
+                                auth.currentUser?.email ?: "chuck@gmail.com"
                             )
+                            userRepository.insert(newUser)
+                            val URL =
+                                "https://scootersharing-2022-default-rtdb.europe-west1.firebasedatabase.app/"
+                            val database = Firebase.database(URL).reference
+
+                            database.child("users").child(newUser.uid).child("name")
+                                .setValue(newUser.name)
+                            database.child("users").child(newUser.uid).child("email")
+                                .setValue(newUser.email)
+                            database.child("users").child(newUser.uid).child("balance")
+                                .setValue(newUser.balance)
+
                             Log.e("Debug", "Saved user with uid: $uid")
                         }
                     }
