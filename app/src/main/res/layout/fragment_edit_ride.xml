@@ -17,7 +17,7 @@
             android:layout_height="?attr/actionBarSize"
             app:navigationContentDescription="Back"
             app:navigationIcon="@drawable/ic_baseline_back_24"
-            app:title="Edit ride" />
+            app:title="Edit scooter" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
