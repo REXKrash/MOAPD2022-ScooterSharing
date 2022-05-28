@@ -27,6 +27,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ScooterSharing">
 
+        <provider
+            android:name="dk.itu.moapd.scootersharing.utils.UserContentProvider"
+            android:authorities="dk.itu.moapd.scootersharing.user.provider"
+            android:enabled="true"
+            android:exported="true" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />

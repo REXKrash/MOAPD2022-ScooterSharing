@@ -1,5 +1,6 @@
 package dk.itu.moapd.scootersharing.activities
 
+import android.content.ContentValues
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
@@ -19,6 +20,7 @@ import dk.itu.moapd.scootersharing.databinding.ActivityMainBinding
 import dk.itu.moapd.scootersharing.models.Scooter
 import dk.itu.moapd.scootersharing.models.User
 import dk.itu.moapd.scootersharing.utils.AirplaneModeChangeReceiver
+import dk.itu.moapd.scootersharing.utils.UserContentProvider
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -185,9 +187,9 @@ class MainActivity : AppCompatActivity() {
                                 auth.currentUser?.email ?: "chuck@gmail.com"
                             )
                             userRepository.insert(newUser)
-                            val URL =
+                            val url =
                                 "https://scootersharing-2022-default-rtdb.europe-west1.firebasedatabase.app/"
-                            val database = Firebase.database(URL).reference
+                            val database = Firebase.database(url).reference
 
                             database.child("users").child(newUser.uid).child("name")
                                 .setValue(newUser.name)
@@ -197,6 +199,12 @@ class MainActivity : AppCompatActivity() {
                                 .setValue(newUser.balance)
 
                             Log.e("Debug", "Saved user with uid: $uid")
+
+                            val values = ContentValues()
+                            values.put(UserContentProvider.name, newUser.name)
+                            contentResolver.insert(UserContentProvider.CONTENT_URI, values)
+
+                            Log.e("Debug", "Saved user name: ${newUser.name} using ContentProvider")
                         }
                     }
                 }
