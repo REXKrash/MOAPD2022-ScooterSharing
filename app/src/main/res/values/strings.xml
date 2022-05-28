@@ -58,4 +58,7 @@
     <string name="to">To:</string>
     <string name="from">From:</string>
     <string name="ride">Ride:</string>
+    <string name="latitude">Latitude:</string>
+    <string name="longitude">Longitude:</string>
+    <string name="location_time">Location time:</string>
 </resources>

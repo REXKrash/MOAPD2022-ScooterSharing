@@ -1,6 +1,8 @@
 package dk.itu.moapd.scootersharing.viewmodels
 
+import android.location.Location
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
@@ -11,13 +13,21 @@ class MenuViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     private val auth = FirebaseAuth.getInstance()
     private lateinit var user: LiveData<User?>
+    private val location = MutableLiveData<Location>()
 
     fun getUser(): LiveData<User?> = user
+
+    val locationState: LiveData<Location>
+        get() = location
 
     init {
         auth.currentUser?.uid?.let { uid ->
             user = userRepository.findByUid(uid)
         }
+    }
+
+    fun onLocationChanged(location: Location) {
+        this.location.value = location
     }
 }
 

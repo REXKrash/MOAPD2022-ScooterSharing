@@ -46,6 +46,33 @@
         android:textSize="24sp"
         tools:text="Balance: 20 DKK" />
 
+    <TextView
+        android:id="@+id/latitude_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:textSize="24sp"
+        tools:text="Latitude" />
+
+    <TextView
+        android:id="@+id/longitude_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:textSize="24sp"
+        tools:text="Longitude" />
+
+    <TextView
+        android:id="@+id/location_time_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:textSize="24sp"
+        tools:text="Location time" />
+
     <Button
         android:id="@+id/edit_profile_button"
         android:layout_width="match_parent"

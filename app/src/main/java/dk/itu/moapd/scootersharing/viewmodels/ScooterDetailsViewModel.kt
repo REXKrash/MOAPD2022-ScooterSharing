@@ -23,8 +23,18 @@ class ScooterDetailsViewModel(
     private var currentRide = MutableLiveData<Ride?>(null)
     private var lastRideValues = MutableLiveData<Pair<Double, String>?>(null)
 
+    private var currentRideUid: String? = null
+
     fun getScooter(): LiveData<Scooter?> = scooter
-    fun getCurrentRide(): LiveData<Ride?> = currentRide
+    fun getCurrentRide(): LiveData<Ride?> {
+        if (currentRide.value == null && currentRideUid != null) {
+            viewModelScope.launch {
+                currentRide.value = rideRepository.getByRideUid(currentRideUid!!)
+            }
+        }
+        return currentRide
+    }
+
     fun getLastRideValues(): LiveData<Pair<Double, String>?> = lastRideValues
 
     init {
@@ -91,9 +101,11 @@ class ScooterDetailsViewModel(
 
                 val now = System.currentTimeMillis()
 
+                currentRideUid = uid + "_" + scooterId + "_" + now
+
                 currentRide.value = Ride(
                     id = 0,
-                    rideUid = uid + "_" + scooterId + "_" + now,
+                    rideUid = currentRideUid!!,
                     scooterId = scooterId,
                     status = RideStatus.RUNNING,
                     rentalTime = now,

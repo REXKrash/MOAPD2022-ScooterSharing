@@ -1,6 +1,7 @@
 package dk.itu.moapd.scootersharing.activities
 
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,7 @@ import dk.itu.moapd.scootersharing.database.UserRepository
 import dk.itu.moapd.scootersharing.databinding.ActivityMainBinding
 import dk.itu.moapd.scootersharing.models.Scooter
 import dk.itu.moapd.scootersharing.models.User
+import dk.itu.moapd.scootersharing.utils.AirplaneModeChangeReceiver
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -25,10 +27,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: ActivityMainBinding
     private lateinit var scooterRepository: ScooterRepository
+    private lateinit var receiver: AirplaneModeChangeReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = FirebaseAuth.getInstance()
+
+        receiver = AirplaneModeChangeReceiver()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -50,6 +55,10 @@ class MainActivity : AppCompatActivity() {
         val scooterDao = AppDatabase.getDatabase(application).scooterDao()
         scooterRepository = ScooterRepository(scooterDao)
         seedDefaultBikes()
+
+        IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED).also {
+            registerReceiver(receiver, it)
+        }
     }
 
     private fun seedDefaultBikes() {
@@ -193,6 +202,11 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(receiver)
     }
 
     private fun startLoginActivity() {
