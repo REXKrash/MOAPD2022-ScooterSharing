@@ -17,6 +17,9 @@ class RideRepository(private val dao: RideDao) {
 
     suspend fun getByRideUid(rideUid: String) = dao.getByRideUid(rideUid)
 
+    fun getRideByScooterIdAndStatus(scooterId: Int, status: String) =
+        dao.getRideByScooterIdAndStatus(scooterId, status)
+
     fun getAll() = data
 
     fun findById(id: Int) = dao.findById(id)

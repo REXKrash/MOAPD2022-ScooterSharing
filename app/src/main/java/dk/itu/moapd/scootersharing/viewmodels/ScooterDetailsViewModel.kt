@@ -20,20 +20,14 @@ class ScooterDetailsViewModel(
     private lateinit var user: LiveData<User?>
 
     private val scooter = scooterRepository.findById(scooterId)
-    private var currentRide = MutableLiveData<Ride?>(null)
+    private val currentRide =
+        rideRepository.getRideByScooterIdAndStatus(scooterId, RideStatus.RUNNING.toString())
     private var lastRideValues = MutableLiveData<Pair<Double, String>?>(null)
 
     private var currentRideUid: String? = null
 
     fun getScooter(): LiveData<Scooter?> = scooter
-    fun getCurrentRide(): LiveData<Ride?> {
-        if (currentRide.value == null && currentRideUid != null) {
-            viewModelScope.launch {
-                currentRide.value = rideRepository.getByRideUid(currentRideUid!!)
-            }
-        }
-        return currentRide
-    }
+    fun getCurrentRide(): LiveData<Ride?> = currentRide
 
     fun getLastRideValues(): LiveData<Pair<Double, String>?> = lastRideValues
 
@@ -45,7 +39,9 @@ class ScooterDetailsViewModel(
 
     fun isRideActive(): Boolean {
         currentRide.value?.let {
-            return true
+            if (it.status == RideStatus.RUNNING) {
+                return true
+            }
         }
         return false
     }
@@ -55,46 +51,48 @@ class ScooterDetailsViewModel(
     }
 
     fun toggleActiveRide() {
-        currentRide.value?.let { it ->
-            val then = it.rentalTime
-            val rideUid = it.userUid + "_" + scooterId + "_" + then
+        if (isRideActive()) {
+            currentRide.value?.let { it ->
 
-            val auth = FirebaseAuth.getInstance()
+                val then = it.rentalTime
+                val rideUid = it.userUid + "_" + scooterId + "_" + then
 
-            auth.currentUser?.uid?.let { uid ->
-                viewModelScope.launch {
-                    rideRepository.getByRideUid(rideUid)?.let { ride ->
+                val auth = FirebaseAuth.getInstance()
 
-                        val duration = System.currentTimeMillis() - then
-                        ride.rentalTime = duration
+                auth.currentUser?.uid?.let { uid ->
+                    viewModelScope.launch {
+                        rideRepository.getByRideUid(rideUid)?.let { ride ->
 
-                        var price = ride.rentalTime.toDouble() / 60_000.0
-                        if (price <= 10.0) {
-                            price = 10.0
-                        }
-                        val batteryUsed = ride.rentalTime.toDouble() / 60_000.0
+                            val duration = System.currentTimeMillis() - then
+                            ride.rentalTime = duration
 
-                        lastRideValues.value = Pair(price, ride.getRentalTime(duration))
-                        userRepository.decreaseBalance(uid, price)
+                            var price = ride.rentalTime.toDouble() / 60_000.0
+                            if (price <= 10.0) {
+                                price = 10.0
+                            }
+                            val batteryUsed = ride.rentalTime.toDouble() / 60_000.0
 
-                        ride.price = price
-                        ride.status = RideStatus.FINISHED
-                        ride.batteryUsed = batteryUsed
+                            lastRideValues.value = Pair(price, ride.getRentalTime(duration))
+                            userRepository.decreaseBalance(uid, price)
 
-                        rideRepository.update(ride)
-                        currentRide.value = null
+                            ride.price = price
+                            ride.status = RideStatus.FINISHED
+                            ride.batteryUsed = batteryUsed
 
-                        scooter.value?.let { scooter ->
-                            scooter.active = false
-                            scooter.locked = true
-                            scooter.batteryLevel = scooter.batteryLevel - batteryUsed
+                            rideRepository.update(ride)
 
-                            scooterRepository.update(scooter)
+                            scooter.value?.let { scooter ->
+                                scooter.active = false
+                                scooter.locked = true
+                                scooter.batteryLevel = scooter.batteryLevel - batteryUsed
+
+                                scooterRepository.update(scooter)
+                            }
                         }
                     }
                 }
             }
-        } ?: run {
+        } else {
             val auth = FirebaseAuth.getInstance()
 
             auth.currentUser?.uid?.let { uid ->
@@ -103,7 +101,7 @@ class ScooterDetailsViewModel(
 
                 currentRideUid = uid + "_" + scooterId + "_" + now
 
-                currentRide.value = Ride(
+                val newRide = Ride(
                     id = 0,
                     rideUid = currentRideUid!!,
                     scooterId = scooterId,
@@ -116,7 +114,8 @@ class ScooterDetailsViewModel(
                     batteryUsed = 0.0
                 )
                 viewModelScope.launch {
-                    rideRepository.insert(currentRide.value!!)
+                    Log.e("Debug", "Saved ride with scooterId $scooterId")
+                    rideRepository.insert(newRide)
 
                     scooter.value?.let { scooter ->
                         scooter.active = true

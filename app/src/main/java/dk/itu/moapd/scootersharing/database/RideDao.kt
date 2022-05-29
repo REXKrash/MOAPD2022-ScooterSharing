@@ -3,6 +3,7 @@ package dk.itu.moapd.scootersharing.database
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import dk.itu.moapd.scootersharing.models.Ride
+import dk.itu.moapd.scootersharing.models.RideStatus
 
 @Dao
 interface RideDao {
@@ -21,6 +22,9 @@ interface RideDao {
 
     @Query("SELECT * FROM ride WHERE rideUid = :rideUid")
     suspend fun getByRideUid(rideUid: String): Ride?
+
+    @Query("SELECT * FROM ride WHERE scooterId = :scooterId AND status = :status")
+    fun getRideByScooterIdAndStatus(scooterId: Int, status: String): LiveData<Ride?>
 
     @Query("SELECT * FROM ride")
     fun getAll(): LiveData<List<Ride>>
