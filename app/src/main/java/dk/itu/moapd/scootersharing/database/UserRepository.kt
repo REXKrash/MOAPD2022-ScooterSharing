@@ -17,6 +17,8 @@ class UserRepository(private val dao: UserDao) {
 
     suspend fun decreaseBalance(uid: String, amount: Double) = dao.decreaseBalance(uid, amount)
 
+    suspend fun getByUid(uid: String) = dao.getByUid(uid)
+
     fun findByUid(uid: String) = dao.findByUid(uid)
 
     fun getAll() = data

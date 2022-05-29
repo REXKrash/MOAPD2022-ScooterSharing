@@ -23,6 +23,9 @@ interface UserDao {
     suspend fun decreaseBalance(uid: String, amount: Double)
 
     @Query("SELECT * FROM user WHERE uid LIKE :uid")
+    suspend fun getByUid(uid: String): User?
+
+    @Query("SELECT * FROM user WHERE uid LIKE :uid")
     fun findByUid(uid: String): LiveData<User?>
 
     @Query("SELECT * FROM user")

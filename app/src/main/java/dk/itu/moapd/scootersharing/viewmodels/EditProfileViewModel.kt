@@ -16,8 +16,8 @@ class EditProfileViewModel(private val userRepository: UserRepository) : ViewMod
     private val auth = FirebaseAuth.getInstance()
     private lateinit var user: LiveData<User?>
 
-    private val URL = "https://scootersharing-2022-default-rtdb.europe-west1.firebasedatabase.app/"
-    private val database = Firebase.database(URL).reference
+    private val url = "https://scootersharing-2022-default-rtdb.europe-west1.firebasedatabase.app/"
+    private val database = Firebase.database(url).reference
 
     init {
         auth.currentUser?.uid?.let { uid ->

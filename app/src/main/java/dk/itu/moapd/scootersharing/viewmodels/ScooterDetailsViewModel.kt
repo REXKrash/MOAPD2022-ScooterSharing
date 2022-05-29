@@ -3,6 +3,8 @@ package dk.itu.moapd.scootersharing.viewmodels
 import android.util.Log
 import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import dk.itu.moapd.scootersharing.database.RideRepository
 import dk.itu.moapd.scootersharing.database.ScooterRepository
 import dk.itu.moapd.scootersharing.database.UserRepository
@@ -18,6 +20,9 @@ class ScooterDetailsViewModel(
 
     private val auth = FirebaseAuth.getInstance()
     private lateinit var user: LiveData<User?>
+
+    private val url = "https://scootersharing-2022-default-rtdb.europe-west1.firebasedatabase.app/"
+    private val database = Firebase.database(url).reference
 
     private val scooter = scooterRepository.findById(scooterId)
     private val currentRide =
@@ -74,6 +79,11 @@ class ScooterDetailsViewModel(
 
                             lastRideValues.value = Pair(price, ride.getRentalTime(duration))
                             userRepository.decreaseBalance(uid, price)
+                            val user = userRepository.getByUid(uid)
+                            user?.let {
+                                val newBal = it.balance - price
+                                database.child("users").child(uid).child("balance").setValue(newBal)
+                            }
 
                             ride.price = price
                             ride.status = RideStatus.FINISHED
