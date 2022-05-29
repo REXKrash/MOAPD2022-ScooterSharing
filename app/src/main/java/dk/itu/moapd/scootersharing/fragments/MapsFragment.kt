@@ -4,14 +4,17 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
+import androidx.core.content.PermissionChecker
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.MapsInitializer.Renderer
 import com.google.android.gms.maps.model.LatLng
@@ -22,18 +25,26 @@ import dk.itu.moapd.scootersharing.database.ScooterRepository
 import dk.itu.moapd.scootersharing.utils.MapsClickListener
 import dk.itu.moapd.scootersharing.viewmodels.MapsViewModel
 import dk.itu.moapd.scootersharing.viewmodels.MapsViewModelFactory
+import java.util.concurrent.TimeUnit
 
 class MapsFragment : Fragment(), OnMapsSdkInitializedCallback {
 
     private lateinit var viewModel: MapsViewModel
 
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var locationCallback: LocationCallback
+
+    private lateinit var googleMap: GoogleMap
+
     companion object {
         private val TAG = MapsFragment::class.qualifiedName
+        private const val ALL_PERMISSIONS_RESULT = 1011
     }
 
     @SuppressLint("MissingPermission")
     private val callback = OnMapReadyCallback { googleMap ->
         // Add a marker in ITU and move the camera
+        this.googleMap = googleMap
 
         val itu = LatLng(55.6596, 12.5910)
         googleMap.addMarker(
@@ -94,6 +105,17 @@ class MapsFragment : Fragment(), OnMapsSdkInitializedCallback {
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(MapsViewModel::class.java)
 
+        startLocationAware()
+
+        viewModel.locationState.observe(viewLifecycleOwner) {
+            val pos = LatLng(it.latitude, it.longitude)
+            googleMap.addMarker(
+                MarkerOptions()
+                    .position(pos)
+                    .title("Your location")
+            )
+        }
+
         return inflater.inflate(R.layout.fragment_maps, container, false)
     }
 
@@ -118,5 +140,76 @@ class MapsFragment : Fragment(), OnMapsSdkInitializedCallback {
             Renderer.LEGACY ->
                 Log.d(TAG, "The legacy version of the renderer is used.")
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        subscribeToLocationUpdates()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        unsubscribeToLocationUpdates()
+    }
+
+    private fun startLocationAware() {
+        requestUserPermissions()
+
+        fusedLocationProviderClient = LocationServices
+            .getFusedLocationProviderClient(requireActivity())
+
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                super.onLocationResult(locationResult)
+                viewModel.onLocationChanged(locationResult.lastLocation)
+            }
+        }
+    }
+
+    private fun requestUserPermissions() {
+        val permissions: ArrayList<String> = ArrayList()
+        permissions.add(Manifest.permission.ACCESS_FINE_LOCATION)
+        permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION)
+
+        val permissionsToRequest = permissionsToRequest(permissions)
+
+        if (permissionsToRequest.size > 0)
+            requestPermissions(
+                permissionsToRequest.toTypedArray(),
+                ALL_PERMISSIONS_RESULT
+            )
+    }
+
+    private fun permissionsToRequest(permissions: ArrayList<String>): ArrayList<String> {
+        val result: ArrayList<String> = ArrayList()
+        for (permission in permissions)
+            if (PermissionChecker.checkSelfPermission(
+                    requireContext(),
+                    permission
+                ) != PermissionChecker.PERMISSION_GRANTED
+            )
+                result.add(permission)
+        return result
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun subscribeToLocationUpdates() {
+        if (checkPermission())
+            return
+
+        val locationRequest = LocationRequest.create().apply {
+            interval = TimeUnit.SECONDS.toMillis(5)
+            fastestInterval = TimeUnit.SECONDS.toMillis(2)
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+
+        fusedLocationProviderClient.requestLocationUpdates(
+            locationRequest, locationCallback, Looper.getMainLooper()
+        )
+    }
+
+    private fun unsubscribeToLocationUpdates() {
+        fusedLocationProviderClient
+            .removeLocationUpdates(locationCallback)
     }
 }

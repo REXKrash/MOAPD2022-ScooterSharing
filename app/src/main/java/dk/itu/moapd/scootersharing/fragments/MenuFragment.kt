@@ -34,19 +34,9 @@ class MenuFragment : Fragment() {
     private lateinit var binding: FragmentMenuBinding
     private lateinit var viewModel: MenuViewModel
 
-    /**
-     * The primary instance for receiving location updates.
-     */
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-
-    /**
-     * This callback is called when `FusedLocationProviderClient` has a new `Location`.
-     */
     private lateinit var locationCallback: LocationCallback
 
-    /**
-     * A set of static attributes used in this activity class.
-     */
     companion object {
         private const val ALL_PERMISSIONS_RESULT = 1011
     }
@@ -145,15 +135,11 @@ class MenuFragment : Fragment() {
     }
 
     private fun startLocationAware() {
-
-        // Show a dialog to ask the user to allow the application to access the device's location.
         requestUserPermissions()
 
-        // Start receiving location updates.
         fusedLocationProviderClient = LocationServices
             .getFusedLocationProviderClient(requireActivity())
 
-        // Initialize the `LocationCallback`.
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 super.onLocationResult(locationResult)
@@ -163,15 +149,12 @@ class MenuFragment : Fragment() {
     }
 
     private fun requestUserPermissions() {
-        // An array with location-aware permissions.
         val permissions: ArrayList<String> = ArrayList()
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION)
         permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION)
 
-        // Check which permissions is needed to ask to the user.
         val permissionsToRequest = permissionsToRequest(permissions)
 
-        // Show the permissions dialogs to the user.
         if (permissionsToRequest.size > 0)
             requestPermissions(
                 permissionsToRequest.toTypedArray(),
@@ -201,25 +184,21 @@ class MenuFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun subscribeToLocationUpdates() {
-        // Check if the user allows the application to access the location-aware resources.
         if (checkPermission())
             return
 
-        // Sets the accuracy and desired interval for active location updates.
         val locationRequest = LocationRequest.create().apply {
             interval = TimeUnit.SECONDS.toMillis(5)
             fastestInterval = TimeUnit.SECONDS.toMillis(2)
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
 
-        // Subscribe to location changes.
         fusedLocationProviderClient.requestLocationUpdates(
             locationRequest, locationCallback, Looper.getMainLooper()
         )
     }
 
     private fun unsubscribeToLocationUpdates() {
-        // Unsubscribe to location changes.
         fusedLocationProviderClient
             .removeLocationUpdates(locationCallback)
     }
