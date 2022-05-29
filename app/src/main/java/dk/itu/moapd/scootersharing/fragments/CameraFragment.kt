@@ -3,6 +3,7 @@ package dk.itu.moapd.scootersharing.fragments
 import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -40,6 +41,8 @@ class CameraFragment : Fragment() {
 
     private val args: CameraFragmentArgs by navArgs()
 
+    private var mPermissionGranted = false
+
     companion object {
         private val TAG = CameraFragment::class.qualifiedName
         private const val REQUEST_CODE_PERMISSIONS = 10
@@ -62,12 +65,12 @@ class CameraFragment : Fragment() {
 
         setupListeners()
 
-        if (allPermissionsGranted())
-            startCamera()
-        else
+        if (!allPermissionsGranted()) {
             ActivityCompat.requestPermissions(
                 requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
             )
+        }
+        startCamera()
 
         binding.cameraSwitchButton.let {
             it.isEnabled = false
@@ -82,6 +85,24 @@ class CameraFragment : Fragment() {
         }
         outputDirectory = getOutputDirectory(args.scooterId)
         cameraExecutor = Executors.newSingleThreadExecutor()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.CAMERA
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                mPermissionGranted = false
+                requestPermissions(
+                    arrayOf(Manifest.permission.CAMERA),
+                    REQUEST_CODE_PERMISSIONS
+                )
+            } else {
+                mPermissionGranted = true
+            }
+        } else {
+            mPermissionGranted = true
+        }
 
         return view
     }
@@ -102,17 +123,16 @@ class CameraFragment : Fragment() {
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
-        permissions: Array<out String>,
+        permissions: Array<String?>,
         grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        if (requestCode == REQUEST_CODE_PERMISSIONS)
-            if (allPermissionsGranted())
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            mPermissionGranted = grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
+            if (mPermissionGranted) {
                 startCamera()
-            else {
-                toast(getString(R.string.permission_not_granted))
             }
+        }
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
@@ -122,6 +142,7 @@ class CameraFragment : Fragment() {
     }
 
     private fun startCamera() {
+        Log.e("Debug", "Starting camera...")
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         cameraProviderFuture.addListener({
 
