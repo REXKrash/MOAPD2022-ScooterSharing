@@ -91,6 +91,16 @@ class ScooterDetailsViewModel(
 
                             rideRepository.update(ride)
 
+                            database.child("rides").child("${ride.id}").child("rideUid").setValue(ride.rideUid)
+                            database.child("rides").child("${ride.id}").child("scooterId").setValue(ride.scooterId)
+                            database.child("rides").child("${ride.id}").child("status").setValue(ride.status)
+                            database.child("rides").child("${ride.id}").child("rentalTime").setValue(ride.rentalTime)
+                            database.child("rides").child("${ride.id}").child("initialLocation").setValue(ride.initialLocation)
+                            database.child("rides").child("${ride.id}").child("currentLocation").setValue(ride.currentLocation)
+                            database.child("rides").child("${ride.id}").child("price").setValue(ride.price)
+                            database.child("rides").child("${ride.id}").child("userUid").setValue(ride.userUid)
+                            database.child("rides").child("${ride.id}").child("batteryUsed").setValue(ride.batteryUsed)
+
                             scooter.value?.let { scooter ->
                                 scooter.active = false
                                 scooter.locked = true
