@@ -90,16 +90,7 @@ class ScooterDetailsViewModel(
                             ride.batteryUsed = batteryUsed
 
                             rideRepository.update(ride)
-
-                            database.child("rides").child("${ride.id}").child("rideUid").setValue(ride.rideUid)
-                            database.child("rides").child("${ride.id}").child("scooterId").setValue(ride.scooterId)
-                            database.child("rides").child("${ride.id}").child("status").setValue(ride.status)
-                            database.child("rides").child("${ride.id}").child("rentalTime").setValue(ride.rentalTime)
-                            database.child("rides").child("${ride.id}").child("initialLocation").setValue(ride.initialLocation)
-                            database.child("rides").child("${ride.id}").child("currentLocation").setValue(ride.currentLocation)
-                            database.child("rides").child("${ride.id}").child("price").setValue(ride.price)
-                            database.child("rides").child("${ride.id}").child("userUid").setValue(ride.userUid)
-                            database.child("rides").child("${ride.id}").child("batteryUsed").setValue(ride.batteryUsed)
+                            saveRide(ride)
 
                             scooter.value?.let { scooter ->
                                 scooter.active = false
@@ -136,6 +127,9 @@ class ScooterDetailsViewModel(
                 viewModelScope.launch {
                     Log.e("Debug", "Saved ride with scooterId $scooterId")
                     rideRepository.insert(newRide)
+                    rideRepository.getByRideUid(currentRideUid!!)?.let { ride ->
+                        saveRide(ride)
+                    }
 
                     scooter.value?.let { scooter ->
                         scooter.active = true
@@ -147,6 +141,18 @@ class ScooterDetailsViewModel(
                 Log.e("Error", "failed to get user uid")
             }
         }
+    }
+
+    fun saveRide(ride: Ride) {
+        database.child("rides").child("${ride.id}").child("rideUid").setValue(ride.rideUid)
+        database.child("rides").child("${ride.id}").child("scooterId").setValue(ride.scooterId)
+        database.child("rides").child("${ride.id}").child("status").setValue(ride.status)
+        database.child("rides").child("${ride.id}").child("rentalTime").setValue(ride.rentalTime)
+        database.child("rides").child("${ride.id}").child("initialLocation").setValue(ride.initialLocation)
+        database.child("rides").child("${ride.id}").child("currentLocation").setValue(ride.currentLocation)
+        database.child("rides").child("${ride.id}").child("price").setValue(ride.price)
+        database.child("rides").child("${ride.id}").child("userUid").setValue(ride.userUid)
+        database.child("rides").child("${ride.id}").child("batteryUsed").setValue(ride.batteryUsed)
     }
 }
 
