@@ -15,6 +15,8 @@ class MapsViewModel(scooterRepository: ScooterRepository) : ViewModel() {
     private var cameraPosition: CameraPosition? = null
     private val location = MutableLiveData<Location>()
 
+    var hasPlacedYourLocationMarker = false
+
     val locationState: LiveData<Location>
         get() = location
 

@@ -34,7 +34,7 @@ class MapsFragment : Fragment(), OnMapsSdkInitializedCallback {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
 
-    private lateinit var googleMap: GoogleMap
+    private var googleMap: GoogleMap? = null
 
     companion object {
         private val TAG = MapsFragment::class.qualifiedName
@@ -108,12 +108,17 @@ class MapsFragment : Fragment(), OnMapsSdkInitializedCallback {
         startLocationAware()
 
         viewModel.locationState.observe(viewLifecycleOwner) {
-            val pos = LatLng(it.latitude, it.longitude)
-            googleMap.addMarker(
-                MarkerOptions()
-                    .position(pos)
-                    .title("Your location")
-            )
+            if (!viewModel.hasPlacedYourLocationMarker) {
+                googleMap?.let { googleMap ->
+                    val pos = LatLng(it.latitude, it.longitude)
+                    googleMap.addMarker(
+                        MarkerOptions()
+                            .position(pos)
+                            .title("Your location")
+                    )
+                    viewModel.hasPlacedYourLocationMarker = true
+                }
+            }
         }
 
         return inflater.inflate(R.layout.fragment_maps, container, false)
