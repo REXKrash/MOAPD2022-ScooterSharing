@@ -3,7 +3,6 @@ package dk.itu.moapd.scootersharing.database
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import dk.itu.moapd.scootersharing.models.Ride
-import dk.itu.moapd.scootersharing.models.RideStatus
 
 @Dao
 interface RideDao {

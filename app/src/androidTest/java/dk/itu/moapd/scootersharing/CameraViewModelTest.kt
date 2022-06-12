@@ -47,7 +47,7 @@ class CameraViewModelTest : TestCase() {
                 locked = true,
                 latitude = 55.629526888870515,
                 longitude = 12.579146202544704,
-                imageUri = "",
+                imageUri = "uriString",
                 batteryLevel = 20.0
             )
 

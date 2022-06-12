@@ -1,16 +1,15 @@
 package dk.itu.moapd.scootersharing.fragments
 
 import android.Manifest
-import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
+import android.content.IntentFilter
 import android.os.Bundle
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
 import androidx.core.content.PermissionChecker
 import androidx.core.content.PermissionChecker.checkSelfPermission
 import androidx.fragment.app.Fragment
@@ -23,19 +22,16 @@ import dk.itu.moapd.scootersharing.activities.LoginActivity
 import dk.itu.moapd.scootersharing.database.AppDatabase
 import dk.itu.moapd.scootersharing.database.UserRepository
 import dk.itu.moapd.scootersharing.databinding.FragmentMenuBinding
+import dk.itu.moapd.scootersharing.utils.LocationService
 import dk.itu.moapd.scootersharing.viewmodels.MenuViewModel
 import dk.itu.moapd.scootersharing.viewmodels.MenuViewModelFactory
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 class MenuFragment : Fragment() {
 
     private lateinit var binding: FragmentMenuBinding
     private lateinit var viewModel: MenuViewModel
-
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    private lateinit var locationCallback: LocationCallback
 
     companion object {
         private const val ALL_PERMISSIONS_RESULT = 1011
@@ -56,9 +52,34 @@ class MenuFragment : Fragment() {
 
         setupObservers()
         setupListeners()
-        startLocationAware()
+        requestUserPermissions()
 
+        val filter = IntentFilter("dk.itu.moapd.scootersharing.locationIntent")
+        val receiver: BroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent) {
+                if (isVisible) {
+                    val longitude = intent.extras!!.getDouble("longitude")
+                    val latitude = intent.extras!!.getDouble("latitude")
+                    val time = intent.extras!!.getLong("time")
+                    binding.latitudeText.text = getString(R.string.latitude) + " " + latitude
+                    binding.longitudeText.text = getString(R.string.longitude) + " " + longitude
+                    binding.locationTimeText.text = getString(R.string.location_time) + " " + time.toDateString()
+                }
+            }
+        }
+        requireActivity().registerReceiver(receiver, filter)
+
+        Intent(requireContext(), LocationService::class.java).also { intent ->
+            requireActivity().startService(intent)
+        }
         return view
+    }
+
+    override fun onDestroy() {
+        Intent(requireContext(), LocationService::class.java).also { intent ->
+            requireActivity().stopService(intent)
+        }
+        super.onDestroy()
     }
 
     private fun setupObservers() {
@@ -73,11 +94,6 @@ class MenuFragment : Fragment() {
                 binding.balanceText.text =
                     String.format(getString(R.string.balanceWithCurrency), user.balance.toInt())
             }
-        }
-        viewModel.locationState.observe(viewLifecycleOwner) {
-            binding.latitudeText.text = getString(R.string.latitude) + " " + it.latitude
-            binding.longitudeText.text = getString(R.string.longitude) + " " + it.longitude
-            binding.locationTimeText.text = getString(R.string.location_time) + " " + it.time.toDateString()
         }
     }
 
@@ -124,30 +140,6 @@ class MenuFragment : Fragment() {
         startActivity(intent)
     }
 
-    override fun onResume() {
-        super.onResume()
-        subscribeToLocationUpdates()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        unsubscribeToLocationUpdates()
-    }
-
-    private fun startLocationAware() {
-        requestUserPermissions()
-
-        fusedLocationProviderClient = LocationServices
-            .getFusedLocationProviderClient(requireActivity())
-
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult) {
-                super.onLocationResult(locationResult)
-                viewModel.onLocationChanged(locationResult.lastLocation)
-            }
-        }
-    }
-
     private fun requestUserPermissions() {
         val permissions: ArrayList<String> = ArrayList()
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -172,35 +164,6 @@ class MenuFragment : Fragment() {
             )
                 result.add(permission)
         return result
-    }
-
-    private fun checkPermission() =
-        ActivityCompat.checkSelfPermission(
-            requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
-        ) != PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(
-            requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
-        ) != PackageManager.PERMISSION_GRANTED
-
-    @SuppressLint("MissingPermission")
-    private fun subscribeToLocationUpdates() {
-        if (checkPermission())
-            return
-
-        val locationRequest = LocationRequest.create().apply {
-            interval = TimeUnit.SECONDS.toMillis(5)
-            fastestInterval = TimeUnit.SECONDS.toMillis(2)
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        }
-
-        fusedLocationProviderClient.requestLocationUpdates(
-            locationRequest, locationCallback, Looper.getMainLooper()
-        )
-    }
-
-    private fun unsubscribeToLocationUpdates() {
-        fusedLocationProviderClient
-            .removeLocationUpdates(locationCallback)
     }
 
     private fun Long.toDateString(): String {

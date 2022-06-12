@@ -27,6 +27,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ScooterSharing">
 
+        <service android:name=".utils.LocationService" />
+
         <provider
             android:name="dk.itu.moapd.scootersharing.utils.UserContentProvider"
             android:authorities="dk.itu.moapd.scootersharing.user.provider"
