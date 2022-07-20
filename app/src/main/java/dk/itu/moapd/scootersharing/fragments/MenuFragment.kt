@@ -15,7 +15,6 @@ import androidx.core.content.PermissionChecker.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.location.*
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.scootersharing.R
 import dk.itu.moapd.scootersharing.activities.LoginActivity
@@ -53,6 +52,10 @@ class MenuFragment : Fragment() {
         setupObservers()
         setupListeners()
         requestUserPermissions()
+
+        binding.latitudeText.text = getString(R.string.latitude) + " " + getString(R.string.loading)
+        binding.longitudeText.text = getString(R.string.longitude) + " " + getString(R.string.loading)
+        binding.locationTimeText.text = getString(R.string.location_time) + " " + getString(R.string.loading)
 
         val filter = IntentFilter("dk.itu.moapd.scootersharing.locationIntent")
         val receiver: BroadcastReceiver = object : BroadcastReceiver() {
